@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import './../../public/css/bootstrap/css/bootstrap.min.css';
 import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
+import Sidebar from '../components/sidebar/sidebar';
+import MainHeader from '../components/header/header';
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +16,28 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1"></meta>
+        <link rel="preconnect" href="https://fonts.googleapis.com"/>
+        <link rel="preconnect" href="https://fonts.gstatic.com"  />
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet"></link>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+      </head>
+      
+      <body>
+        <div className="main_site_wrapper">
+          <div className="main_side_inner">
+            <Sidebar/>
+            <div className="header_and_main_contents">
+              <MainHeader />
+              <div className="main_contents">
+              {children}
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </body>
     </html>
   );
 }
