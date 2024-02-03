@@ -87,7 +87,6 @@ class NewCompany extends Component {
                             <div className="new_company_lead_type">
                                 <p>Lead Type</p>
                             </div>
-                            
                         </BorderBox>
                     </div>
                 </div>
