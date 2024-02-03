@@ -90,6 +90,7 @@ class NewCompany extends Component {
                                     <option>Lead 1</option>
                                     <option>Lead 2</option>
                                     <option>Lead 3</option>
+                                    <option>Lead 4</option>
                                 </select>
                             </div>
                         </BorderBox>
