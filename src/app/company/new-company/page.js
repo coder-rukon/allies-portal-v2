@@ -86,6 +86,11 @@ class NewCompany extends Component {
                         <BorderBox title="Lead Capture">
                             <div className="new_company_lead_type">
                                 <p>Lead Type</p>
+                                <select>
+                                    <option>Lead 1</option>
+                                    <option>Lead 2</option>
+                                    <option>Lead 3</option>
+                                </select>
                             </div>
                         </BorderBox>
                     </div>
