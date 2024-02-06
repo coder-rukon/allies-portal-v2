@@ -9,6 +9,9 @@ class Input extends Component {
         }
     }
     getInputBox(){
+        if(this.props.disable){
+            return <div className="disable_input">{this.props.value}</div>
+        }
         if(this.props.type && this.props.type == 'textarea' ){
             return(
                 <textarea 
@@ -17,6 +20,7 @@ class Input extends Component {
                     id={this.props.id ? this.props.id: ''}
                     placeholder={this.props.placeholder ? this.props.placeholder: ''}
                     onChange = {this.onChangeHanlder.bind(this)}
+                    value = {this.props.value}
                 />
             )
         }

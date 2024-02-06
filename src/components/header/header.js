@@ -1,7 +1,7 @@
 let MainHeader = () =>{
     return(
         <div className="main_header">
-            <h3 className="h_title">Create company</h3>
+            <h3 className="h_title">abcd</h3>
             <div className="mh_right_side">
                 <div className="searchbar">
                     <span className="material-symbols-outlined s_icon">search</span>

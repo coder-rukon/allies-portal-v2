@@ -8,7 +8,7 @@ let Sidebar = () => {
             <ul className="sidebar_menu">
                 <li><Link href="#">Dashboard</Link></li>
                 <li><Link href="#">Deal Pipeline</Link></li>
-                <li><Link href="/company/company-details/abcd" className='active'>Companies</Link></li>
+                <li><Link href="/company" className='active'>Companies</Link></li>
                 <li><Link href="#">Property</Link></li>
                 <li><Link href="#">Active Deals</Link></li>
                 <li><Link href="#">Calander</Link></li>

@@ -148,6 +148,10 @@ p {
   .rs_form_group textarea.form-control {
     height: 100px; }
 
+.input_box_margin_fix .rs_form_group label {
+  margin-left: 0;
+  padding-left: 0; }
+
 .rs_btn {
   color: #fff;
   background: #000;
@@ -156,5 +160,9 @@ p {
   font-size: 14px;
   font-weight: 400;
   border-radius: 4px; }
+
+a.rs_btn {
+  display: inline-block;
+  text-decoration: none; }
 
 /*# sourceMappingURL=globals.css.map */
