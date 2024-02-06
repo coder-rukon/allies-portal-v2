@@ -10,13 +10,36 @@ class CompanyDetails  extends Component{
     constructor(props){
         super(props);
         this.state = {
-            isEditable:false
+            editMode:false
         }
     }
+    onSaveClick(){
+        this.setState({
+            editMode:false
+        })
+    }
+    onEditIconClick(){
+        this.setState({
+            editMode:true
+        })
+    }
     render() {
-        let isDisable = !this.state.isEditable;
+        let isDisable = !this.state.editMode;
+        let editMode = this.state.editMode;
         return(
-            <Panel className="input_box_margin_fix">
+            <Panel className=" input_box_margin_fix">
+                    <div className="pannel_header">
+                        <div></div>
+                        <div>
+                            {
+                                editMode ? 
+                                <Button onClick={ this.onSaveClick.bind(this) }  className="md" beforeIcon="save" label= {"Save"}/>
+                                :
+                                <Button onClick={ this.onEditIconClick.bind(this) } className="md" beforeIcon="border_color" label= {"Edit"}/>
+
+                            }
+                        </div>
+                    </div>
                     <div className="row">
                         <div className="col-xs-12 col-sm-6">
                             <BorderBox title="Details">
