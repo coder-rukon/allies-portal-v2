@@ -140,6 +140,7 @@ p {
     font-weight: 400;
     margin: 0 0 2px 0;
     padding-left: 10px; }
+  .rs_form_group .form-select,
   .rs_form_group .form-control {
     display: block;
     height: 40px;

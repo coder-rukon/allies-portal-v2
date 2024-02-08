@@ -1,4 +1,5 @@
 import { Component } from "react";
+import ErrorMessage from '@/components/widget/errormessage';
 class Input extends Component {
     constructor(props) {
         super(props);
@@ -43,7 +44,7 @@ class Input extends Component {
             <div className={wrapperClass}>
                 { this.props.label ? <label className="rs_form_label">{this.props.label}</label> : ''}
                 { this.getInputBox() }
-                
+                <ErrorMessage errors={this.props.errors} field={this.props.name} />
             </div>
          );
     }

@@ -41,6 +41,7 @@ class RsGrid extends Component {
         }
     }
     render() {
+        let data = this.props.data;
         return (
             <div className="rs_grid">
                 <table className="table rs_grid_table">
@@ -57,7 +58,7 @@ class RsGrid extends Component {
                     </thead>
                     <tbody>
                         {
-                            this.state.data.map((itemData,key) => {
+                            data.map((itemData,key) => {
                                     return(
                                         <tr key={key}>
                                             {
