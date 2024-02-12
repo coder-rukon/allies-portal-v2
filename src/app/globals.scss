@@ -336,3 +336,10 @@ a.rs_btn{
     justify-content: space-between;
     margin-bottom: 20px;
 }
+.contact_list_form{
+    .contact_list_form_item+.contact_list_form_item{
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid $borderLight;
+    }
+}

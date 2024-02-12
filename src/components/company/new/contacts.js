@@ -5,15 +5,24 @@ class Contacts extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            contacts:[ this.getNewBlankObj()]
+            contacts: this.props.contacts ? this.props.contacts : [ this.getNewBlankObj()]
         }
+    }
+    componentDidMount(){
+        if(this.props.onContactReady){
+            this.props.onContactReady(this);
+        }
+    }
+    getContacts(){
+        return this.state.contacts;
     }
     getNewBlankObj(){
         return({
             contact_name:'',
             title:'',
             email:'',
-            phone:''
+            phone:'',
+            tempId: 'contact_form_'+ Math.random().toString(16).slice(2)
         })
     }
     addNewContact(event){
@@ -23,40 +32,39 @@ class Contacts extends Component {
             contacts:oldCont
         })
     }
-    onChangeHanlder(event,key){
-        let item = this.state.contacts[key];
-        item[event.target.name] = event.target.value;
-        let allItems = this.state.contacts;
-        let newItems = []
-        allItems.forEach( (element,itemKey) => {
-            if(itemKey == key){
-                newItems.push(item)
-            }else{
-                newItems.push(element)
+    onChangeHanlder(event,key,contact){
+        let contactCurrent = contact;
+        contactCurrent[event.target.name] = event.target.value;
+        let newState = this.state.contacts.map( item => {
+            if(contactCurrent.tempId == item.tempId){
+                return contactCurrent;
             }
-        });
+            return item;
+        })
+
+         event.target.value;
         this.setState({
-            contacts:newItems
+            contacts:newState
         })
     }
     render() { 
         return (
-            <div>
+            <div className="contact_list_form">
                 {
                     this.state.contacts.map( (contact , key) => {
                         return(
-                            <div className="row" key={key}>
+                            <div className="row contact_list_form_item" key={key}>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Input name="contact_name" label="Contact Name" onChange = { (event) => { this.onChangeHanlder(event,key) }} value={contact.contact_name}/>
+                                    <Input name="contact_name" label="Contact Name" onChange = { (event) => { this.onChangeHanlder(event,key,contact) }} value={contact.contact_name}/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Input name="title" label="Title"  value={contact.title}  onChange = { (event) => { this.onChangeHanlder(event,key) }}/>
+                                    <Input name="title" label="Title"  value={contact.title}  onChange = { (event) => { this.onChangeHanlder(event,key,contact) }}/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Input name="email" label="Email"  value={contact.email}  onChange = { (event) => { this.onChangeHanlder(event,key) }}/>
+                                    <Input name="email" label="Email"  value={contact.email}  onChange = { (event) => { this.onChangeHanlder(event,key,contact) }}/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Input name="phone" label="Phone"  value={contact.phone}  onChange = { (event) => { this.onChangeHanlder(event,key) }}/>
+                                    <Input name="phone" label="Phone"  value={contact.phone}  onChange = { (event) => { this.onChangeHanlder(event,key,contact) }}/>
                                 </div>
                             </div>
                         )

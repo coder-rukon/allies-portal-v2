@@ -15,19 +15,23 @@ class CompanyList  extends Component {
             companyList:[],
             isLoading:false
         }
+        this.sChangeHandler = null;
     }
     componentDidMount(){
         this.loadCompany();
     }
-    loadCompany(){
+    loadCompany(s = null){
         this.setState({
             isLoading:true
         })
         let api = Api;
         let that = this;
+        let sUrl = '/company/my-company-list';
+        if(s){
+            sUrl += '?s='+s;
+        }
         if(api.setUserToken()){
-            api.axios().get('/company/my-company-list').then(res => {
-                console.log(res)
+            api.axios().get(sUrl).then(res => {
                 that.setState({
                     isLoading:false,
                     companyList:res.data.data.company.data
@@ -38,6 +42,13 @@ class CompanyList  extends Component {
                 })
             })
         }
+    }
+    onSearchChangeHandler(event){
+        let that = this;
+        clearTimeout(this.sChangeHandler);
+        this.sChangeHandler = setTimeout(function(){
+            that.loadCompany(event.target.value);
+        },300);
     }
     render(){
 
@@ -52,10 +63,10 @@ class CompanyList  extends Component {
                     return <div className="item_data"><Link href={'/company/details/'+cellData.company_id}>{cellData.name}</Link></div>
                 }
             },
-            {id:'contact_name',title:'CONTACT NAME',width:'100px'},
-            {id:'title',title:'TITLE',width:'100px'},
-            {id:'phone',title:'PHONE',width:'100px'},
-            {id:'email',title:'EMAIL',width:'100px'}
+            {id:'contact_name',title:'CONTACT NAME',width:'100px',cellRender:(item) => { return item.company_contact? item.company_contact.contact_name:''  }},
+            {id:'title',title:'TITLE',width:'100px',cellRender:(item) => { return item.company_contact? item.company_contact.contact_title:''  }},
+            {id:'phone',title:'PHONE',width:'100px',cellRender:(item) => { return item.company_contact? item.company_contact.contact_phone:''  }},
+            {id:'email',title:'EMAIL',width:'100px',cellRender:(item) => { return item.company_contact? item.company_contact.contact_email:''  }}
         ]
         let gridData =  this.state.companyList;
         return(
@@ -64,7 +75,7 @@ class CompanyList  extends Component {
                     <div className="filter_and_search">
                         <div className="left_side">
                             <div className="form_s">
-                                <Input name="search" placeholder="Search company, name, etc."/>
+                                <Input name="search" placeholder="Search company, name, etc." onChange={ this.onSearchChangeHandler.bind(this) }/>
                             </div>
                             <div>
                                 <div className="rs_dropdown">

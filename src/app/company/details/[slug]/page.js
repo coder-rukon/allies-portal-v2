@@ -5,12 +5,42 @@ import Input from "@/components/forms/Input";
 import Button from "@/components/forms/Button";
 import Contacts from "@/components/company/new/contacts";
 import { Component } from "react";
-
+import Api from "@/inc/Api";
+import Loading from "@/components/widget/Loading";
 class CompanyDetails  extends Component{
     constructor(props){
         super(props);
         this.state = {
-            editMode:false
+            editMode:false,
+            company:{},
+            isLoading:false
+        }
+    }
+    componentDidMount(){
+        let companyId = this.props.params.slug;
+        this.loadCompany(companyId);
+    }
+    loadCompany(companyId){
+        let api = Api;
+        if(api.setUserToken()){
+            this.setState({
+                isLoading:true,
+                company:{}
+            })
+            let that = this;
+            api.axios().get('/company/get/'+companyId).then(res=>{
+                if(res.data.type){
+                    that.setState({
+                        isLoading:false,
+                        company:res.data.data.company
+                    })
+                }else{
+                    alert(res.data.message)
+                }
+                
+            }).catch(error =>{
+               
+            })
         }
     }
     onSaveClick(){
@@ -26,6 +56,10 @@ class CompanyDetails  extends Component{
     render() {
         let isDisable = !this.state.editMode;
         let editMode = this.state.editMode;
+        if(this.state.isLoading){
+            return <Panel className="text-center"><Loading/></Panel>
+        }
+        let company = this.state.company;
         return(
             <Panel className=" input_box_margin_fix">
                     <div className="pannel_header">
@@ -45,13 +79,13 @@ class CompanyDetails  extends Component{
                             <BorderBox title="Details">
                                 <div className="row">
                                     <div className="col-xs-12 col-sm-6">
-                                        <Input disable={isDisable}  name="company_name" label="Company Name" value="Abc Coporation"/>
+                                        <Input disable={isDisable}  name="company_name" label="Company Name" value={company.name}/>
                                     </div>
                                     <div className="col-xs-12 col-sm-6">
-                                        <Input disable={isDisable} name="website" label="Website"/>
+                                        <Input disable={isDisable} name="website" label="Website" value={company.website}/>
                                     </div>
                                     <div className="col-xs-12 col-sm-6">
-                                        <Input disable={isDisable} name="industry" label="Industry"/>
+                                        <Input disable={isDisable} name="industry" label="Industry" />
                                     </div>
                                     <div className="col-xs-12 col-sm-6">
                                         <Input disable={isDisable} name="sub_industry" label="Sub-Industry"/>

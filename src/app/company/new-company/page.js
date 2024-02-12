@@ -19,6 +19,7 @@ class NewCompany extends Component {
                 name:''
             }
         }
+        this.contactComponent = null;
     }
 
     onCreateButtonClick(){
@@ -31,7 +32,8 @@ class NewCompany extends Component {
              location.reload();
         }
         let data = {
-            ...this.state.company
+            ...this.state.company,
+            contacts: this.contactComponent ? this.contactComponent.getContacts() : null,
         }
         that.setState({
             isSaving:true
@@ -58,6 +60,9 @@ class NewCompany extends Component {
             },
             company:company
         })
+    }
+    onContactComponentReady(contactComponent){
+        this.contactComponent = contactComponent;
     }
     render() { 
         let company = this.state.company;
@@ -142,7 +147,7 @@ class NewCompany extends Component {
                             
                         </BorderBox>
                         <BorderBox title="Contacts">
-                            <Contacts/>
+                            <Contacts onContactReady={this.onContactComponentReady.bind(this) }/>
                         </BorderBox>
                         <BorderBox title="Address">
                             <div className="row">
