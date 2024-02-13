@@ -292,4 +292,33 @@ a.rs_btn {
   padding-top: 15px;
   border-top: 1px solid #D1D5DB; }
 
+.notes_area .notes_items {
+  display: block;
+  margin: 0;
+  padding: 0; }
+.notes_area .note_item + .note_item {
+  margin-top: 10px; }
+.notes_area .note_item .note_header {
+  display: block;
+  color: #9CA3AF;
+  font-weight: 300;
+  font-size: 12px; }
+.notes_area .note_item .note_header strong {
+  font-weight: 300; }
+.notes_area .note_item .note_contens {
+  display: block;
+  overflow: hidden;
+  margin: 0;
+  padding: 0; }
+.notes_area .create_note_placeholder {
+  margin-top: 50px; }
+.notes_area .create_note_form {
+  margin-top: 50px;
+  position: relative; }
+  .notes_area .create_note_form .form_btn_sec {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    z-index: 2; }
+
 /*# sourceMappingURL=globals.css.map */

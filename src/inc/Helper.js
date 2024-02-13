@@ -70,7 +70,8 @@ let Helper = {
         return 'Y-m-d';
     },
     formateDate(dateString){
-        return dateString;
+        const d = new Date(dateString)
+        return d.getDate()+'-'+d.getMonth()+'-'+d.getFullYear();
     },
     getPropertyType(){
         let propertyTypes = [

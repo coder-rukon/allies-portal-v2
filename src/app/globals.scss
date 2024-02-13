@@ -343,3 +343,43 @@ a.rs_btn{
         border-top: 1px solid $borderLight;
     }
 }
+.notes_area{
+    .notes_items{
+        display: block;
+        margin: 0;
+        padding:0;
+    }
+    .note_item{}
+    .note_item+.note_item{
+        margin-top: 10px;
+    }
+    .note_item .note_header{
+        display: block;
+        color: $lightGray;
+        font-weight: 300;
+        font-size: 12px;
+    }
+    .note_item .note_header strong{
+        font-weight: 300;
+    }
+    .note_item .note_header span{}
+    .note_item .note_contens{
+        display: block;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+    }
+    .create_note_placeholder{
+        margin-top: 50px;
+    }
+    .create_note_form{
+        margin-top: 50px;
+        position: relative;
+        .form_btn_sec{
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            z-index: 2;
+        }
+    }
+}

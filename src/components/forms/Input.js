@@ -9,6 +9,11 @@ class Input extends Component {
             this.props.onChange(event);
         }
     }
+    onClickHanlder(event){
+        if(this.props.onClick){
+            this.props.onClick(event);
+        }
+    }
     getInputBox(){
         if(this.props.disable){
             return <div className="disable_input">{this.props.value}</div>
@@ -21,6 +26,7 @@ class Input extends Component {
                     id={this.props.id ? this.props.id: ''}
                     placeholder={this.props.placeholder ? this.props.placeholder: ''}
                     onChange = {this.onChangeHanlder.bind(this)}
+                    onClick =  {this.onClickHanlder.bind(this)}
                     value = {this.props.value}
                 />
             )
@@ -33,6 +39,7 @@ class Input extends Component {
                 id={this.props.id ? this.props.id: ''}
                 placeholder={this.props.placeholder ? this.props.placeholder: ''}
                 onChange = {this.onChangeHanlder.bind(this)}
+                onClick =  {this.onClickHanlder.bind(this)}
                 value = {this.props.value}
             />
         )

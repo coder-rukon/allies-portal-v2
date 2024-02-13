@@ -4,6 +4,8 @@ import BorderBox from "@/components/widget/borderbox";
 import Input from "@/components/forms/Input";
 import Button from "@/components/forms/Button";
 import Contacts from "@/components/company/new/contacts";
+import Dropdown from "@/components/forms/Dropdown";
+import Notes from "@/components/notes/Notes";
 import { Component } from "react";
 import Api from "@/inc/Api";
 import Loading from "@/components/widget/Loading";
@@ -13,6 +15,7 @@ class CompanyDetails  extends Component{
         this.state = {
             editMode:false,
             company:{},
+            errors:{},
             isLoading:false
         }
     }
@@ -43,6 +46,17 @@ class CompanyDetails  extends Component{
             })
         }
     }
+    onCompanyChangeHandler(event){
+        let company = this.state.company;
+        company[event.target.name] = event.target.value;
+        this.setState({
+            errors:{
+                ...this.state.errors,
+                [event.target.name]:null
+            },
+            company:company
+        })
+    }
     onSaveClick(){
         this.setState({
             editMode:false
@@ -60,6 +74,56 @@ class CompanyDetails  extends Component{
             return <Panel className="text-center"><Loading/></Panel>
         }
         let company = this.state.company;
+        let industry_options = [
+            {
+                label:'Agriculture, Forestry, & Fishing',
+                value:'',
+                items:[
+                    {label:'Agriculture Production - Crops',value:'Agriculture Production - Crops'},
+                    {label:'Agriculture Production - Livestock and Animal Specialties',value:'Agriculture Production - Livestock and Animal Specialties'},
+                    {label:'Agriculture Services',value:'Agriculture Services'},
+                    {label:'Forestry',value:'Forestry'},
+                    {label:'Fishing, Hunting, and Trapping',value:'Fishing, Hunting, and Trapping'}
+                ]
+            },
+            {
+                label:'Mining',
+                value:'',
+                items:[
+                    {label:'Metal Mining',value:'Metal Mining'},
+                    {label:'Coal Mining',value:'Coal Mining'},
+                    {label:'Oil and Gas Extraction',value:'Oil and Gas Extraction'},
+                    {label:'Mining and Quarrying of Nonmetallic Minerals, Except Fuels',value:'Mining and Quarrying of Nonmetallic Minerals, Except Fuels'}
+                ]
+            }
+        ];
+        let sub_industry_options = [
+            {label:'Wheat',value:'Wheat'},
+            {label:'Rice',value:'Rice'},
+            {label:'Growing of Vegetables and Melons',value:'Growing of Vegetables and Melons'},
+            {label:'Sugarcane Farming',value:'Sugarcane Farming'},
+            {label:'Tobacco Farming',value:'Tobacco Farming'},
+            {label:'Fiber Crop Farming',value:'Fiber Crop Farming'},
+            {label:'Non-perennial Crop Farming',value:'Non-perennial Crop Farming'},
+            {label:'Growing of Grapes',value:'Growing of Grapes'},
+            {label:'Tropical & Subtropical Fruit Orchards & Farming',value:'Tropical & Subtropical Fruit Orchards & Farming'},
+            {label:'Citrus Fruit Orchards & Farming',value:'Citrus Fruit Orchards & Farming'},
+            {label:'Growing of Tree and Bush Fruits and Nuts',value:'Growing of Tree and Bush Fruits and Nuts'},
+            {label:'Cotton',value:'Cotton'},
+            {label:'Tobacco',value:'Tobacco'},
+            {label:'Sugarcane and Sugar Beets',value:'Sugarcane and Sugar Beets'},
+            {label:'Irish Potatoes Field Crops (Except Cash Grains) NEC',value:'Irish Potatoes Field Crops (Except Cash Grains) NEC'},
+            {label:'Vegetables and Melons',value:'Vegetables and Melons'},
+            {label:'Berry Crops',value:'Berry Crops'},
+            {label:'Grapes',value:'Grapes'},
+            {label:'Tree Nuts',value:'Tree Nuts'},
+            {label:'Citrus Fruits',value:'Citrus Fruits'},
+            {label:'Deciduous Tree Fruits',value:'Deciduous Tree Fruits'},
+            {label:'Fruits and Tree Nuts NEC',value:'Fruits and Tree Nuts NEC'},
+            {label:'Ornamental Floriculture and Nursery Products',value:'Ornamental Floriculture and Nursery Products'},
+            {label:'Food Crops Grown Under Cover',value:'Food Crops Grown Under Cover'},
+            {label:'General Farms, Primarily Crop',value:'General Farms, Primarily Crop'}   
+        ]; 
         return(
             <Panel className=" input_box_margin_fix">
                     <div className="pannel_header">
@@ -85,10 +149,10 @@ class CompanyDetails  extends Component{
                                         <Input disable={isDisable} name="website" label="Website" value={company.website}/>
                                     </div>
                                     <div className="col-xs-12 col-sm-6">
-                                        <Input disable={isDisable} name="industry" label="Industry" />
+                                        <Dropdown disable={isDisable} name="industry" options={industry_options} errors={this.state.errors}  value={company.industry} onChange={this.onCompanyChangeHandler.bind(this)} label="Industry  *" />
                                     </div>
                                     <div className="col-xs-12 col-sm-6">
-                                        <Input disable={isDisable} name="sub_industry" label="Sub-Industry"/>
+                                        <Dropdown disable={isDisable} name="sub_industry" options={sub_industry_options} errors={this.state.errors}  value={company.sub_industry} onChange={this.onCompanyChangeHandler.bind(this)} label="Sub-Industry  *" />
                                     </div>
                                 </div>
                                 
@@ -119,7 +183,7 @@ class CompanyDetails  extends Component{
                                 </div>
                             </BorderBox>
                             <BorderBox title="Notes">
-                                <Input disable={isDisable} name="notes" label="Notes" type="textarea"/>
+                               {company.company_id ? <Notes source="company" integrator={company.company_id}/> : '' } 
                             </BorderBox>
                             <div className="mt-3"></div>
                             <Button label="Create Company"/>
