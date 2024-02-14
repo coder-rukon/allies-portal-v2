@@ -3,7 +3,7 @@ import Panel from "@/components/widget/panel";
 import BorderBox from "@/components/widget/borderbox";
 import Input from "@/components/forms/Input";
 import Button from "@/components/forms/Button";
-import Contacts from "@/components/company/new/contacts";
+import Contacts from "@/components/contacts/contacts";
 import Dropdown from "@/components/forms/Dropdown";
 import Notes from "@/components/notes/Notes";
 import { Component } from "react";
@@ -158,7 +158,7 @@ class CompanyDetails  extends Component{
                                 
                             </BorderBox>
                             <BorderBox title="Contacts">
-                                <Contacts/>
+                                {company.company_id ? <Contacts disable={isDisable} source="company" integrator={company.company_id}/> : '' } 
                             </BorderBox>
                             <BorderBox title="Address">
                                 <div className="row">

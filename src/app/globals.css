@@ -292,6 +292,9 @@ a.rs_btn {
   padding-top: 15px;
   border-top: 1px solid #D1D5DB; }
 
+.contact_component .add_new {
+  margin-top: 20px; }
+
 .notes_area .notes_items {
   display: block;
   margin: 0;
