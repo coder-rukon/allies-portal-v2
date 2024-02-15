@@ -81,16 +81,16 @@ class CompanyList  extends Component {
                                 <div className="rs_dropdown">
                                     <Button label="View" icon='arrow_drop_down'/>
                                     <ul>
-                                        <li className="checked"><span class="material-symbols-outlined rs_check">done</span> Company Name</li>
-                                        <li><span class="material-symbols-outlined rs_check">done</span> Website</li>
-                                        <li><span class="material-symbols-outlined rs_check">done</span> Industry</li>
-                                        <li><span class="material-symbols-outlined rs_check">done</span> Sub-Industry</li>
-                                        <li><span class="material-symbols-outlined rs_check">done</span> Contact Name</li>
-                                        <li><span class="material-symbols-outlined rs_check">done</span> Title</li>
-                                        <li><span class="material-symbols-outlined rs_check">done</span> Phone</li>
-                                        <li><span class="material-symbols-outlined rs_check">done</span> Email</li>
-                                        <li><span class="material-symbols-outlined rs_check">done</span> Address</li>
-                                        <li><span class="material-symbols-outlined rs_check">done</span> Lead Capture</li>
+                                        <li className="checked"><span className="material-symbols-outlined rs_check">done</span> Company Name</li>
+                                        <li><span className="material-symbols-outlined rs_check">done</span> Website</li>
+                                        <li><span className="material-symbols-outlined rs_check">done</span> Industry</li>
+                                        <li><span className="material-symbols-outlined rs_check">done</span> Sub-Industry</li>
+                                        <li><span className="material-symbols-outlined rs_check">done</span> Contact Name</li>
+                                        <li><span className="material-symbols-outlined rs_check">done</span> Title</li>
+                                        <li><span className="material-symbols-outlined rs_check">done</span> Phone</li>
+                                        <li><span className="material-symbols-outlined rs_check">done</span> Email</li>
+                                        <li><span className="material-symbols-outlined rs_check">done</span> Address</li>
+                                        <li><span className="material-symbols-outlined rs_check">done</span> Lead Capture</li>
                                     </ul>
                                 </div>
                             </div>

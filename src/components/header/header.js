@@ -1,4 +1,43 @@
+"use client"
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Api from '@/inc/Api';
+
 let MainHeader = () =>{
+    const router = useRouter();
+    const [user, setUser] = useState({
+        user:null,
+        isCalledApi:false
+    })
+    
+    let loadUser = () => {
+        let api = Api;
+        api.setUserToken();
+        api.axios().get('/me',function(res){
+            if(res.data.type){
+                setUser({
+                    isCalledApi:true,
+                    user:res.data.data.user
+                })
+            }else{
+                setUser({
+                    isCalledApi:true,
+                    user:null
+                })
+            }
+        }).catch( error => {
+            setUser({
+                isCalledApi:true,
+                user:null
+            })
+        })
+    }
+    useEffect(() => {
+        loadUser();
+    },[]);
+    if(user.isCalledApi && !user.user){
+        router.push('/login');
+    }
     return(
         <div className="main_header">
             <h3 className="h_title">abcd</h3>

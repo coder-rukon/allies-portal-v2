@@ -1,0 +1,12 @@
+body{
+    display: block;
+    background-color: #E5E5E5;
+}
+.login_box{
+    display: block;
+    background: #fff;
+    box-shadow: 0 0 5px rgba(0,0,0,.2);
+    padding: 30px;
+    width: 500px;
+    margin: 0 auto;
+}

@@ -1,9 +1,10 @@
-import $ from 'jquery';
+/*
 $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
 });
+*/
 let Settings = {
     device_name:'web',
     userTokenKey:'allies_token',

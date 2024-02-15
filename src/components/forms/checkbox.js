@@ -38,7 +38,7 @@ class Checkbox extends Component {
             <div className="form-check form-switch">
                 <input name={this.props.name} className="form-check-input" type="checkbox" id={this.id} checked = {this.state.isChecked == 'yes' ? true : false } onClick={this.onChangeHanlder.bind(this)}/>
                 <label className="form-check-label"  onClick={this.onChangeHanlder.bind(this)}>{this.props.title}</label>
-          </div>
+            </div>
         )
     }
     render() { 

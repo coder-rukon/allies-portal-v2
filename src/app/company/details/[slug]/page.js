@@ -59,8 +59,28 @@ class CompanyDetails  extends Component{
     }
     onSaveClick(){
         this.setState({
-            editMode:false
+            isLoading:true
         })
+        let api = Api, that = this;
+        let company = this.state.company;
+        if(api.setUserToken()){
+            api.axios().post('/company/update/'+company.company_id,company).then(res=>{
+                if(res.data.type){
+                    that.setState({
+                        editMode:false,
+                        company:res.data.data.company,
+                        isLoading:false
+                    })
+                }else{
+                    that.setState({
+                        isLoading:false,
+                        errors:res.data.errors
+                    })
+                }
+            }).catch(error => {
+                
+            })
+        }
     }
     onEditIconClick(){
         this.setState({
@@ -124,6 +144,13 @@ class CompanyDetails  extends Component{
             {label:'Food Crops Grown Under Cover',value:'Food Crops Grown Under Cover'},
             {label:'General Farms, Primarily Crop',value:'General Farms, Primarily Crop'}   
         ]; 
+        let lead_capture_type_otpions = [
+            {label:'Inbound',value:'Inbound'},
+            {label:'Outbound',value:'Outbound'},
+            {label:'Website',value:'Website'},
+            {label:'Google',value:'Google'},
+            {label:'Other',value:'Other'}
+        ];
         return(
             <Panel className=" input_box_margin_fix">
                     <div className="pannel_header">
@@ -143,13 +170,13 @@ class CompanyDetails  extends Component{
                             <BorderBox title="Details">
                                 <div className="row">
                                     <div className="col-xs-12 col-sm-6">
-                                        <Input disable={isDisable}  name="company_name" label="Company Name" value={company.name}/>
+                                        <Input disable={isDisable}  onChange={this.onCompanyChangeHandler.bind(this)}  name="name" label="Company Name" value={company.name}/>
                                     </div>
                                     <div className="col-xs-12 col-sm-6">
-                                        <Input disable={isDisable} name="website" label="Website" value={company.website}/>
+                                        <Input disable={isDisable}  onChange={this.onCompanyChangeHandler.bind(this)} name="website" label="Website" value={company.website}/>
                                     </div>
                                     <div className="col-xs-12 col-sm-6">
-                                        <Dropdown disable={isDisable} name="industry" options={industry_options} errors={this.state.errors}  value={company.industry} onChange={this.onCompanyChangeHandler.bind(this)} label="Industry  *" />
+                                        <Dropdown disable={isDisable}  name="industry" options={industry_options} errors={this.state.errors}  value={company.industry} onChange={this.onCompanyChangeHandler.bind(this)} label="Industry  *" />
                                     </div>
                                     <div className="col-xs-12 col-sm-6">
                                         <Dropdown disable={isDisable} name="sub_industry" options={sub_industry_options} errors={this.state.errors}  value={company.sub_industry} onChange={this.onCompanyChangeHandler.bind(this)} label="Sub-Industry  *" />
@@ -163,22 +190,22 @@ class CompanyDetails  extends Component{
                             <BorderBox title="Address">
                                 <div className="row">
                                     <div className="col-xs-12 col-sm-6">
-                                        <Input disable={isDisable} name="address_line1" label="Address Line 1"/>
+                                        <Input name="address_line_1"  disable={isDisable} value={company.address_line_1} onChange={this.onCompanyChangeHandler.bind(this)}  label="Address Line 1 *" errors={this.state.errors}/>
                                     </div>
                                     <div className="col-xs-12 col-sm-6">
-                                        <Input disable={isDisable} name="address_line2" label="Address Line 2"/>
+                                        <Input name="address_line_2"  disable={isDisable} value={company.address_line_2} onChange={this.onCompanyChangeHandler.bind(this)} label="Address Line 2" errors={this.state.errors}/>
                                     </div>
                                     <div className="col-xs-12 col-sm-6">
-                                        <Input disable={isDisable} name="city" label="City"/>
+                                        <Input name="address_city"  disable={isDisable} value={company.address_city} onChange={this.onCompanyChangeHandler.bind(this)} label="City  *" errors={this.state.errors}/>
                                     </div>
                                     <div className="col-xs-12 col-sm-6">
-                                        <Input disable={isDisable} name="state" label="State"/>
+                                        <Input name="address_state"  disable={isDisable} value={company.address_state} onChange={this.onCompanyChangeHandler.bind(this)} label="State  *" errors={this.state.errors}/>
                                     </div>                                
                                     <div className="col-xs-12 col-sm-6">
-                                        <Input disable={isDisable} name="country" label="Country"/>
+                                        <Input name="address_county"  disable={isDisable} value={company.address_county} onChange={this.onCompanyChangeHandler.bind(this)} label="Country  *" errors={this.state.errors}/>
                                     </div>
                                     <div className="col-xs-12 col-sm-6">
-                                        <Input disable={isDisable} name="zip_code" label="Zip Code"/>
+                                        <Input name="address_zipcode"  disable={isDisable} value={company.address_zipcode} onChange={this.onCompanyChangeHandler.bind(this)} label="Zip Code  *" errors={this.state.errors}/>
                                     </div>
                                 </div>
                             </BorderBox>
@@ -186,7 +213,7 @@ class CompanyDetails  extends Component{
                                {company.company_id ? <Notes source="company" integrator={company.company_id}/> : '' } 
                             </BorderBox>
                             <div className="mt-3"></div>
-                            <Button label="Create Company"/>
+                            {isDisable ? '' : <Button label="Save Company" onClick={ this.onSaveClick.bind(this) } /> }
                         </div>
                         <div className="col-xs-12 col-sm-6">
                             <BorderBox title="Current Deals">
@@ -214,13 +241,7 @@ class CompanyDetails  extends Component{
                             </BorderBox>
                             <BorderBox title="Lead Capture">
                                 <div className="new_company_lead_type">
-                                    <p>Lead Type</p>
-                                    <select>
-                                        <option>Lead 1</option>
-                                        <option>Lead 2</option>
-                                        <option>Lead 3</option>
-                                        <option>Lead 4</option>
-                                    </select>
+                                <Dropdown name="lead_capture_type"  disable={isDisable} options={lead_capture_type_otpions} errors={this.state.errors}  value={company.lead_capture_type} onChange={this.onCompanyChangeHandler.bind(this)} label="Lead Type" />
                                 </div>
                             </BorderBox>
                         </div>

@@ -28,7 +28,9 @@ const Api = {
             baseURL: Settings.apiUrl,
             headers: this.getApiHeadres(),
             transformRequest: [(data, headers) => {
-                data.device_name = 'web';
+                if(data){
+                    data.device_name = 'web';
+                }
                 return data;
             }, ...axios.defaults.transformRequest],
         });
