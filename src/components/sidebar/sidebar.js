@@ -16,7 +16,7 @@ let Sidebar = () => {
             <div className='divider'></div>
             <ul className="sidebar_menu sidebar_menu_2">
                 <li><Link href="/company/new-company" className='active'>Add Company</Link></li>
-                <li><Link href="">Add property</Link></li>
+                <li><Link href="/property/create">Add property</Link></li>
                 <li><Link href="#">Add Deal</Link></li>
 
             </ul>
