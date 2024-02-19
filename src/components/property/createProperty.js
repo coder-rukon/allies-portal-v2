@@ -1,9 +1,11 @@
 import { Component } from "react";
 import Input from "../forms/Input";
 import BorderBox from "../widget/borderbox";
+import FileUploader from "../widget/FileUploader";
 import Dropdown from "../forms/Dropdown";
 import InputRadio from "../forms/inputradio";
 import Settings from "@/inc/Settings";
+import BrockerForm from './new/BrockerForm';
 class CreatePropertyForm extends Component {
     constructor(props) {
         super(props);
@@ -19,6 +21,11 @@ class CreatePropertyForm extends Component {
                 ...property,
                 [event.target.name]:event.target.value
             }
+        })
+    }  
+    onPropertyOwnerSearchHandler(event){
+        this.setState({
+            p_owner_search:event.target.value
         })
     }  
     onPropertyRentTypeChange(event,value){
@@ -112,8 +119,105 @@ class CreatePropertyForm extends Component {
                             { property.property_rent_type =='retail' ? <div className="row">{['property_size','property_acres','property_zoning','property_clear_height','property_of_dock_doors','property_drive_in_doors','property_year_built','property_year_renovated','property_class','property_submarket','property_lease_rate'].map( item => { return this.getSpaceFields(item) })}</div> : '' }
                             { property.property_rent_type =='land' ? <div className="row">{['property_size','property_acres','property_zoning','property_clear_height','property_of_dock_doors','property_drive_in_doors','property_year_built','property_year_renovated','property_class','property_submarket','property_lease_rate'].map( item => { return this.getSpaceFields(item) })}</div> : '' }
                         </BorderBox>
+                        <BorderBox title="Note">
+                            <Input name="property_note" value={property.property_note} onChange={this.onPropertyChangeHanlder.bind(this)}  type="textarea"/>
+                        </BorderBox>
+                        <BorderBox title="Files">
+                            <FileUploader id="upload_files"/>
+                        </BorderBox>
                     </div>
-                    <div className="col-xs-12 col-sm-6"></div>
+                    <div className="col-xs-12 col-sm-6">
+                        <BorderBox title="Property Owner">
+                            <div className="row">
+                                <div className="col-xs-12 col-sm-12">
+                                    <Input onChange={this.onPropertyOwnerSearchHandler.bind(this)}  name="p_owner_search" placeholder="Search existing company" value={this.state.p_owner_search}/>
+                                </div>
+                                <div className="col-xs-12 col-sm-6">
+                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="po_company" label="Company" value={property.po_company}/>
+                                </div>
+                                <div className="col-xs-12 col-sm-6">
+                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="po_contact" label="Contact" value={property.po_contact}/>
+                                </div>
+                                <div className="col-xs-12 col-sm-6">
+                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="po_title" label="Title" value={property.po_title}/>
+                                </div>
+                                <div className="col-xs-12 col-sm-6">
+                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="po_phone" label="Phone" value={property.po_phone}/>
+                                </div>
+                                <div className="col-xs-12 col-sm-6">
+                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="po_website" label="Website" value={property.po_website}/>
+                                </div>
+                                <div className="col-xs-12 col-sm-6">
+                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="po_email" label="Email" value={property.po_email}/>
+                                </div>
+                                <div className="col-xs-12 col-sm-6">
+                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="po_address_line_1" label="Address Line 1" value={property.po_address_line_1}/>
+                                </div>
+                                <div className="col-xs-12 col-sm-6">
+                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="po_address_line_2" label="Address Line 2" value={property.po_address_line_2}/>
+                                </div>
+                                <div className="col-xs-12 col-sm-6">
+                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="po_city" label="City" value={property.po_city}/>
+                                </div>
+                                <div className="col-xs-12 col-sm-6">
+                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="po_state" label="State" value={property.po_state}/>
+                                </div>
+                                <div className="col-xs-12 col-sm-6">
+                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="po_country" label="Country" value={property.po_country}/>
+                                </div>
+                                <div className="col-xs-12 col-sm-6">
+                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="po_zip_code" label="Zip Code" value={property.po_zip_code}/>
+                                </div>
+                            </div>
+                        </BorderBox>
+                        <BorderBox title="Property Tenant">
+                            <div className="row">
+                                
+                                <div className="col-xs-12 col-sm-12">
+                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="pt_search_company" placeholder="Search existing company" value={property.pt_search_company}/>
+                                </div>
+
+                                <div className="col-xs-12 col-sm-6">
+                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="pt_company" label="Company" value={property.pt_company}/>
+                                </div>
+                                <div className="col-xs-12 col-sm-6">
+                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="pt_contact" label="Contact" value={property.pt_contact}/>
+                                </div>
+                                <div className="col-xs-12 col-sm-6">
+                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="pt_title" label="Title" value={property.pt_title}/>
+                                </div>
+                                <div className="col-xs-12 col-sm-6">
+                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="pt_phone" label="Phone" value={property.pt_phone}/>
+                                </div>
+                                <div className="col-xs-12 col-sm-6">
+                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="pt_website" label="Website" value={property.pt_website}/>
+                                </div>
+                                <div className="col-xs-12 col-sm-6">
+                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="pt_email" label="Email" value={property.pt_email}/>
+                                </div>
+                                <div className="col-xs-12 col-sm-6">
+                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="pt_address_line_1" label="Address Line 1" value={property.pt_address_line_1}/>
+                                </div>
+                                <div className="col-xs-12 col-sm-6">
+                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="pt_address_line_2" label="Address Line 2" value={property.pt_address_line_2}/>
+                                </div>
+                                <div className="col-xs-12 col-sm-6">
+                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="pt_city" label="City" value={property.pt_city}/>
+                                </div>
+                                <div className="col-xs-12 col-sm-6">
+                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="pt_state" label="State" value={property.pt_state}/>
+                                </div>
+                                <div className="col-xs-12 col-sm-6">
+                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="pt_country" label="Country" value={property.pt_country}/>
+                                </div>
+                                <div className="col-xs-12 col-sm-6">
+                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="pt_zip_code" label="Zip Code" value={property.pt_zip_code}/>
+                                </div>
+
+                            </div>
+                        </BorderBox>
+                        <BrockerForm/>
+                    </div>
                 </div>
             </div>
         );

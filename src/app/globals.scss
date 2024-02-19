@@ -388,3 +388,34 @@ a.rs_btn{
         }
     }
 }
+
+.rs_file_upload{
+    label{
+            display: block;
+            text-align: center;
+            margin: 0;
+            height: auto;
+            padding: 80px 0;
+            cursor: pointer;
+        h3{
+            font-size: 16px;
+            font-weight: 400;
+            margin: 0;
+            padding: 0;
+            display: block;
+            text-align: center;
+        }
+        .material-symbols-outlined{
+            font-size: 40px;
+            font-weight: 300;
+            display: block;
+            margin: 0;
+            padding: 0;
+        }
+    }
+}
+.rs_file_upload.file_drag{
+    label{
+        background-color: rgba(0,0,0,.1);
+    }
+}
