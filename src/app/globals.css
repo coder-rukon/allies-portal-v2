@@ -150,6 +150,14 @@ p {
   .rs_form_group textarea.form-control {
     height: 100px; }
 
+.disable_with_border .disable_input {
+  display: block;
+  min-height: 40px;
+  border: 1px solid #9CA3AF;
+  color: #9CA3AF;
+  border-radius: 4px;
+  padding: 8px 10px; }
+
 .input_box_margin_fix .rs_form_group label {
   margin-left: 0;
   padding-left: 0; }
@@ -347,5 +355,34 @@ a.rs_btn {
 
 .rs_file_upload.file_drag label {
   background-color: rgba(0, 0, 0, 0.1); }
+
+.search_output_area {
+  display: block;
+  position: relative; }
+  .search_output_area .search_output {
+    display: block;
+    position: absolute;
+    z-index: 10;
+    background: #fff;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    padding: 10px; }
+    .search_output_area .search_output ul {
+      display: block;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      max-height: 300px;
+      overflow: auto; }
+    .search_output_area .search_output ul li {
+      display: block;
+      padding: 5px 0;
+      cursor: pointer;
+      font-size: 14px; }
+    .search_output_area .search_output ul li:hover {
+      color: #EA973E; }
+    .search_output_area .search_output ul li + li {
+      border-top: 1px solid #9CA3AF; }
 
 /*# sourceMappingURL=globals.css.map */

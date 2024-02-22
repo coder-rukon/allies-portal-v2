@@ -1,16 +1,20 @@
 import { Component } from "react";
 import Input from "../forms/Input";
+import AjaxSearchInput from "../forms/AjaxSearchInput";
 import BorderBox from "../widget/borderbox";
 import FileUploader from "../widget/FileUploader";
 import Dropdown from "../forms/Dropdown";
 import InputRadio from "../forms/inputradio";
 import Settings from "@/inc/Settings";
 import BrockerForm from './new/BrockerForm';
+import Api from "@/inc/Api";
 class CreatePropertyForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
             property:{},
+            property_owner:{},
+            property_tenant:{},
             state:{}
         }
     }
@@ -22,7 +26,25 @@ class CreatePropertyForm extends Component {
                 [event.target.name]:event.target.value
             }
         })
-    }  
+    }
+    propertyTenantChangeHandler(event){
+        let property_tenant = this.state.property_tenant;
+        this.setState({
+            property_tenant: {
+                ...property_tenant,
+                [event.target.name]:event.target.value
+            }
+        })
+    }
+    onPropertyOwnerChangeHanlder(event){
+        let property_owner = this.state.property_owner;
+        this.setState({
+            property_owner: {
+                ...property_owner,
+                [event.target.name]:event.target.value
+            }
+        })
+    }
     onPropertyOwnerSearchHandler(event){
         this.setState({
             p_owner_search:event.target.value
@@ -43,6 +65,16 @@ class CreatePropertyForm extends Component {
     }
     onPropertyDropdownChangeHandler(){
         
+    }
+    onCompanyOwnerItemClick(company){
+        this.setState({
+            property_owner:company
+        })
+    }
+    onCompanyTenantItemClick(company){
+        this.setState({
+            property_tenant:company
+        })
     }
     getSpaceFields(allowField){
         let property = this.state.property;
@@ -73,6 +105,8 @@ class CreatePropertyForm extends Component {
     }
     render() { 
         let property = this.state.property;
+        let property_owner = this.state.property_owner;
+        let property_tenant = this.state.property_tenant;
         let listing_type_options = Settings.listingType;
         let listing_status_options = Settings.listingStatus;
         return(
@@ -130,43 +164,43 @@ class CreatePropertyForm extends Component {
                         <BorderBox title="Property Owner">
                             <div className="row">
                                 <div className="col-xs-12 col-sm-12">
-                                    <Input onChange={this.onPropertyOwnerSearchHandler.bind(this)}  name="p_owner_search" placeholder="Search existing company" value={this.state.p_owner_search}/>
+                                    <AjaxSearchInput name="s_company" sUrl="/propertyholder/search" filterResult = { data => { return data.propertyholders.map( (item => { return {...item,item_label:item.propertyholder_company} }) ) }  } onItemClick={this.onCompanyOwnerItemClick.bind(this)} placeholder="Search existing company"/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="po_company" label="Company" value={property.po_company}/>
+                                    <Input disable={property_owner.propertyholder_id} className="disable_with_border" onChange={this.onPropertyOwnerChangeHanlder.bind(this)}  name="propertyholder_company" label="Company" value={property_owner.propertyholder_company}/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="po_contact" label="Contact" value={property.po_contact}/>
+                                    <Input disable={property_owner.propertyholder_id} className="disable_with_border" onChange={this.onPropertyOwnerChangeHanlder.bind(this)}  name="propertyholder_contact" label="Contact" value={property_owner.propertyholder_contact}/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="po_title" label="Title" value={property.po_title}/>
+                                    <Input disable={property_owner.propertyholder_id} className="disable_with_border" onChange={this.onPropertyOwnerChangeHanlder.bind(this)}  name="propertyholder_title" label="Title" value={property_owner.propertyholder_title}/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="po_phone" label="Phone" value={property.po_phone}/>
+                                    <Input disable={property_owner.propertyholder_id} className="disable_with_border" onChange={this.onPropertyOwnerChangeHanlder.bind(this)}  name="propertyholder_phone" label="Phone" value={property_owner.propertyholder_phone}/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="po_website" label="Website" value={property.po_website}/>
+                                    <Input disable={property_owner.propertyholder_id} className="disable_with_border" onChange={this.onPropertyOwnerChangeHanlder.bind(this)}  name="propertyholder_website" label="Website" value={property_owner.propertyholder_website}/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="po_email" label="Email" value={property.po_email}/>
+                                    <Input disable={property_owner.propertyholder_id} className="disable_with_border" onChange={this.onPropertyOwnerChangeHanlder.bind(this)}  name="propertyholder_email" label="Email" value={property_owner.propertyholder_email}/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="po_address_line_1" label="Address Line 1" value={property.po_address_line_1}/>
+                                    <Input disable={property_owner.propertyholder_id} className="disable_with_border" onChange={this.onPropertyOwnerChangeHanlder.bind(this)}  name="propertyholder_address_line_1" label="Address Line 1" value={property_owner.propertyholder_address_line_1}/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="po_address_line_2" label="Address Line 2" value={property.po_address_line_2}/>
+                                    <Input disable={property_owner.propertyholder_id} className="disable_with_border" onChange={this.onPropertyOwnerChangeHanlder.bind(this)}  name="propertyholder_address_line_2" label="Address Line 2" value={property_owner.propertyholder_address_line_2}/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="po_city" label="City" value={property.po_city}/>
+                                    <Input disable={property_owner.propertyholder_id} className="disable_with_border" onChange={this.onPropertyOwnerChangeHanlder.bind(this)}  name="propertyholder_city" label="City" value={property_owner.propertyholder_city}/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="po_state" label="State" value={property.po_state}/>
+                                    <Input disable={property_owner.propertyholder_id} className="disable_with_border" onChange={this.onPropertyOwnerChangeHanlder.bind(this)}  name="propertyholder_state" label="State" value={property_owner.propertyholder_state}/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="po_country" label="Country" value={property.po_country}/>
+                                    <Input disable={property_owner.propertyholder_id} className="disable_with_border" onChange={this.onPropertyOwnerChangeHanlder.bind(this)}  name="propertyholder_country" label="Country" value={property_owner.propertyholder_country}/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="po_zip_code" label="Zip Code" value={property.po_zip_code}/>
+                                    <Input disable={property_owner.propertyholder_id} className="disable_with_border" onChange={this.onPropertyOwnerChangeHanlder.bind(this)}  name="propertyholder_zip_code" label="Zip Code" value={property_owner.propertyholder_zip_code}/>
                                 </div>
                             </div>
                         </BorderBox>
@@ -174,44 +208,44 @@ class CreatePropertyForm extends Component {
                             <div className="row">
                                 
                                 <div className="col-xs-12 col-sm-12">
-                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="pt_search_company" placeholder="Search existing company" value={property.pt_search_company}/>
+                                    <AjaxSearchInput name="s_company" sUrl="/propertyholder/search" filterResult = { data => { return data.propertyholders.map( (item => { return {...item,item_label:item.propertyholder_company} }) ) }  } onItemClick={this.onCompanyTenantItemClick.bind(this)} placeholder="Search existing company"/>
                                 </div>
 
                                 <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="pt_company" label="Company" value={property.pt_company}/>
+                                    <Input  disable={property_tenant.propertyholder_id} className="disable_with_border" onChange={this.propertyTenantChangeHandler.bind(this)}  name="propertyholder_company" label="Company" value={property_tenant.propertyholder_company}/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="pt_contact" label="Contact" value={property.pt_contact}/>
+                                    <Input disable={property_tenant.propertyholder_id} className="disable_with_border" onChange={this.propertyTenantChangeHandler.bind(this)}  name="propertyholder_contact" label="Contact" value={property_tenant.propertyholder_contact}/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="pt_title" label="Title" value={property.pt_title}/>
+                                    <Input disable={property_tenant.propertyholder_id} className="disable_with_border" onChange={this.propertyTenantChangeHandler.bind(this)}  name="propertyholder_title" label="Title" value={property_tenant.propertyholder_title}/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="pt_phone" label="Phone" value={property.pt_phone}/>
+                                    <Input disable={property_tenant.propertyholder_id} className="disable_with_border" onChange={this.propertyTenantChangeHandler.bind(this)}  name="propertyholder_phone" label="Phone" value={property_tenant.propertyholder_phone}/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="pt_website" label="Website" value={property.pt_website}/>
+                                    <Input disable={property_tenant.propertyholder_id} className="disable_with_border" onChange={this.propertyTenantChangeHandler.bind(this)}  name="propertyholder_website" label="Website" value={property_tenant.propertyholder_website}/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="pt_email" label="Email" value={property.pt_email}/>
+                                    <Input disable={property_tenant.propertyholder_id} className="disable_with_border" onChange={this.propertyTenantChangeHandler.bind(this)}  name="propertyholder_email" label="Email" value={property_tenant.propertyholder_email}/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="pt_address_line_1" label="Address Line 1" value={property.pt_address_line_1}/>
+                                    <Input disable={property_tenant.propertyholder_id} className="disable_with_border" onChange={this.propertyTenantChangeHandler.bind(this)}  name="propertyholder_address_line_1" label="Address Line 1" value={property_tenant.propertyholder_address_line_1}/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="pt_address_line_2" label="Address Line 2" value={property.pt_address_line_2}/>
+                                    <Input disable={property_tenant.propertyholder_id} className="disable_with_border" onChange={this.propertyTenantChangeHandler.bind(this)}  name="propertyholder_address_line_2" label="Address Line 2" value={property_tenant.propertyholder_address_line_2}/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="pt_city" label="City" value={property.pt_city}/>
+                                    <Input disable={property_tenant.propertyholder_id} className="disable_with_border" onChange={this.propertyTenantChangeHandler.bind(this)}  name="propertyholder_city" label="City" value={property_tenant.propertyholder_city}/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="pt_state" label="State" value={property.pt_state}/>
+                                    <Input disable={property_tenant.propertyholder_id} className="disable_with_border" onChange={this.propertyTenantChangeHandler.bind(this)}  name="propertyholder_state" label="State" value={property_tenant.propertyholder_state}/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="pt_country" label="Country" value={property.pt_country}/>
+                                    <Input disable={property_tenant.propertyholder_id} className="disable_with_border" onChange={this.propertyTenantChangeHandler.bind(this)}  name="propertyholder_country" label="Country" value={property_tenant.propertyholder_country}/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="pt_zip_code" label="Zip Code" value={property.pt_zip_code}/>
+                                    <Input disable={property_tenant.propertyholder_id} className="disable_with_border" onChange={this.propertyTenantChangeHandler.bind(this)}  name="propertyholder_zip_code" label="Zip Code" value={property_tenant.propertyholder_zip_code}/>
                                 </div>
 
                             </div>

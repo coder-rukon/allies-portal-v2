@@ -1,13 +1,24 @@
 "use client"
 import { Component } from "react";
 import ErrorMessage from '@/components/widget/errormessage';
+import $ from 'jquery';
+import { Select2 } from "select2";
+import '../../../node_modules/select2/dist/css/select2.min.css';
 class Dropdown extends Component {
     constructor(props) {
         super(props);
+        this.id = this.props.id ? this.props.id: this.props.name;
+        this.select2Obj = null;
     }
     onChangeHanlder(event){
         if(this.props.onChange){
             this.props.onChange(event);
+        }
+    }
+    componentDidMount(){
+        this.choosenObj = $('#'+this.id).select2();
+        if(this.props.onSelect2Ready){
+            this.props.onSelect2Ready(this.select2Obj);
         }
     }
     
@@ -20,7 +31,7 @@ class Dropdown extends Component {
             <select 
                 className="form-select"
                 name={this.props.name ? this.props.name: ''}
-                id={this.props.id ? this.props.id: this.props.name}
+                id={this.id}
                 placeholder={this.props.placeholder ? this.props.placeholder: ''}
                 onChange = {this.onChangeHanlder.bind(this)}
                 value = {this.props.value}

@@ -1,5 +1,5 @@
 "use client"
-import Button from "@/components/forms/Button";
+import Button from "@/components/forms/button";
 import Input from "@/components/forms/Input";
 import RsGrid from "@/components/grid/rsgrid";
 import Loading from "@/components/widget/Loading";
