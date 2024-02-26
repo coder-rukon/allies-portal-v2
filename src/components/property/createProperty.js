@@ -12,7 +12,9 @@ class CreatePropertyForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            property:{},
+            property:{
+                property_rent_type:'industrial'
+            },
             property_owner:{},
             property_tenant:{},
             state:{}
@@ -142,14 +144,14 @@ class CreatePropertyForm extends Component {
                             </div>
                         </BorderBox>
                         <BorderBox>
-                            <div className="d-flex">
-                                <div><InputRadio onChange={this.onPropertyRentTypeChange.bind(this)}  name="property_rent_type" value="industrial" title="Industrial"/></div>
-                                <div><InputRadio onChange={this.onPropertyRentTypeChange.bind(this)}  name="property_rent_type" value="office" title="Office"/></div>
-                                <div><InputRadio onChange={this.onPropertyRentTypeChange.bind(this)}  name="property_rent_type" value="retail" title="Retail"/></div>
-                                <div><InputRadio onChange={this.onPropertyRentTypeChange.bind(this)}  name="property_rent_type" value="land" title="land"/></div>
+                            <div className="d-flex property_category_nav">
+                                <div><InputRadio checked={ property.property_rent_type == 'industrial' ? true : false } onChange={this.onPropertyRentTypeChange.bind(this)}  name="property_rent_type" value="industrial" title="Industrial"/></div>
+                                <div><InputRadio checked={property.property_rent_type == 'office' ? true : false}  onChange={this.onPropertyRentTypeChange.bind(this)}  name="property_rent_type" value="office" title="Office"/></div>
+                                <div><InputRadio checked={property.property_rent_type == 'retail' ? true : false}  onChange={this.onPropertyRentTypeChange.bind(this)}  name="property_rent_type" value="retail" title="Retail"/></div>
+                                <div><InputRadio checked={property.property_rent_type == 'land' ? true : false}  onChange={this.onPropertyRentTypeChange.bind(this)}  name="property_rent_type" value="land" title="land"/></div>
                             </div>
                             { property.property_rent_type =='industrial' ? <div className="row">{['property_size','property_acres','property_zoning','property_clear_height','property_of_dock_doors','property_drive_in_doors','property_year_built','property_year_renovated','property_class','property_submarket','property_lease_rate'].map( item => { return this.getSpaceFields(item) })}</div> : '' }
-                            { property.property_rent_type =='office' ? <div className="row">{['property_size','property_acres','property_zoning','property_clear_height','property_of_dock_doors','property_drive_in_doors','property_year_built','property_year_renovated','property_class','property_submarket','property_lease_rate'].map( item => { return this.getSpaceFields(item) })}</div> : '' }
+                            { property.property_rent_type =='office' ? <div className="row">{['property_size','property_acres','property_zoning', 'property_private_offices','property_bathrooms','property_parking_ratio','property_suites','property_class','property_min_space','property_max_contiguous_space','property_year_built','property_year_renovated','property_submarket','property_lease_rate'].map( item => { return this.getSpaceFields(item) })}</div> : '' }
                             { property.property_rent_type =='retail' ? <div className="row">{['property_size','property_acres','property_zoning','property_clear_height','property_of_dock_doors','property_drive_in_doors','property_year_built','property_year_renovated','property_class','property_submarket','property_lease_rate'].map( item => { return this.getSpaceFields(item) })}</div> : '' }
                             { property.property_rent_type =='land' ? <div className="row">{['property_size','property_acres','property_zoning','property_clear_height','property_of_dock_doors','property_drive_in_doors','property_year_built','property_year_renovated','property_class','property_submarket','property_lease_rate'].map( item => { return this.getSpaceFields(item) })}</div> : '' }
                         </BorderBox>

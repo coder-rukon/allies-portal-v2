@@ -385,4 +385,12 @@ a.rs_btn {
     .search_output_area .search_output ul li + li {
       border-top: 1px solid #9CA3AF; }
 
+.property_category_nav {
+  margin: 0 -15px; }
+
+.property_category_nav > div {
+  display: block;
+  margin: 0;
+  padding: 0 15px; }
+
 /*# sourceMappingURL=globals.css.map */

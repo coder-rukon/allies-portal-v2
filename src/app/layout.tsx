@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children,
+  children
 }: Readonly<{
   children: React.ReactNode;
 }>) {
@@ -29,7 +29,7 @@ export default function RootLayout({
           <div className="main_side_inner">
             <Sidebar/>
             <div className="header_and_main_contents">
-              <MainHeader />
+              <MainHeader/>
               <div className="main_contents">
               {children}
               </div>

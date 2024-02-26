@@ -463,3 +463,12 @@ a.rs_btn{
         }
     }
 }
+
+.property_category_nav{
+    margin: 0 -15px;
+}
+.property_category_nav>div{
+    display: block;
+    margin:0;
+    padding:0 15px;
+}
