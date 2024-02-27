@@ -180,7 +180,7 @@ opacity: 1;
     color: #fff;
     background: #000;
     border: 1px solid #000;
-    padding: 5px 14px;
+    padding: 9px 14px;
     font-size: 14px;
     font-weight: 400;
     border-radius: 4px;
@@ -194,6 +194,11 @@ opacity: 1;
 a.rs_btn{
     display: inline-flex;
     text-decoration:none;
+}
+.rs_btn.bordered{
+    background-color: transparent;
+    border: 1px solid $lightGray2;
+    color: #000;
 }
 .rs_btn.md{
     padding: 8px 20px;
@@ -265,7 +270,7 @@ a.rs_btn{
         }
         td{
             padding: 15px 10px;
-
+            border-color: $lightGray;
         }
         .item_data{
             font-size: 14px;
@@ -312,6 +317,7 @@ a.rs_btn{
         cursor: pointer;
         width: 190px;
         align-items: center;
+        color: #000;
     }
     ul li + li{
         border-top: 1px solid $boxBorderColor;
@@ -471,4 +477,71 @@ a.rs_btn{
     display: block;
     margin:0;
     padding:0 15px;
+}
+.property_list_page{
+    .rs_panel{
+        padding: 0;
+        min-height: 100vh;
+    }
+    .rs_btn:not(.bordered) {
+        background-color: $lightGray2;
+        border-color: $lightGray2;
+        color: #fff;
+    }
+    .form-control {
+        border-color: $lightGray2;
+    }
+    .topfilter_section{
+        display: flex;
+        justify-content: space-between;
+        gap: 30px;
+        padding: 25px 30px 10px 30px;
+        .left_items{
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+        .form_s{
+            .form-control{
+                display: block;
+                width: 350px;
+                border-color: $lightGray2;
+            }
+        }
+    }
+    .property_grid_section{
+        .pg_header{
+            display: flex;
+            justify-content: space-between;
+            gap: 30px;
+            background-color: $lightGray2;
+            color: #fff;
+            align-items: center;
+            padding: 10px 15px;
+            .pg_title{
+                font-size: 20px;
+            }
+            .rs_btn{
+                border-color: #fff;
+                color: #fff;
+                background-color: transparent;
+                padding: 7px 23px;
+                font-size: 14px;
+                .btn_icon{
+                    font-size: 30px;
+                    line-height: 19px;
+                    margin: 0;
+                    width: 20px;
+                }
+            }
+            .rs_dropdown ul{
+                left: auto;
+                right: 0;
+            }
+        }
+        .rs_grid_table{
+            margin: 0;
+        }
+    }
+    
 }

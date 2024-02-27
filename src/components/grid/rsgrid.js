@@ -1,5 +1,4 @@
 import { Component } from "react";
-import Button from "@/components/forms/Button";
 /**
  * 
  * [
