@@ -4,6 +4,7 @@ import Panel from "@/components/widget/panel";
 import Button from "@/components/forms/button";
 import Input from "@/components/forms/Input";
 import RsGrid from "@/components/grid/rsgrid";
+import PropertyGrid from '@/components/property/PropertyGrid';
 class AllProperty extends Component {
     constructor(props) {
         super(props);
@@ -27,42 +28,9 @@ class AllProperty extends Component {
         })
     }
     getPropertyGrid(gridId,pType,title){
-        let gridData = [{property_address:'Dhaka,Bangladesh'},{property_address:'Dhaka,Bangladesh'},{property_address:'Dhaka,Bangladesh'}]
-        let gridheader = [
-            {id:'property_address',title:'PROPERTY ADDRESS',width:'100px',cellRender:(item) => { return item.property_address? item.property_address:''  }},
-            {id:'title',title:'SIZE',width:'100px',cellRender:(item) => { return item.company_contact? item.company_contact.contact_title:''  }},
-            {id:'phone',title:'ACRES',width:'100px',cellRender:(item) => { return item.company_contact? item.company_contact.contact_phone:''  }},
-            {id:'email',title:'DOCK DOORS',width:'100px',cellRender:(item) => { return item.company_contact? item.company_contact.contact_email:''  }},
-            {id:'email',title:'DRIVE-IN',width:'100px',cellRender:(item) => { return item.company_contact? item.company_contact.contact_email:''  }},
-            {id:'email',title:'CLEAR HEIGHT',width:'100px',cellRender:(item) => { return item.company_contact? item.company_contact.contact_email:''  }},
-            {id:'email',title:'YEAR BUILT',width:'100px',cellRender:(item) => { return item.company_contact? item.company_contact.contact_email:''  }},
-            {id:'email',title:'VALUE',width:'100px',cellRender:(item) => { return item.company_contact? item.company_contact.contact_email:''  }},
-            {id:'email',title:'LEASE RATE',width:'100px',cellRender:(item) => { return item.company_contact? item.company_contact.contact_email:''  }}
-        ]
+        
         return(
-            <div className="property_grid_section">
-                <div className="pg_header">
-                    <span className="pg_title">{title}</span>
-                    <div>
-                        <div className="rs_dropdown">
-                            <Button label="View" icon='arrow_drop_down'/>
-                            <ul>
-                                <li className="checked"><span className="material-symbols-outlined rs_check">done</span> Company Name</li>
-                                <li><span className="material-symbols-outlined rs_check">done</span> Website</li>
-                                <li><span className="material-symbols-outlined rs_check">done</span> Industry</li>
-                                <li><span className="material-symbols-outlined rs_check">done</span> Sub-Industry</li>
-                                <li><span className="material-symbols-outlined rs_check">done</span> Contact Name</li>
-                                <li><span className="material-symbols-outlined rs_check">done</span> Title</li>
-                                <li><span className="material-symbols-outlined rs_check">done</span> Phone</li>
-                                <li><span className="material-symbols-outlined rs_check">done</span> Email</li>
-                                <li><span className="material-symbols-outlined rs_check">done</span> Address</li>
-                                <li><span className="material-symbols-outlined rs_check">done</span> Lead Capture</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <RsGrid id={gridId} header={gridheader} data={gridData}/>
-            </div>
+            <PropertyGrid gridId={gridId} propertyType={pType} title={title}/>
         )
     }
     render() { 

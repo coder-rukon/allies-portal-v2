@@ -1,15 +1,17 @@
 import { Component } from "react";
 /**
  * 
- * [
+ * Header: [
         {
             id:'star',
+            hide:false,
             title:'<span class="material-symbols-outlined">star_rate</span>',
             style:{width:'50px'},
             cellRender:(rowData,HeaderItem,CellKey,HeaderKey) => { }
         },
         {id:'company_name',title:'COMPANY NAME',style:{width:'100px'}},
     ]
+    onGridReady: method
  */
 class RsGrid extends Component {
     constructor(props) {
@@ -20,7 +22,7 @@ class RsGrid extends Component {
         this.id = this.props.id ? this.props.id : 'grid';
 
         this.grid = null;
-        this.header = this.props.header ? this.props.header : [];
+        
     }
     componentDidMount(){
         this.initGrid()
@@ -32,7 +34,9 @@ class RsGrid extends Component {
         })
     }
     initGrid(){
-        
+        if(this.props.onGridReady){
+            this.props.onGridReady(this)
+        }
     }
     onHeaderItemClick(hItem,hKey){
         if(hItem.onClick && typeof hItem.onClick == 'function'){
@@ -41,13 +45,17 @@ class RsGrid extends Component {
     }
     render() {
         let data = this.props.data;
+        let header = this.props.header;
         return (
             <div className="rs_grid">
                 <table className="table rs_grid_table">
                     <thead>
                         <tr>
                             {
-                                this.header.map( (hItem,hKey) => {
+                                header.map( (hItem,hKey) => {
+                                    if(hItem.hide){
+                                        return <></>
+                                    }
                                     return(
                                         <th key={hKey} onClick={ this.onHeaderItemClick.bind(this,hItem,hKey) } className={hItem.className ? hItem.className : ''} style={hItem.style ? hItem.style : {}}><div className="header_item"><div dangerouslySetInnerHTML={{__html:hItem.title}}></div><span className="material-symbols-outlined">unfold_more</span></div></th>
                                     )
@@ -61,7 +69,10 @@ class RsGrid extends Component {
                                     return(
                                         <tr key={key}>
                                             {
-                                                this.header.map( (hItem,hKey) => {
+                                                header.map( (hItem,hKey) => {
+                                                    if(hItem.hide){
+                                                        return <></>
+                                                    }
                                                     return(
                                                         <td key={hKey}>
                                                             {
