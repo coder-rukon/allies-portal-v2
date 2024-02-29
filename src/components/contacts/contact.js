@@ -1,5 +1,5 @@
 import { Component } from "react";
-import Button from "@/components/forms/Button";
+import Button from "@/components/forms/button";
 import Input from "@/components/forms/Input";
 import Checkbox from "@/components/forms/checkbox";
 import Api from "@/inc/Api";

@@ -4,7 +4,7 @@ import BorderBox from "@/components/widget/borderbox";
 import Loading from "@/components/widget/Loading";
 import Input from "@/components/forms/Input";
 import Dropdown from "@/components/forms/Dropdown";
-import Button from "@/components/forms/Button";
+import Button from "@/components/forms/button";
 import Contacts from "@/components/company/new/contacts";
 import { Component } from "react";
 import Api from "../../../inc/Api";

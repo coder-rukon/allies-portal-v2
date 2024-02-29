@@ -1,6 +1,6 @@
 import { Component } from "react";
 import Input from "@/components/forms/Input";
-import Button from "@/components/forms/Button";
+import Button from "@/components/forms/button";
 import Contact from "./contact";
 import Api from "@/inc/Api";
 class Contacts extends Component {
