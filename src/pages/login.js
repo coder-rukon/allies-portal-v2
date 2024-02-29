@@ -1,6 +1,6 @@
 import { Component } from "react";
 import './login.css';
-import Button from "@/components/forms/Button";
+import Button from "@/components/forms/button";
 import Input from "@/components/forms/Input";
 import Api from "@/inc/Api";
 import Helper from "@/inc/Helper";
@@ -50,7 +50,6 @@ class Login extends Component {
     }
     render() { 
         let user = this.state.user;
-        console.log(this.props)
         return (
             <div className="login_reg_page">
                 <div className="login_box">
