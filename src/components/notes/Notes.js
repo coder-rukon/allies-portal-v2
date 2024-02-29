@@ -1,7 +1,7 @@
 import { Component } from "react";
 import Note from "@/components/notes/Note";
 import Input from "@/components/forms/Input";
-import Button from "../forms/Button";
+import Button from "../forms/button";
 import Api from "@/inc/Api";
 import Loading from "../widget/Loading";
 class Notes extends Component {
