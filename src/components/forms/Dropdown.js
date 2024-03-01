@@ -41,7 +41,7 @@ class Dropdown extends Component {
                     this.props.options.map( (item,key) => {
                         if(item.items){
                             return(
-                                <optgroup label={item.label}>
+                                <optgroup label={item.label} key={key}>
                                     {
                                         item.items.map( (itemIn,keyIn) => {
                                             return itemIn.value === this.props.value ?  <option key={keyIn} value={itemIn.value} selected={true}>{itemIn.label}</option> : <option key={keyIn} value={itemIn.value}>{itemIn.label}</option>

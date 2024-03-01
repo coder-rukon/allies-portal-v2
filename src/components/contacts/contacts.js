@@ -59,7 +59,7 @@ class Contacts extends Component {
                 {
                     this.state.contacts.map( (contact , key) => {
                         return(
-                           <Contact disable={this.props.disable} contact={contact} integrator={ this.state.integrator} source={this.state.source}/>
+                           <Contact key={key} disable={this.props.disable} contact={contact} integrator={ this.state.integrator} source={this.state.source}/>
                         )
                     })
                 }
