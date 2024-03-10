@@ -1,3 +1,4 @@
+"use client"
 import Axios from "axios"
 import Settings from './Settings';
 import $ from 'jquery';
