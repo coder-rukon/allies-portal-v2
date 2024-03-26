@@ -8,17 +8,27 @@ import InputRadio from "../forms/inputradio";
 import Settings from "@/inc/Settings";
 import BrockerForm from './new/BrockerForm';
 import Api from "@/inc/Api";
+import Button from "../forms/button";
+import Loading from "../widget/Loading";
 class CreatePropertyForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isCreatingProperty:false,
             property:{
                 property_rent_type:'industrial'
             },
+            brokerObj:null,
             property_owner:{},
             property_tenant:{},
+            broker_contacts:[],
             state:{}
         }
+    }
+    onBrokerFormReady(brokerObject){
+        this.setState({
+            brokerObj: brokerObject
+        })
     }
     onPropertyChangeHanlder(event){
         let property = this.state.property;
@@ -66,6 +76,34 @@ class CreatePropertyForm extends Component {
         
     }
     onPropertyDropdownChangeHandler(){
+        
+    }
+    onPropertyCreateHanlder(event){
+        
+        this.setState({
+            isCreatingProperty:true
+        })
+
+        let data = {
+            ...this.state.property,
+            property_owner:this.state.property_owner,
+            property_tenant:this.state.property_tenant,
+            broker_contacts:this.state.brokerObj ? this.state.brokerObj.getBrokers() : [],
+        };
+        let api = Api, that = this;
+        if(api.setUserToken()){
+            api.axios().post('/property/create',data).then(res=> {
+                that.setState({
+                    isCreatingProperty:false
+                })
+                console.log(res)
+            }).catch(errors => {
+                that.setState({
+                    isCreatingProperty:false
+                })
+                console.log(errors)
+            })
+        }
         
     }
     onCompanyOwnerItemClick(company){
@@ -252,9 +290,12 @@ class CreatePropertyForm extends Component {
 
                             </div>
                         </BorderBox>
-                        <BrockerForm/>
+                        <BrockerForm onReady = { this.onBrokerFormReady.bind(this)}/>
                     </div>
                 </div>
+                <div className="mt-3"></div>
+
+                {this.state.isCreatingProperty ? <Loading/> : <Button onClick={ this.onPropertyCreateHanlder.bind(this)} label="+ Create Property"/> }
             </div>
         );
     }

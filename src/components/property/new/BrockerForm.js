@@ -1,8 +1,8 @@
 import { Component } from "react";
 import Input from "../../forms/Input";
-import BrockerFormItem from "./BrockerFormItem";
 import Button from "../../forms/button"; 
 import BorderBox from "../../widget/borderbox";
+import BrokerFormItem from "./BrokerFormItem";
 class BrockerForm extends Component {
     constructor(props) {
         super(props);
@@ -11,17 +11,37 @@ class BrockerForm extends Component {
             brokers:[]
         }
     }
+    componentDidMount(){
+        if(this.props.onReady){
+            this.props.onReady(this)
+        }
+    }
     onSearcChangeHandler(event){
         this.setState({
             s_brocker:event.target.value
         })
     }
-    addBroker(event){
+    onChangeHander(key,broker){
         let brokers = this.state.brokers;
-        brokers.push({})
+        brokers[key] = broker;
         this.setState({
             brokers:brokers
         })
+    }
+    addBroker(event){
+        let brokers = this.state.brokers;
+        brokers.push({
+            company:"",
+            contact:"",
+            phone:"",
+            email:""
+        })
+        this.setState({
+            brokers:brokers
+        })
+    }
+    getBrokers(){
+        return this.state.brokers;
     }
     render() { 
         let search_brocker = '';
@@ -36,8 +56,8 @@ class BrockerForm extends Component {
                     <div className="col-xs-12 col-sm-12">
                         <div className="brockers">
                             {
-                                brokers.map((brocker,key) => {
-                                    return <BrockerFormItem key={key} brocker={brocker} />
+                                brokers.map((broker,key) => {
+                                    return <BrokerFormItem key={key} brokerKey={key} broker={broker} onChange={ this.onChangeHander.bind(this)} />
                                 } )
                             }
                         </div>
