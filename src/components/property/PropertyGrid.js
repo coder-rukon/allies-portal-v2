@@ -2,28 +2,59 @@
 import { Component } from "react";
 import Button from "@/components/forms/button";
 import RsGrid from "@/components/grid/rsgrid";
+import Api from "@/inc/Api";
+import Loading from "../widget/Loading";
+import Helper from "@/inc/Helper";
 class PropertyGrid extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isLoading:false,
+            gridData:[],
+            apiData:{},
             hideHeaderItems:[],
         }
         this.gridObj = null;
     }
     componentDidMount(){
-
+        this.loadData();
+    }
+    loadData(){
+        let api = Api, that = this;
+        this.setState({
+            isLoading:true
+        })
+        api.axios().get('/property/list?property_type='+this.props.propertyType).then(res=>{
+            that.setState({
+                isLoading:false,
+                apiData:res.data,
+                gridData:res.data.data.data
+            })
+        })
+    }
+    getAddress(property){
+        let address = '';
+        if(property.address){
+            address += ( property.address.address_line_1 && Helper.getNullableValue(property.address.address_line_1) ) ? property.address.address_line_1 + ', ' : '';
+            address += ( property.address.address_line_2 && Helper.getNullableValue(property.address.address_line_2) ) ? property.address.address_line_2 + ', ' : '';
+            address += ( property.address.address_city && Helper.getNullableValue(property.address.address_city) ) ? property.address.address_city + ', ' : '';
+            address += ( property.address.address_state && Helper.getNullableValue(property.address.address_state) ) ? property.address.address_state + ', ' : '';
+            address += ( property.address.address_country && Helper.getNullableValue(property.address.address_country) ) ? property.address.address_country + ', ' : '';
+            address += ( property.address.address_zipcode && Helper.getNullableValue(property.address.address_zipcode) ) ? property.address.address_zipcode : '';
+        }
+        return address;
     }
     getHeaders(){
         let hideHeaderItems = this.state.hideHeaderItems;
         let headers = [
-            {id:'property_address',title:'PROPERTY ADDRESS',width:'100px',cellRender:(item) => { return item.property_address? item.property_address:''  },hide:hideHeaderItems.includes('property_address')},
-            {id:'property_size',title:'SIZE',width:'100px',cellRender:(item) => { return item.company_contact? item.company_contact.contact_title:''  },hide:hideHeaderItems.includes('property_size')},
-            {id:'property_acres',title:'ACRES',width:'100px',cellRender:(item) => { return item.company_contact? item.company_contact.contact_phone:''  },hide:hideHeaderItems.includes('property_acres')},
+            {id:'property_address',title:'PROPERTY ADDRESS',width:'100px',cellRender:(item) => {  return this.getAddress(item)  },hide:hideHeaderItems.includes('property_address')},
+            {id:'property_size',title:'SIZE',width:'100px',hide:hideHeaderItems.includes('property_size')},
+            {id:'property_acres',title:'ACRES',width:'100px',hide:hideHeaderItems.includes('property_acres')},
             {id:'property_dock_doors',title:'DOCK DOORS',width:'100px',hide:hideHeaderItems.includes('property_dock_doors')},
-            {id:'property_drive_in',title:'DRIVE-IN',width:'100px',hide:hideHeaderItems.includes('property_drive_in')},
+            {id:'property_drive_in_doors',title:'DRIVE-IN',width:'100px',hide:hideHeaderItems.includes('property_drive_in')},
             {id:'property_clear_height',title:'CLEAR HEIGHT',width:'100px',hide:hideHeaderItems.includes('property_clear_height')},
             {id:'property_year_built',title:'YEAR BUILT',width:'100px',hide:hideHeaderItems.includes('property_year_built')},
-            {id:'property_value',title:'VALUE',width:'100px',hide:hideHeaderItems.includes('property_value')},
+            {id:'property_price',title:'VALUE',width:'100px',hide:hideHeaderItems.includes('property_price')},
             {id:'property_lease_rate',title:'LEASE RATE',width:'100px',hide:hideHeaderItems.includes('property_lease_rate')}
         ];
         return headers;
@@ -42,13 +73,13 @@ class PropertyGrid extends Component {
         })
     }
     render() { 
-        let gridData = [{property_address:'Dhaka,Bangladesh'},{property_address:'Dhaka,Bangladesh'},{property_address:'Dhaka,Bangladesh'}]
+        let gridData = this.state.gridData;
         let gridheader = this.getHeaders();
         let hideHeaderItems = this.state.hideHeaderItems;
         return ( 
             <div className="property_grid_section">
                 <div className="pg_header">
-                    <span className="pg_title">{this.props.title}</span>
+                    <span className="pg_title">{this.props.title} </span>
                     <div>
                         <div className="rs_dropdown">
                             <Button label="View" icon='arrow_drop_down'/>
@@ -62,6 +93,8 @@ class PropertyGrid extends Component {
                         </div>
                     </div>
                 </div>
+                {this.state.isLoading ? <div className="text-center"><Loading color={"red"}/></div> : ''}
+                
                 <RsGrid id={this.props.gridId} onGridReady={ gridObj => this.gridObj = gridObj } header={gridheader} data={gridData}/>
             </div>
          );

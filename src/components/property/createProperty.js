@@ -10,20 +10,21 @@ import BrockerForm from './new/BrockerForm';
 import Api from "@/inc/Api";
 import Button from "../forms/button";
 import Loading from "../widget/Loading";
+import PropertyHolder from './propertyholder/PropertyHolder';
 class CreatePropertyForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
             isCreatingProperty:false,
             property:{
-                property_rent_type:'industrial'
+                property_type:'industrial'
             },
             brokerObj:null,
-            property_owner:{},
-            property_tenant:{},
             broker_contacts:[],
             state:{}
         }
+        this.propertyOwnerCmp = null;
+        this.propertyTenantCmp = null;
     }
     onBrokerFormReady(brokerObject){
         this.setState({
@@ -39,44 +40,27 @@ class CreatePropertyForm extends Component {
             }
         })
     }
-    propertyTenantChangeHandler(event){
-        let property_tenant = this.state.property_tenant;
-        this.setState({
-            property_tenant: {
-                ...property_tenant,
-                [event.target.name]:event.target.value
-            }
-        })
-    }
-    onPropertyOwnerChangeHanlder(event){
-        let property_owner = this.state.property_owner;
-        this.setState({
-            property_owner: {
-                ...property_owner,
-                [event.target.name]:event.target.value
-            }
-        })
-    }
-    onPropertyOwnerSearchHandler(event){
-        this.setState({
-            p_owner_search:event.target.value
-        })
-    }  
+  
+   
     onPropertyRentTypeChange(event,value){
         let property = this.state.property;
         this.setState({
            
             property:{
                 ...property,
-                property_rent_type:event.target.value
+                property_type:event.target.value
             }
         })
     }    
-    onPropertyDropdownChangeHandler(){
-        
-    }
-    onPropertyDropdownChangeHandler(){
-        
+    onPropertyDropdownChangeHandler(event){
+        let property = this.state.property;
+        this.setState({
+           
+            property:{
+                ...property,
+                [event.target.name]:event.target.value
+            }
+        })
     }
     onPropertyCreateHanlder(event){
         
@@ -86,10 +70,42 @@ class CreatePropertyForm extends Component {
 
         let data = {
             ...this.state.property,
-            property_owner:this.state.property_owner,
-            property_tenant:this.state.property_tenant,
             broker_contacts:this.state.brokerObj ? this.state.brokerObj.getBrokers() : [],
         };
+        let propertyOwner =  this.propertyOwnerCmp.getData();
+        data = {
+            ...data,
+            property_owner_id:propertyOwner?.propertyholder_id,
+            property_owner_company:propertyOwner?.propertyholder_company,
+            property_owner_contact:propertyOwner?.propertyholder_contact,
+            property_owner_title:propertyOwner?.propertyholder_title,
+            property_owner_phone:propertyOwner?.propertyholder_phone,
+            property_owner_website:propertyOwner?.propertyholder_website,
+            property_owner_email:propertyOwner?.propertyholder_email,
+            property_owner_address_line_1:propertyOwner?.propertyholder_address_line_1,
+            property_owner_address_line_2:propertyOwner?.propertyholder_address_line_2,
+            property_owner_city:propertyOwner?.propertyholder_city,
+            property_owner_state:propertyOwner?.propertyholder_state,
+            property_owner_county:propertyOwner?.propertyholder_country,
+            property_owner_zipcode:propertyOwner?.propertyholder_zipcode,
+        }
+        let propertyTenent =  this.propertyTenantCmp.getData();
+        data = {
+            ...data,
+            property_tenant_id:propertyTenent?.propertyholder_id,
+            property_tenant_company:propertyTenent?.propertyholder_company,
+            property_tenant_contact:propertyTenent?.propertyholder_contact,
+            property_tenant_title:propertyTenent?.propertyholder_title,
+            property_tenant_phone:propertyTenent?.propertyholder_phone,
+            property_tenant_website:propertyTenent?.propertyholder_website,
+            property_tenant_email:propertyTenent?.propertyholder_email,
+            property_tenant_address_line_1:propertyTenent?.propertyholder_address_line_1,
+            property_tenant_address_line_2:propertyTenent?.propertyholder_address_line_2,
+            property_tenant_city:propertyTenent?.propertyholder_city,
+            property_tenant_state:propertyTenent?.propertyholder_state,
+            property_tenant_county:propertyTenent?.propertyholder_country,
+            property_tenant_zipcode:propertyTenent?.propertyholder_zipcode,
+        }
         let api = Api, that = this;
         if(api.setUserToken()){
             api.axios().post('/property/create',data).then(res=> {
@@ -145,8 +161,6 @@ class CreatePropertyForm extends Component {
     }
     render() { 
         let property = this.state.property;
-        let property_owner = this.state.property_owner;
-        let property_tenant = this.state.property_tenant;
         let listing_type_options = Settings.listingType;
         let listing_status_options = Settings.listingStatus;
         return(
@@ -156,13 +170,13 @@ class CreatePropertyForm extends Component {
                         <BorderBox title="Property Details">
                             <div className="row">
                                 <div className="col-xs-12 col-sm-6">
-                                    <Dropdown  name="listing_type" options={listing_type_options} errors={this.state.errors}  value={property.listing_type} onChange={this.onPropertyDropdownChangeHandler.bind(this)} label="Listing Type*" />
+                                    <Dropdown  name="property_listing_type" options={listing_type_options} errors={this.state.errors}  value={property.property_listing_type} onChange={this.onPropertyDropdownChangeHandler.bind(this)} label="Listing Type*" />
                                 </div> 
                                 <div className="col-xs-12 col-sm-6">
-                                    <Dropdown  name="listing_status" options={listing_status_options} errors={this.state.errors}  value={property.listing_status} onChange={this.onPropertyDropdownChangeHandler.bind(this)} label="Status*" />
+                                    <Dropdown  name="property_status" options={listing_status_options} errors={this.state.errors}  value={property.property_status} onChange={this.onPropertyDropdownChangeHandler.bind(this)} label="Status*" />
                                 </div> 
                                 <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="address_line_1" label="Company NameAddress Line 1" value={property.address_line_1}/>
+                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="address_line_1" label="Address Line 1" value={property.address_line_1}/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
                                     <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="address_line_2" label="Address Line 2" value={property.address_line_2}/>
@@ -174,7 +188,7 @@ class CreatePropertyForm extends Component {
                                     <Input onChange={this.onPropertyDropdownChangeHandler.bind(this)}  name="state" label="State" value={property.state}/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyDropdownChangeHandler.bind(this)}  name="county" label="Country" value={property.country}/>
+                                    <Input onChange={this.onPropertyDropdownChangeHandler.bind(this)}  name="country" label="Country" value={property.country}/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
                                     <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="zipcode" label="Zipcode" value={property.zipcode}/>
@@ -183,15 +197,15 @@ class CreatePropertyForm extends Component {
                         </BorderBox>
                         <BorderBox>
                             <div className="d-flex property_category_nav">
-                                <div><InputRadio checked={ property.property_rent_type == 'industrial' ? true : false } onChange={this.onPropertyRentTypeChange.bind(this)}  name="property_rent_type" value="industrial" title="Industrial"/></div>
-                                <div><InputRadio checked={property.property_rent_type == 'office' ? true : false}  onChange={this.onPropertyRentTypeChange.bind(this)}  name="property_rent_type" value="office" title="Office"/></div>
-                                <div><InputRadio checked={property.property_rent_type == 'retail' ? true : false}  onChange={this.onPropertyRentTypeChange.bind(this)}  name="property_rent_type" value="retail" title="Retail"/></div>
-                                <div><InputRadio checked={property.property_rent_type == 'land' ? true : false}  onChange={this.onPropertyRentTypeChange.bind(this)}  name="property_rent_type" value="land" title="land"/></div>
+                                <div><InputRadio checked={ property.property_type == 'industrial' ? true : false } onChange={this.onPropertyRentTypeChange.bind(this)}  name="property_type" value="industrial" title="Industrial"/></div>
+                                <div><InputRadio checked={property.property_type == 'office' ? true : false}  onChange={this.onPropertyRentTypeChange.bind(this)}  name="property_type" value="office" title="Office"/></div>
+                                <div><InputRadio checked={property.property_type == 'retail' ? true : false}  onChange={this.onPropertyRentTypeChange.bind(this)}  name="property_type" value="retail" title="Retail"/></div>
+                                <div><InputRadio checked={property.property_type == 'land' ? true : false}  onChange={this.onPropertyRentTypeChange.bind(this)}  name="property_type" value="land" title="land"/></div>
                             </div>
-                            { property.property_rent_type =='industrial' ? <div className="row">{['property_size','property_acres','property_zoning','property_clear_height','property_of_dock_doors','property_drive_in_doors','property_year_built','property_year_renovated','property_class','property_submarket','property_lease_rate'].map( item => { return this.getSpaceFields(item) })}</div> : '' }
-                            { property.property_rent_type =='office' ? <div className="row">{['property_size','property_acres','property_zoning', 'property_private_offices','property_bathrooms','property_parking_ratio','property_suites','property_class','property_min_space','property_max_contiguous_space','property_year_built','property_year_renovated','property_submarket','property_lease_rate'].map( item => { return this.getSpaceFields(item) })}</div> : '' }
-                            { property.property_rent_type =='retail' ? <div className="row">{['property_size','property_acres','property_zoning','property_clear_height','property_of_dock_doors','property_drive_in_doors','property_year_built','property_year_renovated','property_class','property_submarket','property_lease_rate'].map( item => { return this.getSpaceFields(item) })}</div> : '' }
-                            { property.property_rent_type =='land' ? <div className="row">{['property_size','property_acres','property_zoning','property_clear_height','property_of_dock_doors','property_drive_in_doors','property_year_built','property_year_renovated','property_class','property_submarket','property_lease_rate'].map( item => { return this.getSpaceFields(item) })}</div> : '' }
+                            { property.property_type =='industrial' ? <div className="row">{['property_size','property_acres','property_zoning','property_clear_height','property_of_dock_doors','property_drive_in_doors','property_year_built','property_year_renovated','property_class','property_submarket','property_lease_rate'].map( item => { return this.getSpaceFields(item) })}</div> : '' }
+                            { property.property_type =='office' ? <div className="row">{['property_size','property_acres','property_zoning', 'property_private_offices','property_bathrooms','property_parking_ratio','property_suites','property_class','property_min_space','property_max_contiguous_space','property_year_built','property_year_renovated','property_submarket','property_lease_rate'].map( item => { return this.getSpaceFields(item) })}</div> : '' }
+                            { property.property_type =='retail' ? <div className="row">{['property_size','property_acres','property_zoning','property_clear_height','property_of_dock_doors','property_drive_in_doors','property_year_built','property_year_renovated','property_class','property_submarket','property_lease_rate'].map( item => { return this.getSpaceFields(item) })}</div> : '' }
+                            { property.property_type =='land' ? <div className="row">{['property_size','property_acres','property_zoning','property_clear_height','property_of_dock_doors','property_drive_in_doors','property_year_built','property_year_renovated','property_class','property_submarket','property_lease_rate'].map( item => { return this.getSpaceFields(item) })}</div> : '' }
                         </BorderBox>
                         <BorderBox title="Note">
                             <Input name="property_note" value={property.property_note} onChange={this.onPropertyChangeHanlder.bind(this)}  type="textarea"/>
@@ -201,95 +215,8 @@ class CreatePropertyForm extends Component {
                         </BorderBox>
                     </div>
                     <div className="col-xs-12 col-sm-6">
-                        <BorderBox title="Property Owner">
-                            <div className="row">
-                                <div className="col-xs-12 col-sm-12">
-                                    <AjaxSearchInput name="s_company" sUrl="/propertyholder/search" filterResult = { data => { return data.propertyholders.map( (item => { return {...item,item_label:item.propertyholder_company} }) ) }  } onItemClick={this.onCompanyOwnerItemClick.bind(this)} placeholder="Search existing company"/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input disable={property_owner.propertyholder_id} className="disable_with_border" onChange={this.onPropertyOwnerChangeHanlder.bind(this)}  name="propertyholder_company" label="Company" value={property_owner.propertyholder_company}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input disable={property_owner.propertyholder_id} className="disable_with_border" onChange={this.onPropertyOwnerChangeHanlder.bind(this)}  name="propertyholder_contact" label="Contact" value={property_owner.propertyholder_contact}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input disable={property_owner.propertyholder_id} className="disable_with_border" onChange={this.onPropertyOwnerChangeHanlder.bind(this)}  name="propertyholder_title" label="Title" value={property_owner.propertyholder_title}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input disable={property_owner.propertyholder_id} className="disable_with_border" onChange={this.onPropertyOwnerChangeHanlder.bind(this)}  name="propertyholder_phone" label="Phone" value={property_owner.propertyholder_phone}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input disable={property_owner.propertyholder_id} className="disable_with_border" onChange={this.onPropertyOwnerChangeHanlder.bind(this)}  name="propertyholder_website" label="Website" value={property_owner.propertyholder_website}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input disable={property_owner.propertyholder_id} className="disable_with_border" onChange={this.onPropertyOwnerChangeHanlder.bind(this)}  name="propertyholder_email" label="Email" value={property_owner.propertyholder_email}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input disable={property_owner.propertyholder_id} className="disable_with_border" onChange={this.onPropertyOwnerChangeHanlder.bind(this)}  name="propertyholder_address_line_1" label="Address Line 1" value={property_owner.propertyholder_address_line_1}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input disable={property_owner.propertyholder_id} className="disable_with_border" onChange={this.onPropertyOwnerChangeHanlder.bind(this)}  name="propertyholder_address_line_2" label="Address Line 2" value={property_owner.propertyholder_address_line_2}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input disable={property_owner.propertyholder_id} className="disable_with_border" onChange={this.onPropertyOwnerChangeHanlder.bind(this)}  name="propertyholder_city" label="City" value={property_owner.propertyholder_city}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input disable={property_owner.propertyholder_id} className="disable_with_border" onChange={this.onPropertyOwnerChangeHanlder.bind(this)}  name="propertyholder_state" label="State" value={property_owner.propertyholder_state}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input disable={property_owner.propertyholder_id} className="disable_with_border" onChange={this.onPropertyOwnerChangeHanlder.bind(this)}  name="propertyholder_country" label="Country" value={property_owner.propertyholder_country}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input disable={property_owner.propertyholder_id} className="disable_with_border" onChange={this.onPropertyOwnerChangeHanlder.bind(this)}  name="propertyholder_zip_code" label="Zip Code" value={property_owner.propertyholder_zip_code}/>
-                                </div>
-                            </div>
-                        </BorderBox>
-                        <BorderBox title="Property Tenant">
-                            <div className="row">
-                                
-                                <div className="col-xs-12 col-sm-12">
-                                    <AjaxSearchInput name="s_company" sUrl="/propertyholder/search" filterResult = { data => { return data.propertyholders.map( (item => { return {...item,item_label:item.propertyholder_company} }) ) }  } onItemClick={this.onCompanyTenantItemClick.bind(this)} placeholder="Search existing company"/>
-                                </div>
-
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input  disable={property_tenant.propertyholder_id} className="disable_with_border" onChange={this.propertyTenantChangeHandler.bind(this)}  name="propertyholder_company" label="Company" value={property_tenant.propertyholder_company}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input disable={property_tenant.propertyholder_id} className="disable_with_border" onChange={this.propertyTenantChangeHandler.bind(this)}  name="propertyholder_contact" label="Contact" value={property_tenant.propertyholder_contact}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input disable={property_tenant.propertyholder_id} className="disable_with_border" onChange={this.propertyTenantChangeHandler.bind(this)}  name="propertyholder_title" label="Title" value={property_tenant.propertyholder_title}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input disable={property_tenant.propertyholder_id} className="disable_with_border" onChange={this.propertyTenantChangeHandler.bind(this)}  name="propertyholder_phone" label="Phone" value={property_tenant.propertyholder_phone}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input disable={property_tenant.propertyholder_id} className="disable_with_border" onChange={this.propertyTenantChangeHandler.bind(this)}  name="propertyholder_website" label="Website" value={property_tenant.propertyholder_website}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input disable={property_tenant.propertyholder_id} className="disable_with_border" onChange={this.propertyTenantChangeHandler.bind(this)}  name="propertyholder_email" label="Email" value={property_tenant.propertyholder_email}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input disable={property_tenant.propertyholder_id} className="disable_with_border" onChange={this.propertyTenantChangeHandler.bind(this)}  name="propertyholder_address_line_1" label="Address Line 1" value={property_tenant.propertyholder_address_line_1}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input disable={property_tenant.propertyholder_id} className="disable_with_border" onChange={this.propertyTenantChangeHandler.bind(this)}  name="propertyholder_address_line_2" label="Address Line 2" value={property_tenant.propertyholder_address_line_2}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input disable={property_tenant.propertyholder_id} className="disable_with_border" onChange={this.propertyTenantChangeHandler.bind(this)}  name="propertyholder_city" label="City" value={property_tenant.propertyholder_city}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input disable={property_tenant.propertyholder_id} className="disable_with_border" onChange={this.propertyTenantChangeHandler.bind(this)}  name="propertyholder_state" label="State" value={property_tenant.propertyholder_state}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input disable={property_tenant.propertyholder_id} className="disable_with_border" onChange={this.propertyTenantChangeHandler.bind(this)}  name="propertyholder_country" label="Country" value={property_tenant.propertyholder_country}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input disable={property_tenant.propertyholder_id} className="disable_with_border" onChange={this.propertyTenantChangeHandler.bind(this)}  name="propertyholder_zip_code" label="Zip Code" value={property_tenant.propertyholder_zip_code}/>
-                                </div>
-
-                            </div>
-                        </BorderBox>
+                        <PropertyHolder title="Property Owner" onReady={ componentObj => { this.propertyOwnerCmp = componentObj}}/>
+                        <PropertyHolder title="Property Tenant" onReady={ componentObj => { this.propertyTenantCmp = componentObj}}/>
                         <BrockerForm onReady = { this.onBrokerFormReady.bind(this)}/>
                     </div>
                 </div>

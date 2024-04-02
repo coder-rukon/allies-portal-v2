@@ -9,6 +9,7 @@ class Dropdown extends Component {
         super(props);
         this.id = this.props.id ? this.props.id: this.props.name;
         this.select2Obj = null;
+        this.isEventApplied = false;
     }
     onChangeHanlder(event){
         if(this.props.onChange){
@@ -20,6 +21,14 @@ class Dropdown extends Component {
         if(this.props.onSelect2Ready){
             this.props.onSelect2Ready(this.select2Obj);
         }
+        let that = this;
+        if(!this.isEventApplied){
+            this.isEventApplied = true;
+            this.choosenObj.on("change", function (e) { 
+                that.onChangeHanlder(e)
+            });
+        }
+        
     }
     
     getInputBox(){
