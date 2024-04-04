@@ -8,7 +8,7 @@ class FileUploader extends Component {
         this.id = this.props.id;
     }
     componentDidMount(){
-            if(typeof document !== 'undefined'){
+            if(typeof document == 'undefined'){
                 return;
             }
             $("#"+this.id).dmUploader({
