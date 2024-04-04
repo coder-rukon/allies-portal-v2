@@ -8,7 +8,7 @@ class FileUploader extends Component {
         this.id = this.props.id;
     }
     componentDidMount(){
-            if(typeof document !== 'undefined'){
+            if (typeof window !== 'undefined' && document){
                 $("#"+this.id).dmUploader({
                     url: '/path/to/backend/upload.asp',
                     onDragEnter:()=>{
@@ -18,10 +18,10 @@ class FileUploader extends Component {
                         $("#"+this.id).removeClass('file_drag');
                     },
                     onInit: function(){
-                        console.log('Callback: Plugin initialized');
+                        //console.log('Callback: Plugin initialized');
                     },
                     onUploadProgress: (id,percentage) => {
-                        console.log(id)
+                        //console.log(id)
                     }
     
                     // ... More callbacks
