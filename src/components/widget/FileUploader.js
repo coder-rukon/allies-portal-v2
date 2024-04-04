@@ -1,6 +1,6 @@
 "use client"
 import { Component } from "react";
-import $ from 'jquery';
+//import $ from 'jquery';
 //import dmUploader from 'dm-file-uploader';
 class FileUploader extends Component {
     constructor(props) {
