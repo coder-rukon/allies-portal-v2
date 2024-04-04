@@ -10,7 +10,7 @@ class Page extends Component {
     render() { 
         return (
             <Panel>
-                <CreatePropertyForm/>
+                { typeof document !== 'undefined' ? <CreatePropertyForm/> : ''   }
             </Panel>
             
         );
