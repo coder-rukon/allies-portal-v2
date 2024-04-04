@@ -2,7 +2,7 @@ import { Component } from "react";
 import Input from "../forms/Input";
 import AjaxSearchInput from "../forms/AjaxSearchInput";
 import BorderBox from "../widget/borderbox";
-import FileUploader from "../widget/FileUploader";
+//import FileUploader from "../widget/FileUploader";
 import Dropdown from "../forms/Dropdown";
 import InputRadio from "../forms/inputradio";
 import Settings from "@/inc/Settings";
@@ -211,7 +211,7 @@ class CreatePropertyForm extends Component {
                             <Input name="property_note" value={property.property_note} onChange={this.onPropertyChangeHanlder.bind(this)}  type="textarea"/>
                         </BorderBox>
                         <BorderBox title="Files">
-                            <FileUploader id="upload_files"/>
+                            
                         </BorderBox>
                     </div>
                     <div className="col-xs-12 col-sm-6">
