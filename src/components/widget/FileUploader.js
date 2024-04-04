@@ -1,13 +1,13 @@
 "use client"
 import { Component } from "react";
 import $ from 'jquery';
-import dmUploader from 'dm-file-uploader';
 class FileUploader extends Component {
     constructor(props) {
         super(props);
         this.id = this.props.id;
     }
     componentDidMount(){
+            /*
             $("#"+this.id).dmUploader({
                 url: '/path/to/backend/upload.asp',
                 onDragEnter:()=>{
@@ -25,6 +25,7 @@ class FileUploader extends Component {
 
                 // ... More callbacks
             });
+            */
     }
     render() { 
         return (

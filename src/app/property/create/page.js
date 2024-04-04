@@ -1,5 +1,6 @@
 "use client"
 import { Component } from "react";
+import CreatePropertyForm from "../../../components/property/createProperty";
 import Panel from "@/components/widget/panel";
 
 class Page extends Component {
@@ -9,6 +10,7 @@ class Page extends Component {
     render() { 
         return (
             <Panel>
+                <CreatePropertyForm/>
             </Panel>
             
         );
