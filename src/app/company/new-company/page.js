@@ -124,7 +124,6 @@ class NewCompany extends Component {
             {label:'Google',value:'Google'},
             {label:'Other',value:'Other'}
         ];
-        console.log(this.state)
         return (
             <Panel>
                 <div className="row">

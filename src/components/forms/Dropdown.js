@@ -1,8 +1,8 @@
 "use client"
 import { Component } from "react";
 import ErrorMessage from '@/components/widget/errormessage';
-import $ from 'jquery';
-import { Select2 } from "select2";
+//import $ from 'jquery';
+//import { Select2 } from "select2";
 import '../../../node_modules/select2/dist/css/select2.min.css';
 class Dropdown extends Component {
     constructor(props) {
@@ -17,6 +17,7 @@ class Dropdown extends Component {
         }
     }
     componentDidMount(){
+        /*
         this.choosenObj = $('#'+this.id).select2();
         if(this.props.onSelect2Ready){
             this.props.onSelect2Ready(this.select2Obj);
@@ -28,6 +29,7 @@ class Dropdown extends Component {
                 that.onChangeHanlder(e)
             });
         }
+        */
         
     }
     
