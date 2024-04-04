@@ -1,9 +1,9 @@
 "use client"
 import Axios from "axios"
 import Settings from './Settings';
-import $ from 'jquery';
 let Helper = {
     alert(message,options,selector = null){
+        /*
         let defaultOptions = {
             elementPosition: 'top right',
             globalPosition: 'top right',
@@ -16,8 +16,10 @@ let Helper = {
         }else{
             $.notify(message, defaultOptions);
         }
+        */
     },
     confirmMe(confirmFunction,bodyMessage,cancelFunction='',title){
+        /*
         $('<div>'+bodyMessage+'</div>').dialog({
              modal: true,
              zIndex: 30005,
@@ -35,6 +37,7 @@ let Helper = {
                 }
             }
         });
+        */
     },
     setCookie(cname, cvalue, exdays) {
         var d = new Date();
