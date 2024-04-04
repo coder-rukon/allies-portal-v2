@@ -1,8 +1,8 @@
 // File: /Users/rukon/Drive/Works/projects/alliesportalv2/allies-portal-v2/src/app/property/create/page.js
-import * as entry from '../../../../../src/app/property/create/page.js'
+import * as entry from '../../../../../src/app/property/[create]/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
-type TEntry = typeof import('../../../../../src/app/property/create/page.js')
+type TEntry = typeof import('../../../../../src/app/property/[create]/page.js')
 
 // Check that the entry is a valid entry
 checkFields<Diff<{
