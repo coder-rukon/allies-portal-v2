@@ -9,7 +9,7 @@ class FileUploader extends Component {
     componentDidMount(){
          // Check if document is defined before importing jQuery
          if (typeof document !== 'undefined') {
-            import('$').then(($) => {
+            import('jquery').then(($) => {
                 // jQuery code here
                 $(document).ready(function() {
                     $("#"+this.id).dmUploader({
