@@ -1,38 +1,32 @@
 "use client"
 import { Component } from "react";
-//import dmUploader from 'dm-file-uploader';
+//import $ from 'jquery';
+import dmUploader from 'dm-file-uploader';
 class FileUploader extends Component {
     constructor(props) {
         super(props);
         this.id = this.props.id;
     }
     componentDidMount(){
-         // Check if document is defined before importing jQuery
-         if (typeof document !== 'undefined') {
-            import('jquery').then(($) => {
-                // jQuery code here
-                $(document).ready(function() {
-                    $("#"+this.id).dmUploader({
-                        url: '/path/to/backend/upload.asp',
-                        onDragEnter:()=>{
-                            $("#"+this.id).addClass('file_drag');
-                        },
-                        onDragLeave:()=>{
-                            $("#"+this.id).removeClass('file_drag');
-                        },
-                        onInit: function(){
-                            //console.log('Callback: Plugin initialized');
-                        },
-                        onUploadProgress: (id,percentage) => {
-                            //console.log(id)
-                        }
-        
-                        // ... More callbacks
-                    });
-                });
+        /*
+            $("#"+this.id).dmUploader({
+                url: '/path/to/backend/upload.asp',
+                onDragEnter:()=>{
+                    $("#"+this.id).addClass('file_drag');
+                },
+                onDragLeave:()=>{
+                    $("#"+this.id).removeClass('file_drag');
+                },
+                onInit: function(){
+                    console.log('Callback: Plugin initialized');
+                },
+                onUploadProgress: (id,percentage) => {
+                    console.log(id)
+                }
+
+                // ... More callbacks
             });
-        }
-            
+        */
     }
     render() { 
         return (
