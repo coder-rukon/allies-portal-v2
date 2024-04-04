@@ -1,6 +1,5 @@
 "use client"
 import { Component } from "react";
-//import $ from 'jquery';
 //import dmUploader from 'dm-file-uploader';
 class FileUploader extends Component {
     constructor(props) {
@@ -8,6 +7,15 @@ class FileUploader extends Component {
         this.id = this.props.id;
     }
     componentDidMount(){
+         // Check if document is defined before importing jQuery
+         if (typeof document !== 'undefined') {
+            import('$').then(($) => {
+                // jQuery code here
+                $(document).ready(function() {
+                    console.log('Document ready');
+                });
+            });
+        }
         /*
             if (typeof window !== 'undefined' && document){
                 $("#"+this.id).dmUploader({
