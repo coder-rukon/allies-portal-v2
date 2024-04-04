@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    ssr: false,
+    ignoredRouteFiles: ["**/.*"]
 };
 
 export default nextConfig;
