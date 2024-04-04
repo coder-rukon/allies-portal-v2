@@ -8,6 +8,7 @@ class FileUploader extends Component {
         this.id = this.props.id;
     }
     componentDidMount(){
+        /*
             if (typeof window !== 'undefined' && document){
                 $("#"+this.id).dmUploader({
                     url: '/path/to/backend/upload.asp',
@@ -27,6 +28,7 @@ class FileUploader extends Component {
                     // ... More callbacks
                 });
             }
+            */
             
             
     }
