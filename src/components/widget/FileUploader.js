@@ -12,32 +12,26 @@ class FileUploader extends Component {
             import('$').then(($) => {
                 // jQuery code here
                 $(document).ready(function() {
-                    console.log('Document ready');
+                    $("#"+this.id).dmUploader({
+                        url: '/path/to/backend/upload.asp',
+                        onDragEnter:()=>{
+                            $("#"+this.id).addClass('file_drag');
+                        },
+                        onDragLeave:()=>{
+                            $("#"+this.id).removeClass('file_drag');
+                        },
+                        onInit: function(){
+                            //console.log('Callback: Plugin initialized');
+                        },
+                        onUploadProgress: (id,percentage) => {
+                            //console.log(id)
+                        }
+        
+                        // ... More callbacks
+                    });
                 });
             });
         }
-        /*
-            if (typeof window !== 'undefined' && document){
-                $("#"+this.id).dmUploader({
-                    url: '/path/to/backend/upload.asp',
-                    onDragEnter:()=>{
-                        $("#"+this.id).addClass('file_drag');
-                    },
-                    onDragLeave:()=>{
-                        $("#"+this.id).removeClass('file_drag');
-                    },
-                    onInit: function(){
-                        //console.log('Callback: Plugin initialized');
-                    },
-                    onUploadProgress: (id,percentage) => {
-                        //console.log(id)
-                    }
-    
-                    // ... More callbacks
-                });
-            }
-            */
-            
             
     }
     render() { 
