@@ -5,6 +5,7 @@ import RsGrid from "@/components/grid/rsgrid";
 import Api from "@/inc/Api";
 import Loading from "../widget/Loading";
 import Helper from "@/inc/Helper";
+import Link from "next/link";
 class PropertyGrid extends Component {
     constructor(props) {
         super(props);
@@ -42,7 +43,7 @@ class PropertyGrid extends Component {
             address += ( property.address.address_country && Helper.getNullableValue(property.address.address_country) ) ? property.address.address_country + ', ' : '';
             address += ( property.address.address_zipcode && Helper.getNullableValue(property.address.address_zipcode) ) ? property.address.address_zipcode : '';
         }
-        return address;
+        return <Link href={'/property/edit/'+property.property_id}>{address}</Link>;
     }
     getHeaders(){
         let hideHeaderItems = this.state.hideHeaderItems;

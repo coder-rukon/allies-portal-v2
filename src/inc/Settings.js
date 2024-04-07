@@ -9,8 +9,8 @@ let Settings = {
     device_name:'web',
     userTokenKey:'allies_token',
     secondUserTokenKey:'allies_token_super',
-    apiUrl:'http://127.0.0.1:8000/api',
-    apiAppUrl:'http://127.0.0.1:8000',
+    apiUrl:'https://portalapi.hostrms.com/api',
+    apiAppUrl:'https://portalapi.hostrms.com',
     listingStatus:[
         {label:'Active',value:'active'},
         {label:'Inactive',value:'inactive'}
