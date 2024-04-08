@@ -12,9 +12,9 @@
     "axios": "^1.6.7",
     "dm-file-uploader": "^1.0.2",
     "jquery": "^3.7.1",
-    "next": "14.1.0",
-    "react": "^18",
-    "react-dom": "^18",
+    "next": "^14.1.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "select2": "^4.1.0-rc.0"
   },
   "devDependencies": {
@@ -22,7 +22,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
-    "eslint-config-next": "14.1.0",
+    "eslint-config-next": "^14.1.4",
     "typescript": "^5"
   }
 }

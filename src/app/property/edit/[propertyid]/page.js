@@ -1,22 +1,46 @@
 "use client"
 import { Component } from "react";
 import Panel from "@/components/widget/panel";
+import Api from "@/inc/Api";
+import Loading from "@/components/widget/Loading";
 
 class Page extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            property: null
+            property: null,
+            loading:false
         }
     }
     componentDidMount(){
         let propertyId = this.props.params.propertyid;
-        this.loadProperty(propertyId)
+        if(propertyId){
+            this.loadProperty(propertyId)
+        }
     }
     loadProperty(propertyId){
-
+        let api = Api, that = this;
+        that.setState({
+            loading:true
+        })
+        api.axios().get('/property/details/'+propertyId).then(res=> {
+            that.setState({
+                loading:false,
+                property:res.data.data
+            })
+        }).then(error => {
+            that.setState({
+                loading:false
+            })
+        })
     }
     render() { 
+        if(this.state.loading){
+            return <Loading/>
+        }
+        if(!this.state.property){
+            return <div className="alert alert-danger">No property found</div>
+        }
         return (
             <Panel>
                 Prperty edit form
