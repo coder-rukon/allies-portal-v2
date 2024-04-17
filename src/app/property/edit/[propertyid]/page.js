@@ -3,7 +3,7 @@ import { Component } from "react";
 import Panel from "@/components/widget/panel";
 import Api from "@/inc/Api";
 import Loading from "@/components/widget/Loading";
-
+import EditProperty from "@/components/property/edit/EditProperty";
 class Page extends Component {
     constructor(props) {
         super(props);
@@ -23,6 +23,7 @@ class Page extends Component {
         that.setState({
             loading:true
         })
+        api.setUserToken();
         api.axios().get('/property/details/'+propertyId).then(res=> {
             that.setState({
                 loading:false,
@@ -43,7 +44,8 @@ class Page extends Component {
         }
         return (
             <Panel>
-                Prperty edit form
+                { this.state.property ? <EditProperty property={this.state.property}/> : ''}
+                
             </Panel>
             
         );

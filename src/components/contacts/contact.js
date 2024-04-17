@@ -83,23 +83,36 @@ class Contact extends Component {
     }
     render() {
         let contact = this.state.contact;
+        let labels = {
+            contact_name: 'Contact Name',
+            contact_title: 'Title',
+            contact_email: 'Email',
+            contact_phone: 'Phone'
+        }
+        if(this.props.labels){
+            labels = {
+                ...labels,
+                ...this.props.labels
+            }
+        }
         return ( 
             <div className="row contact_list_form_item" >
                 <div className="col-xs-12 col-sm-6">
-                    <Input disable={this.props.disable} errors={this.state.errors} name="contact_name" label="Contact Name" onChange = { this.onChangeHanlder.bind(this) } value={contact.contact_name}/>
+                    <Input disable={this.props.disable} errors={this.state.errors} name="contact_name" label={labels.contact_name} onChange = { this.onChangeHanlder.bind(this) } value={contact.contact_name}/>
                 </div>
                 <div className="col-xs-12 col-sm-6">
-                    <Input  disable={this.props.disable} name="contact_title" label="Title"  value={contact.contact_title}  onChange = { this.onChangeHanlder.bind(this) }/>
+                    <Input  disable={this.props.disable} name="contact_title" label={labels.contact_title}  value={contact.contact_title}  onChange = { this.onChangeHanlder.bind(this) }/>
                 </div>
                 <div className="col-xs-12 col-sm-6">
-                    <Input  disable={this.props.disable} name="contact_email"  errors={this.state.errors}  label="Email"  value={contact.contact_email}  onChange = { this.onChangeHanlder.bind(this) }/>
+                    <Input  disable={this.props.disable} name="contact_email"  errors={this.state.errors}  label={labels.contact_email} value={contact.contact_email}  onChange = { this.onChangeHanlder.bind(this) }/>
                 </div>
                 <div className="col-xs-12 col-sm-6">
-                    <Input  disable={this.props.disable} name="contact_phone" label="Phone"  value={contact.contact_phone}  onChange = { this.onChangeHanlder.bind(this) }/>
+                    <Input  disable={this.props.disable} name="contact_phone" label={labels.contact_phone} value={contact.contact_phone}  onChange = { this.onChangeHanlder.bind(this) }/>
                 </div>
-                <div className="col-xs-12 col-sm-6">
-                    <Checkbox  disable={this.props.disable} name="is_primary" checked={ contact.is_primary } title="Primary Contact"    onChange = { this.onCheckboxChangeHanlder.bind(this) }/>
-                </div>
+                {
+                    this.props.hidePrimary ? '' : <div className="col-xs-12 col-sm-6"><Checkbox  disable={this.props.disable} name="is_primary" checked={ contact.is_primary } title="Primary Contact"    onChange = { this.onCheckboxChangeHanlder.bind(this) }/></div>
+                }
+                
                 <div className="col-xs-12 col-sm-12">
                     <div style={{display:'flex', justifyContent:'space-between'}}>
                         {this.state.isLoading? <div><Loading/></div> : ''}
