@@ -9,10 +9,14 @@ class Address extends Component {
         this.source = this.props.source;
         this.integrator = this.props.integrator;
         this.state = {
-            address:{}
+            address:{},
+            allCountry:[],
+            allState:[]
         }
     }
     componentDidMount(){
+        this.loadCountry();
+        this.loadState();
         this.loadAddress()
     }
     loadAddress(){
@@ -33,7 +37,28 @@ class Address extends Component {
                 })
             })
         }
-
+    }
+    loadCountry(){
+        let api = Api;
+        let that = this;
+        if(api.setUserToken()){
+            api.axios().get('/location/country').then(res =>{
+                that.setState({
+                    allCountry: res.data
+                })
+            })
+        }
+    }
+    loadState(){
+        let api = Api;
+        let that = this;
+        if(api.setUserToken()){
+            api.axios().get('/location/state').then(res =>{
+                that.setState({
+                    allState: res.data
+                })
+            })
+        }
     }
     onAddressChangeHandler(event){
         let address = this.state.address;
@@ -44,12 +69,39 @@ class Address extends Component {
             }
         })
     }
+    getCountryState(){
+        let address = this.state.address;
+        let stateList = [];
+        this.state.allState.forEach( item => {
+            if(address.address_country){
+                if(address.address_country == item.country_id){
+                    stateList.push({
+                        label: item.name,
+                        value: item.id
+                    }) 
+                }
+            }else{
+                stateList.push({
+                    label: item.name,
+                    value: item.id
+                }) 
+            }
+            
+        })
+        return stateList;
+    }
     render() {
         let address = this.state.address;
         if(this.state.loading){
             return <Loading/>
         }
-        let countryList = [];
+        let countryList = this.state.allCountry.map( item => {
+            return {
+                label: item.name,
+                value: item.id
+            }
+        })
+        let stateList = this.getCountryState();
         return (
             <div className='row'>
                 <div className="col-xs-12 col-sm-6">
@@ -64,7 +116,7 @@ class Address extends Component {
                     <Dropdown options={countryList} onChange={this.onAddressChangeHandler.bind(this)} name="address_country" label="Country" value={address.address_country}/>
                 </div>
                 <div className="col-xs-12 col-sm-6">
-                    <Dropdown options={countryList} onChange={this.onAddressChangeHandler.bind(this)} name="address_state" label="State" value={address.address_state}/>
+                    <Dropdown options={stateList} onChange={this.onAddressChangeHandler.bind(this)} name="address_state" label="State" value={address.address_state}/>
                 </div>
                 <div className="col-xs-12 col-sm-6">
                     <Input onChange={this.onAddressChangeHandler.bind(this)}  name="address_city" label="City" value={address.address_city}/>

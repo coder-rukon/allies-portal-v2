@@ -21,15 +21,22 @@ class EditProperty extends Component {
         this.state = {
             errors:[],
             property: null,
+            isEditing:false,
         }
         this.propertyOwnerCmp = null;
         this.propertyTenantCmp = null;
+        this.propertyTypeCmp = null;
     }
+    
     componentDidMount(){
         this.setState({
             property: this.props.property
         })
     }
+    onPropertyTypeComponentReady(componentObj){
+        this.propertyTypeCmp = componentObj;
+    }
+
     onPropertyDropdownChangeHandler(event){
         let property = this.state.property;
         this.setState({
@@ -53,8 +60,21 @@ class EditProperty extends Component {
         let address = this.state.property && this.state.property.address ? this.state.property.address : {};
         let property = this.state.property;
     }
+    onEditIconClick(event){
+        this.setState({
+            isEditing:true
+        })
+    }
+    onSaveClick(event){
+        let data = {
+            ...this.state.property,
+            ...this.propertyTypeCmp.getPropertyFields()
+        }
+        console.log(data);
+    }
     render() {
         let property = this.state.property;
+        let editMode = this.state.isEditing;
         if(!property){
             return <Loading/>
         }
@@ -70,6 +90,18 @@ class EditProperty extends Component {
         }
         return (
             <div className="edit_property_form">
+                <div className="pannel_header">
+                        <div></div>
+                        <div>
+                            {
+                                editMode ? 
+                                <Button onClick={ this.onSaveClick.bind(this) }  className="md" beforeIcon="save" label= {"Save"}/>
+                                :
+                                <Button onClick={ this.onEditIconClick.bind(this) } className="md" beforeIcon="border_color" label= {"Edit"}/>
+
+                            }
+                        </div>
+                    </div>
                 <div className="row">
                     <div className="col-xs-12 col-md-6">
                         <BorderBox title="Property Details">
@@ -86,7 +118,7 @@ class EditProperty extends Component {
                             </div>
                         </BorderBox>
                         <BorderBox>
-                            <PropertyType/>
+                            <PropertyType property={property} onReady = { compObj => { this.onPropertyTypeComponentReady(compObj)} }/>
                         </BorderBox>
                         <BorderBox title="Notes">
                             {property.property_id ? <Notes source="property" integrator={property.property_id}/> : '' } 
