@@ -69,6 +69,9 @@ class Notes extends Component {
         }
     }
     getNewNoteForm(){
+        if(this.props.disable){
+            return;
+        }
         if(this.state.isShowNewNote){
             return(
                 <div className="create_note_form">

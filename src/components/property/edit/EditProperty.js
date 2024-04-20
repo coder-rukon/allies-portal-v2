@@ -70,18 +70,19 @@ class EditProperty extends Component {
             ...this.state.property,
             ...this.propertyTypeCmp.getPropertyFields()
         }
-        console.log(data);
+        this.setState({
+            isEditing:false
+        })
     }
     render() {
         let property = this.state.property;
-        let editMode = this.state.isEditing;
+        let isDisable = !this.state.isEditing;
         if(!property){
             return <Loading/>
         }
         let propertyAddress = property.address ? property.address : {}
         let listing_type_options = Settings.listingType;
         let listing_status_options = Settings.listingStatus;
-        let isDisable = false;
         let brokerLabels = {
             contact_name: 'Company',
             contact_title: 'Contact',
@@ -94,44 +95,44 @@ class EditProperty extends Component {
                         <div></div>
                         <div>
                             {
-                                editMode ? 
-                                <Button onClick={ this.onSaveClick.bind(this) }  className="md" beforeIcon="save" label= {"Save"}/>
-                                :
+                                isDisable ? 
                                 <Button onClick={ this.onEditIconClick.bind(this) } className="md" beforeIcon="border_color" label= {"Edit"}/>
+                                :
+                                <Button onClick={ this.onSaveClick.bind(this) }  className="md" beforeIcon="save" label= {"Save"}/>
 
                             }
                         </div>
                     </div>
                 <div className="row">
                     <div className="col-xs-12 col-md-6">
-                        <BorderBox title="Property Details">
+                        <BorderBox className="input_box_margin_fix" title="Property Details">
                             <div className="row">
                                 <div className="col-xs-12 col-sm-6">
-                                    <Dropdown  name="property_listing_type" options={listing_type_options} errors={this.state.errors}  value={property.property_listing_type} onChange={this.onPropertyDropdownChangeHandler.bind(this)} label="Listing Type*" />
+                                    <Dropdown disable={isDisable} name="property_listing_type" options={listing_type_options} errors={this.state.errors}  value={property.property_listing_type} onChange={this.onPropertyDropdownChangeHandler.bind(this)} label="Listing Type*" />
                                 </div> 
                                 <div className="col-xs-12 col-sm-6">
-                                    <Dropdown  name="property_status" options={listing_status_options} errors={this.state.errors}  value={property.property_status} onChange={this.onPropertyDropdownChangeHandler.bind(this)} label="Status*" />
+                                    <Dropdown  disable={isDisable} name="property_status" options={listing_status_options} errors={this.state.errors}  value={property.property_status} onChange={this.onPropertyDropdownChangeHandler.bind(this)} label="Status*" />
                                 </div> 
                                 <div className="col-xs-12">
-                                    <Address source="property" integrator={property.property_id}/>
+                                    <Address  disable={isDisable} source="property" integrator={property.property_id}/>
                                 </div>
                             </div>
                         </BorderBox>
-                        <BorderBox>
-                            <PropertyType property={property} onReady = { compObj => { this.onPropertyTypeComponentReady(compObj)} }/>
+                        <BorderBox className="input_box_margin_fix">
+                            <PropertyType  disable={isDisable} property={property} onReady = { compObj => { this.onPropertyTypeComponentReady(compObj)} }/>
                         </BorderBox>
-                        <BorderBox title="Notes">
-                            {property.property_id ? <Notes source="property" integrator={property.property_id}/> : '' } 
+                        <BorderBox title="Notes" className="input_box_margin_fix">
+                            {property.property_id ? <Notes  disable={isDisable} source="property" integrator={property.property_id}/> : '' } 
                         </BorderBox>
-                        <BorderBox title="Files">
-                            <FileUploader id="upload_files"/>
+                        <BorderBox title="Files" className="input_box_margin_fix">
+                            <FileUploader source="property" integrator={property.property_id} disable={isDisable} id="upload_files"/>
                         </BorderBox>
                     </div>
-                    <div className="col-xs-12 col-md-6">
-                        <PropertyHolder title="Property Owner" onReady={ componentObj => { this.propertyOwnerCmp = componentObj}}/>
-                        <PropertyHolder title="Property Tenant" onReady={ componentObj => { this.propertyTenantCmp = componentObj}}/>
+                    <div className="col-xs-12 col-md-6 input_box_margin_fix">
+                        <PropertyHolder  disable={isDisable} title="Property Owner" onReady={ componentObj => { this.propertyOwnerCmp = componentObj}}/>
+                        <PropertyHolder  disable={isDisable} title="Property Tenant" onReady={ componentObj => { this.propertyTenantCmp = componentObj}}/>
                         <BorderBox title="Broker Contact">
-                            {property.property_id ? <Contacts hidePrimary={true} disable={isDisable} source="property_broker" integrator={property.property_id} labels = {brokerLabels}/> : '' } 
+                            {property.property_id ? <Contacts  hidePrimary={true} disable={isDisable} source="property_broker" integrator={property.property_id} labels = {brokerLabels}/> : '' } 
                         </BorderBox>
                     </div>
                 </div>
