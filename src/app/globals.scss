@@ -545,3 +545,72 @@ a.rs_btn{
     }
     
 }
+.rs_file_uploader{
+    .rs_file_upload{}
+    .media_list{
+        display: block;
+    }
+    .media_list .media_item{
+        position: relative;
+        width: 100%;
+        display: flex;
+        overflow: hidden;
+        border: 1px solid #ccc;
+        text-align: center;
+        padding: 2px;
+        margin: 2px 0;
+        align-items: center;
+        gap: 10px;
+        justify-content: space-between;
+        .media_item_text{
+            color: $lightGray;
+            font-size: 14px;
+            font-weight: 400;
+        }
+        .media_item_action{
+            padding-right: 10px;
+            a{
+                display: block;
+                text-decoration: none;
+                color: #000;
+                border: 1px solid #9CA3AF;
+                text-transform: uppercase;
+                padding: 3px 10px;
+                border-radius: 4px;
+            }
+        }
+    }
+    .media_list .media_item .media_item_thumbnail{
+        width: 120px;
+        text-align: center;
+        display: block;
+        position: relative;
+    }
+    .media_list .media_item img{
+        max-width: 100%;
+        display: block;
+        margin: 0;
+        padding: 0;
+
+    }
+    .media_list .media_item .del_btn{
+        position: absolute;
+        left: 0;
+        top: 0;
+        color: red;
+        background: rgba(255,255,255,.5);
+        display: block;
+        padding: 4px;
+        font-size: 14px;
+        line-height: 14px;
+        min-width: 20px;
+        text-align: center;
+        cursor: pointer;
+    }
+    .media_list .media_item .file_icon{
+        display: block;
+        color: #ccc;
+        font-size: 60px;
+        font-weight: 400;
+    }
+}

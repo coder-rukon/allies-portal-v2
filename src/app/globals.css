@@ -449,4 +449,61 @@ a.rs_btn {
 .property_list_page .property_grid_section .rs_grid_table {
   margin: 0; }
 
+.rs_file_uploader .media_list {
+  display: block; }
+.rs_file_uploader .media_list .media_item {
+  position: relative;
+  width: 100%;
+  display: flex;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  text-align: center;
+  padding: 2px;
+  margin: 2px 0;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between; }
+  .rs_file_uploader .media_list .media_item .media_item_text {
+    color: #9CA3AF;
+    font-size: 14px;
+    font-weight: 400; }
+  .rs_file_uploader .media_list .media_item .media_item_action {
+    padding-right: 10px; }
+    .rs_file_uploader .media_list .media_item .media_item_action a {
+      display: block;
+      text-decoration: none;
+      color: #000;
+      border: 1px solid #9CA3AF;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 4px; }
+.rs_file_uploader .media_list .media_item .media_item_thumbnail {
+  width: 120px;
+  text-align: center;
+  display: block;
+  position: relative; }
+.rs_file_uploader .media_list .media_item img {
+  max-width: 100%;
+  display: block;
+  margin: 0;
+  padding: 0; }
+.rs_file_uploader .media_list .media_item .del_btn {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: red;
+  background: rgba(255, 255, 255, 0.5);
+  display: block;
+  padding: 4px;
+  font-size: 14px;
+  line-height: 14px;
+  min-width: 20px;
+  text-align: center;
+  cursor: pointer; }
+.rs_file_uploader .media_list .media_item .file_icon {
+  display: block;
+  color: #ccc;
+  font-size: 60px;
+  font-weight: 400; }
+
 /*# sourceMappingURL=globals.css.map */

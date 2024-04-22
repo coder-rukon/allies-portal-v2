@@ -15,6 +15,38 @@ class FileUploader extends Component {
     }
   
     componentDidMount(){
+        this.initForSourceAndIntegrator();
+        this.initForExportable();
+    }
+    initForExportable(){
+        if(!this.props.exportable ){
+            return;
+        }
+        $("#"+this.id).dmUploader({
+            
+            onDragEnter:()=>{
+                $("#"+this.id).addClass('file_drag');
+            },
+            onComplete:()=>{
+                that.loadMediaList()
+            },
+            onDragLeave:()=>{
+                $("#"+this.id).removeClass('file_drag');
+            },
+            onInit: function(){
+                console.log('Callback: Plugin initialized');
+            },
+            onUploadProgress: (id,percentage) => {
+                console.log(id)
+            }
+
+            // ... More callbacks
+        });
+    }
+    initForSourceAndIntegrator(){
+        if(this.props.exportable ){
+            return;
+        }
         let that = this;
         this.loadMediaList()
         $("#"+this.id).dmUploader({
@@ -59,12 +91,20 @@ class FileUploader extends Component {
         }
 
     }
+    deleteHandler(item){
+        let that = this, api = Api;
+        api.setUserToken();
+        api.axios().get( '/media/delete/'+item.media_id ).then(function(res){
+            that.loadMediaList();
+        })
+
+    }
     render() { 
         return (
             <div className="rs_file_uploader">
                 <div className="rs_file_upload" id={this.id}>
                     <label>
-                        <span class="material-symbols-outlined">cloud_upload</span>
+                        <span className="material-symbols-outlined">cloud_upload</span>
                         <h3>Drag and Drop Files Here</h3>
                         <input style={{display:'none'}} type="file" title="Click to add Files"/>
                     </label>
@@ -72,7 +112,26 @@ class FileUploader extends Component {
                 <div className="media_list">
                     {
                         this.state.mediaList.map( (mediaItem, key) => {
-                            return <div className="media_item"><img src={ Settings.apiUrl +'/public/'+ mediaItem.media_url} /></div>
+                            let thumbnail = <div className="media_item_thumbnail"><span className="del_btn" onClick={ () => this.deleteHandler(mediaItem) }><span className="material-symbols-outlined">delete</span></span><span className="material-symbols-outlined file_icon">description</span></div>;
+                            if(mediaItem.media_url.match(/\.(jpeg|jpg|gif|png)$/) != null){
+                                thumbnail = <div className="media_item_thumbnail"><span className="del_btn"  onClick={ () => this.deleteHandler(mediaItem) }><span className="material-symbols-outlined">delete</span></span><img src={ mediaItem.media_url} /></div>
+                            }
+                            if(mediaItem.media_url.match(/\.(pdf)$/) != null){
+                                thumbnail = <div className="media_item_thumbnail"><span className="del_btn"  onClick={ () => this.deleteHandler(mediaItem) }><span className="material-symbols-outlined">delete</span></span><span className="material-symbols-outlined file_icon">picture_as_pdf</span></div>
+                            }
+                            
+                            return(
+                                <div className="media_item" key={key}>
+                                    {thumbnail} 
+                                    <div className="media_item_text">{mediaItem.media_name}</div> 
+                                    <div className="media_item_action">
+                                        <a href={ mediaItem.media_url} target="_blank">View</a>
+                                        <hr style={{margin:'4px 0'}}/>
+                                        <a href={ Settings.apiAppUrl + '/download/?dl=' + mediaItem.media_uri  } target="_blank">Downlaod</a>
+                                    </div>
+                                </div>
+                            )
+                            
                         })
                     }
                 </div>

@@ -212,7 +212,7 @@ class CreatePropertyForm extends Component {
                             <Input name="property_note" value={property.property_note} onChange={this.onPropertyChangeHanlder.bind(this)}  type="textarea"/>
                         </BorderBox>
                         <BorderBox title="Files">
-                            <FileUploader id="upload_files"/>
+                            <FileUploader id="upload_files" exportable={true}/>
                         </BorderBox>
                     </div>
                     <div className="col-xs-12 col-sm-6">
