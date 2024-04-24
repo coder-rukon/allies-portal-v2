@@ -11,7 +11,10 @@ import BrockerForm from './new/BrockerForm';
 import Api from "@/inc/Api";
 import Button from "../forms/button";
 import Loading from "../widget/Loading";
+import AlertMessage from "../widget/AlertMessage";
 import PropertyHolder from './propertyholder/PropertyHolder';
+import { redirect } from 'next/navigation';
+import Address from "../address/Address";
 class CreatePropertyForm extends Component {
     constructor(props) {
         super(props);
@@ -22,8 +25,13 @@ class CreatePropertyForm extends Component {
             },
             brokerObj:null,
             broker_contacts:[],
-            state:{}
+            state:{},
+            successMessage: null,
+            errorMessage:null,
+            redirectTo:null
         }
+        this.fileUploader = null;
+        this.addressComponent = null;
         this.propertyOwnerCmp = null;
         this.propertyTenantCmp = null;
     }
@@ -64,13 +72,19 @@ class CreatePropertyForm extends Component {
         })
     }
     onPropertyCreateHanlder(event){
-        
+
         this.setState({
             isCreatingProperty:true
         })
-
+        let address = this.addressComponent.getAddress();
         let data = {
             ...this.state.property,
+            address_line_1: address?.address_line_1,
+            address_line_2: address?.address_line_2,
+            city: address?.address_city,
+            state: address?.address_state,
+            country: address?.address_country,
+            zipcode: address?.address_zipcode,
             broker_contacts:this.state.brokerObj ? this.state.brokerObj.getBrokers() : [],
         };
         let propertyOwner =  this.propertyOwnerCmp.getData();
@@ -110,15 +124,37 @@ class CreatePropertyForm extends Component {
         let api = Api, that = this;
         if(api.setUserToken()){
             api.axios().post('/property/create',data).then(res=> {
-                that.setState({
-                    isCreatingProperty:false
-                })
-                console.log(res)
+                
+                if(res.data.type){
+                    if(that.fileUploader.hasExportableFile()){
+                        that.fileUploader.uploadExportableFiles('property',res.data.data.property_id,() => {
+                            that.setState({
+                                redirectTo:'/property/edit/'+res.data.data.property_id,
+                                successMessage: res.data.message,
+                                errorMessage:null,
+                                isCreatingProperty:false
+                            })
+                        });
+                    }else{
+                        that.setState({
+                            redirectTo:'/property/edit/'+res.data.data.property_id,
+                            successMessage: res.data.message,
+                            errorMessage:null,
+                            isCreatingProperty:false
+                        })
+                        
+                    }
+                }else{
+                    that.setState({
+                        isCreatingProperty:false,
+                        errorMessage: res.data.message
+                    })
+                }
+                
             }).catch(errors => {
                 that.setState({
                     isCreatingProperty:false
                 })
-                console.log(errors)
             })
         }
         
@@ -164,6 +200,9 @@ class CreatePropertyForm extends Component {
         let property = this.state.property;
         let listing_type_options = Settings.listingType;
         let listing_status_options = Settings.listingStatus;
+        if(this.state.redirectTo){
+            redirect(this.state.redirectTo)
+        }
         return(
             <div className="property_create_form">
                 <div className="row">
@@ -176,23 +215,8 @@ class CreatePropertyForm extends Component {
                                 <div className="col-xs-12 col-sm-6">
                                     <Dropdown  name="property_status" options={listing_status_options} errors={this.state.errors}  value={property.property_status} onChange={this.onPropertyDropdownChangeHandler.bind(this)} label="Status*" />
                                 </div> 
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="address_line_1" label="Address Line 1" value={property.address_line_1}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="address_line_2" label="Address Line 2" value={property.address_line_2}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyDropdownChangeHandler.bind(this)}  name="city" label="City" value={property.city}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyDropdownChangeHandler.bind(this)}  name="state" label="State" value={property.state}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyDropdownChangeHandler.bind(this)}  name="country" label="Country" value={property.country}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="zipcode" label="Zipcode" value={property.zipcode}/>
+                                <div className="col-xs-12">
+                                    <Address source="property" exportable={true} onReady={ obj => {this.addressComponent = obj }}/>
                                 </div>
                             </div>
                         </BorderBox>
@@ -212,7 +236,7 @@ class CreatePropertyForm extends Component {
                             <Input name="property_note" value={property.property_note} onChange={this.onPropertyChangeHanlder.bind(this)}  type="textarea"/>
                         </BorderBox>
                         <BorderBox title="Files">
-                            <FileUploader id="upload_files" exportable={true}/>
+                            <FileUploader onReady = { obj => { this.fileUploader = obj } } id="upload_files" exportable={true}/>
                         </BorderBox>
                     </div>
                     <div className="col-xs-12 col-sm-6">
@@ -222,7 +246,8 @@ class CreatePropertyForm extends Component {
                     </div>
                 </div>
                 <div className="mt-3"></div>
-
+                <AlertMessage message={this.state.errorMessage} type="text-danger"/>
+                <AlertMessage message={this.state.successMessage}/>
                 {this.state.isCreatingProperty ? <Loading/> : <Button onClick={ this.onPropertyCreateHanlder.bind(this)} label="+ Create Property"/> }
             </div>
         );

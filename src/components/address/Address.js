@@ -17,8 +17,14 @@ class Address extends Component {
     componentDidMount(){
         this.loadCountry();
         this.loadState();
-        this.loadAddress()
+        if(!this.props.exportable){
+            this.loadAddress();
+        }
+        if(this.props.onReady){
+            this.props.onReady(this)
+        }
     }
+
     loadAddress(){
         let api = Api;
         let that = this;
@@ -89,6 +95,9 @@ class Address extends Component {
             
         })
         return stateList;
+    }
+    getAddress(){
+        return this.state.address;
     }
     render() {
         let address = this.state.address;

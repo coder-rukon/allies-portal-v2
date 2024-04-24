@@ -2,7 +2,8 @@
 import Api from '@/inc/Api';
 import Loading from '../widget/Loading';
 import React, { Component } from 'react';
-import { redirect } from 'next/navigation'
+import { redirect } from 'next/navigation';
+import './authwraper.css';
 class AuthWraper extends Component {
     constructor(props){
         super(props);
@@ -35,7 +36,7 @@ class AuthWraper extends Component {
                 <div className='app_init_state_wraper'>
                     <div>
                         <img className='logo' src="/allies-dark-logo.png" alt="Allies logo"/>
-                        <Loading/>
+                        <div class="loader"></div> 
                     </div>
                     
                 </div>

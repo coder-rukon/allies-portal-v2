@@ -9,7 +9,8 @@ class FileUploader extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            mediaList:[]
+            mediaList:[],
+            exportableFiles:[],
         }
         this.id = this.props.id ? this.props.id : 'rs_media_upload';
     }
@@ -17,6 +18,9 @@ class FileUploader extends Component {
     componentDidMount(){
         this.initForSourceAndIntegrator();
         this.initForExportable();
+        if(this.props.onReady){
+            this.props.onReady(this)
+        }
     }
     initForExportable(){
         if(!this.props.exportable ){
@@ -27,8 +31,15 @@ class FileUploader extends Component {
             onDragEnter:()=>{
                 $("#"+this.id).addClass('file_drag');
             },
-            onComplete:()=>{
-                that.loadMediaList()
+            onNewFile:(id, file)=>{
+                let exportableFiles = this.state.exportableFiles;
+                exportableFiles.push({
+                    file_id: id,
+                    file:file
+                })
+                this.setState({
+                    exportableFiles:exportableFiles
+                })
             },
             onDragLeave:()=>{
                 $("#"+this.id).removeClass('file_drag');
@@ -37,7 +48,7 @@ class FileUploader extends Component {
                 console.log('Callback: Plugin initialized');
             },
             onUploadProgress: (id,percentage) => {
-                console.log(id)
+                //console.log(id)
             }
 
             // ... More callbacks
@@ -79,6 +90,7 @@ class FileUploader extends Component {
             // ... More callbacks
         });
     }
+
     loadMediaList(){
         let api = Api;
         let that = this;
@@ -90,6 +102,44 @@ class FileUploader extends Component {
             })
         }
 
+    }
+    deleteExportItem(file_item){
+        let exportableFiles = this.state.exportableFiles;
+        let newExportableFile = exportableFiles.filter( file => {
+            return file.file_id != file_item.file_id ? file : null;
+        })
+        this.setState({
+            exportableFiles:newExportableFile
+        })
+        return false;
+    }
+    hasExportableFile(){
+        if(this.getExportableFiles().length >=1){
+            return true;
+        }
+        return false;
+    }
+    getExportableFiles(){
+        return this.state.exportableFiles;
+    }
+    uploadExportableFiles(source,integrator,callabck = null){
+        let api = Api, that = this;
+        if(api.setUserToken()){
+            let data = {
+                source:source,
+                integrator:integrator,
+                file: this.state.exportableFiles.map( file => { return file.file})
+            }
+            api.axios().post(Settings.apiUrl+'/media/upload',data,{
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                  }
+            }).then(res => {
+                if(callabck && typeof callabck =='function'){
+                    callabck(res)
+                }
+            })
+        }
     }
     deleteHandler(item){
         let that = this, api = Api;
@@ -110,6 +160,21 @@ class FileUploader extends Component {
                     </label>
                 </div>
                 <div className="media_list">
+                    {
+                        this.state.exportableFiles.map( (file_item, fileKey) => {
+                            let thumbnail = <div className="media_item_thumbnail"><span className="material-symbols-outlined file_icon">description</span></div>;
+
+                            return(
+                                <div className="media_item" key={fileKey}>
+                                    {thumbnail} 
+                                    <div className="media_item_text">{file_item.file.name}</div> 
+                                    <div className="media_item_action">
+                                        <span  onClick={ () => { this.deleteExportItem(file_item) } }>Delete</span>
+                                    </div>
+                                </div>
+                            )
+                        })
+                    }
                     {
                         this.state.mediaList.map( (mediaItem, key) => {
                             let thumbnail = <div className="media_item_thumbnail"><span className="del_btn" onClick={ () => this.deleteHandler(mediaItem) }><span className="material-symbols-outlined">delete</span></span><span className="material-symbols-outlined file_icon">description</span></div>;

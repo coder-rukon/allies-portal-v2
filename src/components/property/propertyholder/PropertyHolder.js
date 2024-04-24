@@ -75,7 +75,7 @@ class PropertyHolder extends Component {
                             <Input disable={disable || propertyHolder.propertyholder_id} className="disable_with_border_" onChange={this.onPropertyHolderChangeHanlder.bind(this)}  name="propertyholder_country" label="Country" value={propertyHolder.propertyholder_country}/>
                         </div>
                         <div className="col-xs-12 col-sm-6">
-                            <Input disable={disable || propertyHolder.propertyholder_id} className="disable_with_border_" onChange={this.onPropertyHolderChangeHanlder.bind(this)}  name="propertyholder_zip_code" label="Zip Code" value={propertyHolder.propertyholder_zip_code}/>
+                            <Input disable={disable || propertyHolder.propertyholder_id} className="disable_with_border_" onChange={this.onPropertyHolderChangeHanlder.bind(this)}  name="propertyholder_zipcode" label="Zip Code" value={propertyHolder.propertyholder_zipcode}/>
                         </div>
                     </div>
                 </BorderBox>
