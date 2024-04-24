@@ -38,7 +38,7 @@ class AuthWraper extends Component {
                 <div className='app_init_state_wraper'>
                     <div>
                         <img className='logo' src="/allies-dark-logo.png" alt="Allies logo"/>
-                        <div class="loader"></div> 
+                        <div className="loader"></div> 
                     </div>
                     
                 </div>
