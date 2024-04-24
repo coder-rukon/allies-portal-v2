@@ -3,6 +3,7 @@ import Input from "../../forms/Input";
 import AjaxSearchInput from "../../forms/AjaxSearchInput";
 import BorderBox from "../../widget/borderbox";
 import Dropdown from "../../forms/Dropdown";
+import { connect } from "react-redux";
 class PropertyHolder extends Component {
     constructor(props) {
         super(props);
@@ -35,6 +36,7 @@ class PropertyHolder extends Component {
     render() { 
         let propertyHolder = this.state.propertyHolder;
         let disable= this.props.disable === true ? true : false;
+        console.log("Root location",this.props.locations)
         return (
                 <BorderBox title={this.props.title}>
                     <div className="row">
@@ -82,5 +84,10 @@ class PropertyHolder extends Component {
         );
     }
 }
- 
-export default PropertyHolder;
+const mapStateToProps = (state) => ({
+    locations: state.locations, // Map your state to props
+});
+let mapDispatchToProps = {
+
+}
+export default connect(mapStateToProps,mapDispatchToProps) (PropertyHolder);

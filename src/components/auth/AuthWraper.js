@@ -4,6 +4,8 @@ import Loading from '../widget/Loading';
 import React, { Component } from 'react';
 import { redirect } from 'next/navigation';
 import './authwraper.css';
+import { Provider } from 'react-redux';
+import store from '@/inc/Store';
 class AuthWraper extends Component {
     constructor(props){
         super(props);
@@ -46,9 +48,9 @@ class AuthWraper extends Component {
             redirect('/login')
         }
         return (
-            <>
-            {this.props.children}
-            </>
+            <Provider store={store}>
+                {this.props.children}
+            </Provider>
         );
     }
 }
