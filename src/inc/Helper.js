@@ -1,7 +1,12 @@
 "use client"
 import Axios from "axios"
 import Settings from './Settings';
+
 let Helper = {
+    setPageData(newData = {}){
+        document.title = newData?.title;
+        document.getElementById('h_title').innerHTML = newData?.pageTitle;
+    },
     alert(message,options,selector = null){
         /*
         let defaultOptions = {

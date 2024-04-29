@@ -15,6 +15,8 @@ import AlertMessage from "../widget/AlertMessage";
 import PropertyHolder from './propertyholder/PropertyHolder';
 import { redirect } from 'next/navigation';
 import Address from "../address/Address";
+import { connect } from "react-redux";
+import ActionsTypes from "@/inc/ActionTypes";
 class CreatePropertyForm extends Component {
     constructor(props) {
         super(props);
@@ -34,6 +36,9 @@ class CreatePropertyForm extends Component {
         this.addressComponent = null;
         this.propertyOwnerCmp = null;
         this.propertyTenantCmp = null;
+    }
+    componentDidMount(){
+        this.props.setOptions({title:'Create Property'})
     }
     onBrokerFormReady(brokerObject){
         this.setState({
@@ -253,5 +258,11 @@ class CreatePropertyForm extends Component {
         );
     }
 }
+const mapStateToProps = (state) => ({
+    
+});
+const mapDispatchToProps = (dispatch) => ({
+    setOptions: (data) => dispatch({type:ActionsTypes.SET_OPTION,data:data}), // Map your state to props
+});
  
-export default CreatePropertyForm;
+export default connect(mapStateToProps,mapDispatchToProps) (CreatePropertyForm);

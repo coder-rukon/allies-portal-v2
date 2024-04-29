@@ -9,6 +9,8 @@ import Contacts from "@/components/company/new/contacts";
 import { Component } from "react";
 import Api from "../../../inc/Api";
 import Helper from "../../../inc/Helper";
+import { connect } from "react-redux";
+import ActionsTypes from "@/inc/ActionTypes";
 class NewCompany extends Component {
     constructor(props){
         super(props);
@@ -21,7 +23,9 @@ class NewCompany extends Component {
         }
         this.contactComponent = null;
     }
-
+    componentDidMount(){
+        this.props.setOptions({title:'Create Company'})
+    }
     onCreateButtonClick(){
         if(this.state.isSaving){
             return;
@@ -214,6 +218,11 @@ class NewCompany extends Component {
         );
     }
 }
- 
-export default NewCompany;
+const mapStateToProps = (state) => ({
+    
+});
+const mapDispatchToProps = (dispatch) => ({
+    setOptions: (data) => dispatch({type:ActionsTypes.SET_OPTION,data:data}), // Map your state to props
+});
+export default connect(mapStateToProps,mapDispatchToProps) (NewCompany);
 

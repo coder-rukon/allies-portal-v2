@@ -3,15 +3,15 @@ import Input from '../forms/Input';
 import Api from '@/inc/Api';
 import Loading from '../widget/Loading';
 import Dropdown from '../forms/Dropdown';
+import { connect } from 'react-redux';
+import ActionsTypes from '@/inc/ActionTypes';
 class Address extends Component {
     constructor(props){
         super(props);
         this.source = this.props.source;
         this.integrator = this.props.integrator;
         this.state = {
-            address:{},
-            allCountry:[],
-            allState:[]
+            address:{}
         }
     }
     componentDidMount(){
@@ -45,24 +45,26 @@ class Address extends Component {
         }
     }
     loadCountry(){
+        if(this.props.locations.countryLoaded){
+            return true;
+        }
         let api = Api;
         let that = this;
         if(api.setUserToken()){
             api.axios().get('/location/country').then(res =>{
-                that.setState({
-                    allCountry: res.data
-                })
+                that.props.setCountry(res.data)
             })
         }
     }
     loadState(){
+        if(this.props.locations.stateLoaded){
+            return true;
+        }
         let api = Api;
         let that = this;
         if(api.setUserToken()){
             api.axios().get('/location/state').then(res =>{
-                that.setState({
-                    allState: res.data
-                })
+                that.props.setState(res.data)
             })
         }
     }
@@ -78,7 +80,7 @@ class Address extends Component {
     getCountryState(){
         let address = this.state.address;
         let stateList = [];
-        this.state.allState.forEach( item => {
+        this.props.locations.state.forEach( item => {
             if(address.address_country){
                 if(address.address_country == item.country_id){
                     stateList.push({
@@ -104,7 +106,7 @@ class Address extends Component {
         if(this.state.loading){
             return <Loading/>
         }
-        let countryList = this.state.allCountry.map( item => {
+        let countryList = this.props.locations.country.map( item => {
             return {
                 label: item.name,
                 value: item.id
@@ -112,6 +114,7 @@ class Address extends Component {
         })
         let stateList = this.getCountryState();
         let disable= this.props.disable === true ? true : false;
+        
         return (
             <div className='row'>
                 <div className="col-xs-12 col-sm-6">
@@ -138,5 +141,11 @@ class Address extends Component {
         );
     }
 }
-
-export default Address;
+const mapStateToProps = (state) => ({
+    locations: state.locations,
+});
+const mapDispatchToProps = (dispatch) => ({
+    setCountry: (data) => dispatch({type: ActionsTypes.SET_LOCATION_COUNTRY,data:data}),
+    setState: (data) => dispatch({type:ActionsTypes.SET_LOCATION_STATE,data:data}),
+});
+export default connect(mapStateToProps,mapDispatchToProps) (Address);

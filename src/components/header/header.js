@@ -1,9 +1,11 @@
 "use client"
 
-let MainHeader = () =>{
+import { connect } from "react-redux";
+
+let MainHeader = (props) =>{
     return(
         <div className="main_header">
-            <h3 className="h_title">abcd</h3>
+            <h3 className="h_title" id="h_title">{props.header_title}</h3>
             <div className="mh_right_side">
                 <div className="searchbar">
                     <span className="material-symbols-outlined s_icon">search</span>
@@ -25,4 +27,10 @@ let MainHeader = () =>{
         </div>
     )
 }
-export default MainHeader;
+const mapStateToProps = (state) => ({
+    header_title: state.options.title
+});
+const mapDispatchToProps = (dispatch) => ({
+    //setState: (data) => dispatch({type:ActionsTypes.SET_LOCATION_STATE,data:data}), // Map your state to props
+});
+export default connect(mapStateToProps,mapDispatchToProps) (MainHeader);

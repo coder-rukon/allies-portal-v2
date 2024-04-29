@@ -4,9 +4,11 @@ import Input from "@/components/forms/Input";
 import RsGrid from "@/components/grid/rsgrid";
 import Loading from "@/components/widget/Loading";
 import Panel from "@/components/widget/panel";
+import ActionsTypes from "@/inc/ActionTypes";
 import Api from "@/inc/Api";
 import Link from "next/link";
 import { Component } from "react";
+import { connect } from "react-redux";
 
 class CompanyList  extends Component {
     constructor(props){
@@ -19,6 +21,7 @@ class CompanyList  extends Component {
     }
     componentDidMount(){
         this.loadCompany();
+        this.props.setOptions({title:'All Company'})
     }
     loadCompany(s = null){
         this.setState({
@@ -112,4 +115,10 @@ class CompanyList  extends Component {
     }
     
 }
-export default CompanyList
+const mapStateToProps = (state) => ({
+    
+});
+const mapDispatchToProps = (dispatch) => ({
+    setOptions: (data) => dispatch({type:ActionsTypes.SET_OPTION,data:data}), // Map your state to props
+});
+export default connect(mapStateToProps,mapDispatchToProps) (CompanyList)

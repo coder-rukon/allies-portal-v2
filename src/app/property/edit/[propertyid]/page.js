@@ -4,6 +4,7 @@ import Panel from "@/components/widget/panel";
 import Api from "@/inc/Api";
 import Loading from "@/components/widget/Loading";
 import EditProperty from "@/components/property/edit/EditProperty";
+import Helper from "@/inc/Helper";
 class Page extends Component {
     constructor(props) {
         super(props);
@@ -17,6 +18,10 @@ class Page extends Component {
         if(propertyId){
             this.loadProperty(propertyId)
         }
+        Helper.setPageData({
+            title:'Edit Property',
+            pageTitle: "Edit Property"
+        })
     }
     loadProperty(propertyId){
         let api = Api, that = this;

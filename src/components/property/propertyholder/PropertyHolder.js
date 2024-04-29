@@ -4,6 +4,7 @@ import AjaxSearchInput from "../../forms/AjaxSearchInput";
 import BorderBox from "../../widget/borderbox";
 import Dropdown from "../../forms/Dropdown";
 import { connect } from "react-redux";
+import ActionsTypes from "@/inc/ActionTypes";
 class PropertyHolder extends Component {
     constructor(props) {
         super(props);
@@ -33,10 +34,37 @@ class PropertyHolder extends Component {
             }
         })
     }
+    getCountryState(){
+        let propertyHolder = this.state.propertyHolder;
+        let stateList = [];
+        this.props.locations.state.forEach( item => {
+            if(propertyHolder.propertyholder_country){
+                if(propertyHolder.propertyholder_country == item.country_id){
+                    stateList.push({
+                        label: item.name,
+                        value: item.id
+                    }) 
+                }
+            }else{
+                stateList.push({
+                    label: item.name,
+                    value: item.id
+                }) 
+            }
+            
+        })
+        return stateList;
+    }
     render() { 
         let propertyHolder = this.state.propertyHolder;
         let disable= this.props.disable === true ? true : false;
-        console.log("Root location",this.props.locations)
+        let countryList = this.props.locations.country.map( item => {
+            return {
+                label: item.name,
+                value: item.id
+            }
+        })
+        let stateList = this.getCountryState();
         return (
                 <BorderBox title={this.props.title}>
                     <div className="row">
@@ -67,15 +95,17 @@ class PropertyHolder extends Component {
                         <div className="col-xs-12 col-sm-6">
                             <Input disable={disable || propertyHolder.propertyholder_id} className="disable_with_border_" onChange={this.onPropertyHolderChangeHanlder.bind(this)}  name="propertyholder_address_line_2" label="Address Line 2" value={propertyHolder.propertyholder_address_line_2}/>
                         </div>
+
+                        <div className="col-xs-12 col-sm-6">
+                            <Dropdown  disable = {disable || propertyHolder.propertyholder_id} options={countryList} onChange={this.onPropertyHolderChangeHanlder.bind(this)} name="propertyholder_country" label="Country" value={propertyHolder.propertyholder_country}/>
+                        </div>
+                        <div className="col-xs-12 col-sm-6">
+                            <Dropdown  disable = {disable || propertyHolder.propertyholder_id} options={stateList} onChange={this.onPropertyHolderChangeHanlder.bind(this)} name="propertyholder_state" label="State" value={propertyHolder.propertyholder_state}/>
+                        </div>
                         <div className="col-xs-12 col-sm-6">
                             <Input disable={disable || propertyHolder.propertyholder_id} className="disable_with_border_" onChange={this.onPropertyHolderChangeHanlder.bind(this)}  name="propertyholder_city" label="City" value={propertyHolder.propertyholder_city}/>
                         </div>
-                        <div className="col-xs-12 col-sm-6">
-                            <Input disable={disable || propertyHolder.propertyholder_id} className="disable_with_border_" onChange={this.onPropertyHolderChangeHanlder.bind(this)}  name="propertyholder_state" label="State" value={propertyHolder.propertyholder_state}/>
-                        </div>
-                        <div className="col-xs-12 col-sm-6">
-                            <Input disable={disable || propertyHolder.propertyholder_id} className="disable_with_border_" onChange={this.onPropertyHolderChangeHanlder.bind(this)}  name="propertyholder_country" label="Country" value={propertyHolder.propertyholder_country}/>
-                        </div>
+                      
                         <div className="col-xs-12 col-sm-6">
                             <Input disable={disable || propertyHolder.propertyholder_id} className="disable_with_border_" onChange={this.onPropertyHolderChangeHanlder.bind(this)}  name="propertyholder_zipcode" label="Zip Code" value={propertyHolder.propertyholder_zipcode}/>
                         </div>
@@ -87,7 +117,6 @@ class PropertyHolder extends Component {
 const mapStateToProps = (state) => ({
     locations: state.locations, // Map your state to props
 });
-let mapDispatchToProps = {
-
-}
+const mapDispatchToProps = (dispatch) => ({
+});
 export default connect(mapStateToProps,mapDispatchToProps) (PropertyHolder);
