@@ -48,9 +48,9 @@ class AuthWraper extends Component {
             redirect('/login')
         }
         return (
-            <>
+            <Provider store={Store}>
                 {this.props.children}
-            </>
+            </Provider>
         );
     }
 }
