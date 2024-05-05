@@ -5,7 +5,9 @@ import React, { Component } from 'react';
 import { redirect } from 'next/navigation';
 import './authwraper.css';
 import { Provider } from 'react-redux';
-import Store from '@/inc/Store';
+import { createStore } from 'redux';
+import { rootReducer } from '@/reducer/RootReducer';
+const TempStore = createStore(rootReducer);
 class AuthWraper extends Component {
     constructor(props){
         super(props);
@@ -48,7 +50,7 @@ class AuthWraper extends Component {
             redirect('/login')
         }
         return (
-            <Provider store={Store ? Store : {}}>
+            <Provider store={TempStore}>
                 {this.props.children}
             </Provider>
         );
