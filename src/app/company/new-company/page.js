@@ -230,5 +230,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     setOptions: (data) => dispatch({type:ActionsTypes.SET_OPTION,data:data}), // Map your state to props
 });
-export default connect(mapStateToProps,mapDispatchToProps) (NewCompany);
+const NewCompanyPage = connect(mapStateToProps,mapDispatchToProps) (NewCompany);
+export default NewCompanyPage;
 
