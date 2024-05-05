@@ -11,17 +11,21 @@ import Api from "../../../inc/Api";
 import Helper from "../../../inc/Helper";
 import { connect } from "react-redux";
 import ActionsTypes from "@/inc/ActionTypes";
+import { redirect } from 'next/navigation';
+import Address from "@/components/address/Address";
 class NewCompany extends Component {
     constructor(props){
         super(props);
         this.state = {
             isSaving:false,
+            redirectTo:null,
             errors:{},
             company:{
                 name:''
             }
         }
         this.contactComponent = null;
+        this.addressComponent = null;
     }
     componentDidMount(){
         this.props.setOptions({title:'Create Company'})
@@ -35,18 +39,35 @@ class NewCompany extends Component {
         if(!api.setUserToken()){
              location.reload();
         }
+        let address = this.addressComponent.getAddress();
         let data = {
             ...this.state.company,
+            address_line_1: address?.address_line_1,
+            address_line_2: address?.address_line_2,
+            address_city: address?.address_city,
+            address_state: address?.address_state,
+            address_country: address?.address_country,
+            address_zipcode: address?.address_zipcode,
             contacts: this.contactComponent ? this.contactComponent.getContacts() : null,
         }
         that.setState({
             isSaving:true
         })
         api.axios().post('/company/create',data).then(res=>{
-            that.setState({
-                isSaving:false,
-                errors:res.data.errors
-            })
+            if(res.data.type){
+                that.setState({
+                    isSaving:false,
+                    redirectTo: '/company/details/' + res.data.data.company_id,
+                    errors:res.data.errors
+                })
+            }else{
+                that.setState({
+                    isSaving:false,
+                    redirectTo:null,
+                    errors:res.data.errors
+                })
+            }
+            
         }).catch(error => {
             that.setState({
                 isSaving:false
@@ -69,6 +90,9 @@ class NewCompany extends Component {
         this.contactComponent = contactComponent;
     }
     render() { 
+        if(this.state.redirectTo){
+            redirect(this.state.redirectTo)
+        }
         let company = this.state.company;
         let isSaving = this.state.isSaving;
         let industry_options = [
@@ -153,26 +177,8 @@ class NewCompany extends Component {
                             <Contacts onContactReady={this.onContactComponentReady.bind(this) }/>
                         </BorderBox>
                         <BorderBox title="Address">
-                            <div className="row">
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input name="address_line_1" value={company.address_line_1} onChange={this.onCompanyChangeHandler.bind(this)}  label="Address Line 1 *" errors={this.state.errors}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input name="address_line_2" value={company.address_line_2} onChange={this.onCompanyChangeHandler.bind(this)} label="Address Line 2" errors={this.state.errors}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input name="address_city" value={company.address_city} onChange={this.onCompanyChangeHandler.bind(this)} label="City  *" errors={this.state.errors}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input name="address_state" value={company.address_state} onChange={this.onCompanyChangeHandler.bind(this)} label="State  *" errors={this.state.errors}/>
-                                </div>                                
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input name="address_county" value={company.address_county} onChange={this.onCompanyChangeHandler.bind(this)} label="Country  *" errors={this.state.errors}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input name="address_zipcode" value={company.address_zipcode} onChange={this.onCompanyChangeHandler.bind(this)} label="Zip Code  *" errors={this.state.errors}/>
-                                </div>
-                            </div>
+                            <Address source="company" exportable={true} onReady={ obj => {this.addressComponent = obj }}/>
+                            
                         </BorderBox>
                         <BorderBox title="Notes">
                             <Input name="company_note" label="Notes" value={company.company_note} onChange={this.onCompanyChangeHandler.bind(this)}  type="textarea"/>

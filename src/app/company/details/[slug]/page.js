@@ -202,7 +202,7 @@ class CompanyDetails  extends Component{
                                         <Input name="address_state"  disable={isDisable} value={company.address_state} onChange={this.onCompanyChangeHandler.bind(this)} label="State  *" errors={this.state.errors}/>
                                     </div>                                
                                     <div className="col-xs-12 col-sm-6">
-                                        <Input name="address_county"  disable={isDisable} value={company.address_county} onChange={this.onCompanyChangeHandler.bind(this)} label="Country  *" errors={this.state.errors}/>
+                                        <Input name="address_country"  disable={isDisable} value={company.address_country} onChange={this.onCompanyChangeHandler.bind(this)} label="Country  *" errors={this.state.errors}/>
                                     </div>
                                     <div className="col-xs-12 col-sm-6">
                                         <Input name="address_zipcode"  disable={isDisable} value={company.address_zipcode} onChange={this.onCompanyChangeHandler.bind(this)} label="Zip Code  *" errors={this.state.errors}/>
