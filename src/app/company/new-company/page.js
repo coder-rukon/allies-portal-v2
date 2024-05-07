@@ -1,7 +1,7 @@
 import NewCompanyMainForm from "./NewCompanyMainForm"
 
 const NewCompany = (props) => {
-    return <NewCompanyMainForm/>
+    return "Heelo"
 }
 
 export default NewCompany;
