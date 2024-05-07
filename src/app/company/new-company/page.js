@@ -13,6 +13,7 @@ import { connect } from "react-redux";
 import ActionsTypes from "@/inc/ActionTypes";
 import { redirect } from 'next/navigation';
 import Address from "@/components/address/Address";
+import { bindActionCreators } from 'redux';
 class NewCompany extends Component {
     constructor(props){
         super(props);
@@ -227,8 +228,16 @@ class NewCompany extends Component {
 const mapStateToProps = (state) => ({
     
 });
-const mapDispatchToProps = (dispatch) => ({
-    setOptions: (data) => dispatch({type:ActionsTypes.SET_OPTION,data:data}), // Map your state to props
-});
+
+const mapDispatchToProps = (dispatch) =>
+
+bindActionCreators(
+    {
+        setOptions: (data) => dispatch({type:ActionsTypes.SET_OPTION,data:data}), // Map your state to props
+    },
+    dispatch
+);
+
+  
 export default connect(mapStateToProps,mapDispatchToProps) (NewCompany);
 
