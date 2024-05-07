@@ -1,7 +1,5 @@
-import NewCompanyMainForm from "./NewCompanyMainForm"
-
-const NewCompany = (props) => {
-    return "Heelo"
+import NewCompanyMainForm from './NewCompanyMainForm';
+const Page = (props) => {
+    return <NewCompanyMainForm/>
 }
-
-export default NewCompany;
+export default Page;
