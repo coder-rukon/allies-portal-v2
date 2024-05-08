@@ -15,6 +15,8 @@ let Sidebar = () => {
                 <li><Link href="/property" className={pathName === '/property' ? 'active' : ''}>Property</Link></li>
                 <li><Link href="#" className={pathName === '/active-deals' ? 'active' : ''}>Active Deals</Link></li>
                 <li><Link href="#" className={pathName === '/calander' ? 'active' : ''}>Calander</Link></li>
+                <li><Link href="/users" className={pathName === '/users' ? 'active' : ''}>Users</Link></li>
+                <li><Link href="/settings" className={pathName === '/settings' ? 'active' : ''}>Settings</Link></li>
             </ul>
             <div className='divider'></div>
             <ul className="sidebar_menu sidebar_menu_2">
