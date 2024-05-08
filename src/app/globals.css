@@ -194,6 +194,10 @@ a.rs_btn {
   display: inline-flex;
   text-decoration: none; }
 
+.rs_btn.danger {
+  background-color: #dc3545;
+  border-color: #dc3545; }
+
 .rs_btn.bordered {
   background-color: transparent;
   border: 1px solid #6B7280;

@@ -91,6 +91,7 @@ class Industry extends Component {
         this.setState({
             industry:industry
         })
+        window.scrollTo(0, 0)
     }
     deleteIndustry(industry_id){
         let api = Api, that = this;
@@ -102,9 +103,9 @@ class Industry extends Component {
     }
     industryActionsButton(industry){
         return(
-            <div className="d-flex">
+            <div className="d-flex justify-content-around">
                 <Button label="Edit" onClick={ event => { this.makeEditable(industry) }}/>
-                <Button label="Delete" onClick={ event => { this.deleteIndustry(industry.industry_id) }}/>
+                <Button label="Delete"  className="danger" onClick={ event => { this.deleteIndustry(industry.industry_id) }}/>
             </div>
         )
     }

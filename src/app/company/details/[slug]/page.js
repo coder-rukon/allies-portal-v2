@@ -9,6 +9,7 @@ import Notes from "@/components/notes/Notes";
 import { Component } from "react";
 import Api from "@/inc/Api";
 import Loading from "@/components/widget/Loading";
+import Settings from "@/inc/Settings";
 class CompanyDetails  extends Component{
     constructor(props){
         super(props);
@@ -16,12 +17,39 @@ class CompanyDetails  extends Component{
             editMode:false,
             company:{},
             errors:{},
-            isLoading:false
+            isLoading:false,
+            isSubindustryLoading:false,
+            industryList:[],
+            subindustryList:[],
         }
     }
     componentDidMount(){
         let companyId = this.props.params.slug;
         this.loadCompany(companyId);
+        this.loadIndustry();
+    }
+    loadIndustry(){
+        let api = Api, that = this;
+        api.setUserToken();
+        api.axios().get('/industry?group=yes').then(res=>{
+            that.setState({
+                industryList:res.data.data
+            })
+        })
+    }    
+    loadSubindustry(industry_id){
+        let api = Api, that = this;
+        api.setUserToken();
+        this.setState({
+            isSubindustryLoading:true,
+            subindustryList:[]
+        })
+        api.axios().get('/subindustry/get-by-industry/'+industry_id).then(res=>{
+            that.setState({
+                isSubindustryLoading:false,
+                subindustryList:res.data.data
+            })
+        })
     }
     loadCompany(companyId){
         let api = Api;
@@ -33,10 +61,12 @@ class CompanyDetails  extends Component{
             let that = this;
             api.axios().get('/company/get/'+companyId).then(res=>{
                 if(res.data.type){
+                    let companyObj = res.data.data.company;
                     that.setState({
                         isLoading:false,
-                        company:res.data.data.company
+                        company:companyObj
                     })
+                    that.loadSubindustry( companyObj.industry )
                 }else{
                     alert(res.data.message)
                 }
@@ -56,6 +86,9 @@ class CompanyDetails  extends Component{
             },
             company:company
         })
+        if(event.target.name == 'industry'){
+            this.loadSubindustry(event.target.value);
+        }
     }
     onSaveClick(){
         this.setState({
@@ -87,6 +120,29 @@ class CompanyDetails  extends Component{
             editMode:true
         })
     }
+    getIndustryGroupLabel(group_id){
+        let groups = Settings.industryGroups;
+        let groupLabel = '';
+        groups.forEach(groupItem => {
+            if(groupItem.value == group_id){
+                groupLabel = groupItem.label;
+            }
+        })
+        return groupLabel;
+    }
+    getIndustryDropdownOptions(){
+        let options = [];
+        let industryList = this.state.industryList;
+        Object.keys(industryList).forEach(objectKy => {
+            let industryTemp = industryList[objectKy];
+            options.push({
+                ...industryTemp,
+                label: this.getIndustryGroupLabel(industryTemp.industry_group),
+                value: ''
+            })
+        });
+        return options;
+    }
     render() {
         let isDisable = !this.state.editMode;
         let editMode = this.state.editMode;
@@ -94,56 +150,8 @@ class CompanyDetails  extends Component{
             return <Panel className="text-center"><Loading/></Panel>
         }
         let company = this.state.company;
-        let industry_options = [
-            {
-                label:'Agriculture, Forestry, & Fishing',
-                value:'',
-                items:[
-                    {label:'Agriculture Production - Crops',value:'Agriculture Production - Crops'},
-                    {label:'Agriculture Production - Livestock and Animal Specialties',value:'Agriculture Production - Livestock and Animal Specialties'},
-                    {label:'Agriculture Services',value:'Agriculture Services'},
-                    {label:'Forestry',value:'Forestry'},
-                    {label:'Fishing, Hunting, and Trapping',value:'Fishing, Hunting, and Trapping'}
-                ]
-            },
-            {
-                label:'Mining',
-                value:'',
-                items:[
-                    {label:'Metal Mining',value:'Metal Mining'},
-                    {label:'Coal Mining',value:'Coal Mining'},
-                    {label:'Oil and Gas Extraction',value:'Oil and Gas Extraction'},
-                    {label:'Mining and Quarrying of Nonmetallic Minerals, Except Fuels',value:'Mining and Quarrying of Nonmetallic Minerals, Except Fuels'}
-                ]
-            }
-        ];
-        let sub_industry_options = [
-            {label:'Wheat',value:'Wheat'},
-            {label:'Rice',value:'Rice'},
-            {label:'Growing of Vegetables and Melons',value:'Growing of Vegetables and Melons'},
-            {label:'Sugarcane Farming',value:'Sugarcane Farming'},
-            {label:'Tobacco Farming',value:'Tobacco Farming'},
-            {label:'Fiber Crop Farming',value:'Fiber Crop Farming'},
-            {label:'Non-perennial Crop Farming',value:'Non-perennial Crop Farming'},
-            {label:'Growing of Grapes',value:'Growing of Grapes'},
-            {label:'Tropical & Subtropical Fruit Orchards & Farming',value:'Tropical & Subtropical Fruit Orchards & Farming'},
-            {label:'Citrus Fruit Orchards & Farming',value:'Citrus Fruit Orchards & Farming'},
-            {label:'Growing of Tree and Bush Fruits and Nuts',value:'Growing of Tree and Bush Fruits and Nuts'},
-            {label:'Cotton',value:'Cotton'},
-            {label:'Tobacco',value:'Tobacco'},
-            {label:'Sugarcane and Sugar Beets',value:'Sugarcane and Sugar Beets'},
-            {label:'Irish Potatoes Field Crops (Except Cash Grains) NEC',value:'Irish Potatoes Field Crops (Except Cash Grains) NEC'},
-            {label:'Vegetables and Melons',value:'Vegetables and Melons'},
-            {label:'Berry Crops',value:'Berry Crops'},
-            {label:'Grapes',value:'Grapes'},
-            {label:'Tree Nuts',value:'Tree Nuts'},
-            {label:'Citrus Fruits',value:'Citrus Fruits'},
-            {label:'Deciduous Tree Fruits',value:'Deciduous Tree Fruits'},
-            {label:'Fruits and Tree Nuts NEC',value:'Fruits and Tree Nuts NEC'},
-            {label:'Ornamental Floriculture and Nursery Products',value:'Ornamental Floriculture and Nursery Products'},
-            {label:'Food Crops Grown Under Cover',value:'Food Crops Grown Under Cover'},
-            {label:'General Farms, Primarily Crop',value:'General Farms, Primarily Crop'}   
-        ]; 
+        let industry_options = this.getIndustryDropdownOptions();
+        let sub_industry_options = this.state.subindustryList.map( item => { return {label:item.subindustry_name, value: item.subindustry_id}});
         let lead_capture_type_otpions = [
             {label:'Inbound',value:'Inbound'},
             {label:'Outbound',value:'Outbound'},
@@ -180,6 +188,7 @@ class CompanyDetails  extends Component{
                                     </div>
                                     <div className="col-xs-12 col-sm-6">
                                         <Dropdown disable={isDisable} name="sub_industry" options={sub_industry_options} errors={this.state.errors}  value={company.sub_industry} onChange={this.onCompanyChangeHandler.bind(this)} label="Sub-Industry  *" />
+                                        { this.state.isSubindustryLoading ? <Loading/> : ''}
                                     </div>
                                 </div>
                                 

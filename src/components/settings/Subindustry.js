@@ -83,9 +83,10 @@ class Subindustry extends Component {
             })
         }else{
             api.axios().post('/subindustry',data).then(res => {
+
                 that.setState({
                     subindustry:{
-                        subindustry_id:"",
+                        ...that.state.subindustry,
                         subindustry_name:""
                     },
                     isSaving:false
@@ -116,6 +117,7 @@ class Subindustry extends Component {
         this.setState({
             subindustry:subindustry
         })
+        window.scrollTo(0, 0)
     }
     deleteSubindustry(subindustry_id){
         let api = Api, that = this;
@@ -127,9 +129,9 @@ class Subindustry extends Component {
     }
     subindustryActionsButton(subindustry){
         return(
-            <div className="d-flex">
+            <div className="d-flex justify-content-around">
                 <Button label="Edit" onClick={ event => { this.makeEditable(subindustry) }}/>
-                <Button label="Delete" onClick={ event => { this.deleteSubindustry(subindustry.subindustry_id) }}/>
+                <Button label="Delete" className="danger" onClick={ event => { this.deleteSubindustry(subindustry.subindustry_id) }}/>
             </div>
         )
     }
