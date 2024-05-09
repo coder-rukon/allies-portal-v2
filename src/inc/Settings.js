@@ -9,8 +9,8 @@ let Settings = {
     device_name:'web',
     userTokenKey:'allies_token',
     secondUserTokenKey:'allies_token_super',
-    apiUrl:'http://127.0.0.1:8000/api',
-    apiAppUrl:'http://127.0.0.1:8000',
+    apiUrl:'https://portal.hostrms.com/api',
+    apiAppUrl:'https://portal.hostrms.com',
     listingStatus:[
         {label:'Active',value:'active'},
         {label:'Inactive',value:'inactive'}
@@ -33,6 +33,14 @@ let Settings = {
         {value:'9', label:'Services'},
         {value:'10', label:'Public Administration'},
         {value:'11', label:'Nonclassifiable Establishments'},
+    ],
+    companyColorStatus:[
+        {color:'#9CA3AF',id:1},
+        {color:'#2DCCFF ',id:2},
+        {color:'#56F000',id:3},
+        {color:'#FCE83A',id:4},
+        {color:'#FFB302',id:5},
+        {color:'#FF3838',id:6},
     ]
 
 }

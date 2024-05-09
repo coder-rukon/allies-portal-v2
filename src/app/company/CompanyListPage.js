@@ -9,7 +9,7 @@ import Api from "@/inc/Api";
 import Link from "next/link";
 import { Component } from "react";
 import { connect } from "react-redux";
-
+import StarIcons from '@/components/company/StarIcons'
 class CompanyListPage  extends Component {
     constructor(props){
         super(props);
@@ -53,12 +53,15 @@ class CompanyListPage  extends Component {
             that.loadCompany(event.target.value);
         },300);
     }
+
     render(){
 
         let gridheader = [
             {
                 id:'star',title:'<span class="material-symbols-outlined">star_rate</span>',style:{width:'50px'},
-                
+                cellRender: (cellData) => {
+                    return <StarIcons company={cellData}/>
+                }
             },
             {
                 id:'name',title:'COMPANY NAME',style:{width:'190px'},

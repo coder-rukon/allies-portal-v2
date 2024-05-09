@@ -10,6 +10,7 @@ import { Component } from "react";
 import Api from "@/inc/Api";
 import Loading from "@/components/widget/Loading";
 import Settings from "@/inc/Settings";
+import Meta from '@/inc/Meta';
 class CompanyDetails  extends Component{
     constructor(props){
         super(props);
@@ -161,6 +162,7 @@ class CompanyDetails  extends Component{
         ];
         return(
             <Panel className=" input_box_margin_fix">
+                    <Meta title={company?.name}/>
                     <div className="pannel_header">
                         <div></div>
                         <div>
