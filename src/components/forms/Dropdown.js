@@ -32,10 +32,26 @@ class Dropdown extends Component {
         */
         
     }
-    
+    getValueTitle(value){
+        let title = '';
+        this.props.options.forEach(item => {
+            if(value == item.value){
+                title = item.label;
+            }
+            if(item.items){
+                item.items.forEach(itemInner => {
+                    if(value == itemInner.value){
+                        title = itemInner.label;
+                    }
+                });
+            }
+            
+        });
+        return title;
+    }
     getInputBox(){
         if(this.props.disable){
-            return <div className="disable_input">{this.props.value}</div>
+            return <div className="disable_input">{ this.getValueTitle(this.props.value) }</div>
         }
         
         return (
