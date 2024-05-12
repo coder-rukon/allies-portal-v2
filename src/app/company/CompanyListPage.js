@@ -15,6 +15,7 @@ class CompanyListPage  extends Component {
         super(props);
         this.state = {
             companyList:[],
+            hideHeaderItems:[],
             isLoading:false
         }
         this.sChangeHandler = null;
@@ -53,9 +54,33 @@ class CompanyListPage  extends Component {
             that.loadCompany(event.target.value);
         },300);
     }
+    onFilterHeaderClickHandler(hItem,event){
+        let hideHeaderItemsNew  =  this.state.hideHeaderItems;
+        if(hideHeaderItemsNew.includes(hItem.id)){
+            hideHeaderItemsNew =  hideHeaderItemsNew.filter( (item) => {
+                return item !=hItem.id
+            })
+        }else{
+            hideHeaderItemsNew.push(hItem.id)
+        }
+        this.setState({
+            hideHeaderItems:hideHeaderItemsNew
+        })
+    }
+    getHeaders(){
+        let hideHeaderItems = this.state.hideHeaderItems;
+        
+        let headers = [
+            {id:'contact_name',title:'CONTACT NAME',hide:hideHeaderItems.includes('contact_name'),width:'100px',cellRender:(item) => { return item.company_contact? item.company_contact.contact_name:''  }},
+            {id:'title',title:'TITLE',width:'100px',hide:hideHeaderItems.includes('title'),cellRender:(item) => { return item.company_contact? item.company_contact.contact_title:''  }},
+            {id:'phone',title:'PHONE',width:'100px',hide:hideHeaderItems.includes('phone'),cellRender:(item) => { return item.company_contact? item.company_contact.contact_phone:''  }},
+            {id:'email',title:'EMAIL',width:'100px',hide:hideHeaderItems.includes('email'),cellRender:(item) => { return item.company_contact? item.company_contact.contact_email:''  }}
+        ];
+        return headers;
+    }
 
     render(){
-
+        let gridheaders = this.getHeaders();
         let gridheader = [
             {
                 id:'star',title:'<span class="material-symbols-outlined">star_rate</span>',style:{width:'50px'},
@@ -63,18 +88,18 @@ class CompanyListPage  extends Component {
                     return <StarIcons company={cellData}/>
                 }
             },
+            
             {
                 id:'name',title:'COMPANY NAME',style:{width:'190px'},
                 cellRender: (cellData) => {
                     return <div className="item_data"><Link href={'/company/details/'+cellData.company_id}>{cellData.name}</Link></div>
                 }
             },
-            {id:'contact_name',title:'CONTACT NAME',width:'100px',cellRender:(item) => { return item.company_contact? item.company_contact.contact_name:''  }},
-            {id:'title',title:'TITLE',width:'100px',cellRender:(item) => { return item.company_contact? item.company_contact.contact_title:''  }},
-            {id:'phone',title:'PHONE',width:'100px',cellRender:(item) => { return item.company_contact? item.company_contact.contact_phone:''  }},
-            {id:'email',title:'EMAIL',width:'100px',cellRender:(item) => { return item.company_contact? item.company_contact.contact_email:''  }}
+            ...gridheaders
+            
         ]
         let gridData =  this.state.companyList;
+        let hideHeaderItems = this.state.hideHeaderItems;
         return(
             <div className="company_list_page">
                 <Panel>
@@ -87,16 +112,12 @@ class CompanyListPage  extends Component {
                                 <div className="rs_dropdown">
                                     <Button label="View" icon='arrow_drop_down'/>
                                     <ul>
-                                        <li className="checked"><span className="material-symbols-outlined rs_check">done</span> Company Name</li>
-                                        <li><span className="material-symbols-outlined rs_check">done</span> Website</li>
-                                        <li><span className="material-symbols-outlined rs_check">done</span> Industry</li>
-                                        <li><span className="material-symbols-outlined rs_check">done</span> Sub-Industry</li>
-                                        <li><span className="material-symbols-outlined rs_check">done</span> Contact Name</li>
-                                        <li><span className="material-symbols-outlined rs_check">done</span> Title</li>
-                                        <li><span className="material-symbols-outlined rs_check">done</span> Phone</li>
-                                        <li><span className="material-symbols-outlined rs_check">done</span> Email</li>
-                                        <li><span className="material-symbols-outlined rs_check">done</span> Address</li>
-                                        <li><span className="material-symbols-outlined rs_check">done</span> Lead Capture</li>
+                                        {
+                                            gridheaders.map( (headerItem,key) => {
+                                                return <li className={ !hideHeaderItems.includes(headerItem.id) ? "checked" : ''} key={key} onClick={this.onFilterHeaderClickHandler.bind(this,headerItem)}><span className="material-symbols-outlined rs_check">done</span> {headerItem.title}</li>
+                                            })
+                                        }
+                                        
                                     </ul>
                                 </div>
                             </div>
