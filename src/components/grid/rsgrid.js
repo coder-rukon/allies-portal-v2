@@ -57,7 +57,14 @@ class RsGrid extends Component {
                                         return <></>
                                     }
                                     return(
-                                        <th key={hKey} onClick={ this.onHeaderItemClick.bind(this,hItem,hKey) } className={hItem.className ? hItem.className : ''} style={hItem.style ? hItem.style : {}}><div className="header_item"><div dangerouslySetInnerHTML={{__html:hItem.title}}></div><span className="material-symbols-outlined">unfold_more</span></div></th>
+                                        <th key={hKey} onClick={ this.onHeaderItemClick.bind(this,hItem,hKey) } className={hItem.className ? hItem.className : ''} style={hItem.style ? hItem.style : {}}>
+                                            {
+                                                hItem.headerCelRender ? hItem.headerCelRender(hItem,hKey) : <div className="header_item">
+                                                <div dangerouslySetInnerHTML={{__html:hItem.title}}></div><span className="material-symbols-outlined">unfold_more</span>
+                                            </div>
+                                            }
+                                            
+                                        </th>
                                     )
                                 })
                             }

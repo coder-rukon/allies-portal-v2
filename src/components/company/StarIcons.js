@@ -12,7 +12,26 @@ class StarIcons extends Component {
             company:this.props.company
         }
     }
+    componentDidUpdate(prevProps) {
+        // Compare current props with previous props
+        if (this.state.company?.color_status_id !== this.props.company?.color_status_id) {
+          this.setState({
+            company:this.props.company
+          })
+        }
+      }
     updateCompanyStatus(color){
+        if(this.props.onItemClick){
+            this.setState({
+                company:{
+                    ...this.state.company,
+                    color_status_id:color.id
+                },
+                isShowPopup:false,
+            })
+            this.props.onItemClick(color)
+            return;
+        }
         this.setState({
             isLoading:true
         })
@@ -33,6 +52,7 @@ class StarIcons extends Component {
             })
         })
     }
+    
     showPopup(event){
         this.setState({
             isShowPopup: !this.state.isShowPopup

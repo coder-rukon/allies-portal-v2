@@ -14,6 +14,9 @@ class CompanyListPage  extends Component {
     constructor(props){
         super(props);
         this.state = {
+            filter:{
+                color:null,
+            },
             companyList:[],
             hideHeaderItems:[],
             isLoading:false
@@ -28,14 +31,18 @@ class CompanyListPage  extends Component {
         this.setState({
             isLoading:true
         })
+        let filter = this.state.filter;
         let api = Api;
         let that = this;
         let sUrl = '/company/my-company-list';
+        let params = {
+            ...filter
+        };
         if(s){
-            sUrl += '?s='+s;
+            params.s = s;
         }
         if(api.setUserToken()){
-            api.axios().get(sUrl).then(res => {
+            api.axios().get(sUrl,{params:params}).then(res => {
                 that.setState({
                     isLoading:false,
                     companyList:res.data.data.company.data
@@ -78,12 +85,21 @@ class CompanyListPage  extends Component {
         ];
         return headers;
     }
-
+    onStarFilterItemClick(color){
+        let filter = this.state.filter;
+        filter.color = color.id;
+        this.setState({
+            filter:filter
+        },()=>{
+            this.loadCompany()
+        })
+    }
     render(){
         let gridheaders = this.getHeaders();
         let gridheader = [
             {
-                id:'star',title:'<span class="material-symbols-outlined">star_rate</span>',style:{width:'50px'},
+                id:'star',style:{width:'50px'},
+                headerCelRender: (hItem,key) => { return <StarIcons onItemClick={ this.onStarFilterItemClick.bind(this)} company={{}}/>; },
                 cellRender: (cellData) => {
                     return <StarIcons company={cellData}/>
                 }

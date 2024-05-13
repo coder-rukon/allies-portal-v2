@@ -35,6 +35,15 @@ let Settings = {
         {value:'11', label:'Nonclassifiable Establishments'},
     ],
     companyColorStatus:[
+        {color:'red',id:1},
+        {color:'green',id:2},
+        {color:'blue',id:3},
+        {color:'yellow',id:4},
+        {color:'black',id:5},
+        {color:'aqua',id:6},
+    ]
+    /*
+    companyColorStatus:[
         {color:'#9CA3AF',id:1},
         {color:'#2DCCFF ',id:2},
         {color:'#56F000',id:3},
@@ -42,6 +51,7 @@ let Settings = {
         {color:'#FFB302',id:5},
         {color:'#FF3838',id:6},
     ]
+    */
 
 }
 
