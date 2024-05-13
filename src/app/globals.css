@@ -134,6 +134,9 @@ p {
   padding: 30px;
   border-radius: 4px; }
 
+.rs_panel.borderd {
+  border: 1px solid #9CA3AF; }
+
 .rs_border_box_wrapper + .rs_border_box_wrapper {
   margin-top: 30px; }
 

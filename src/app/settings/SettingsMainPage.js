@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import Panel from "@/components/widget/panel";
 import Industry from '@/components/settings/Industry'
 import Subindustry from '@/components/settings/Subindustry'
+import CompanyAccessRoles from '@/components/settings/roles/CompanyAccessRole'
 class SettingsMainPage extends Component {
     constructor(props){
         super(props);
@@ -24,6 +25,9 @@ class SettingsMainPage extends Component {
         if(page == 'subindustry'){
             return <Subindustry/>
         }
+        if(page == 'company_acess_role'){
+            return <CompanyAccessRoles/>
+        }
         return <></>
     }
     render() {
@@ -36,6 +40,9 @@ class SettingsMainPage extends Component {
                     </li>
                     <li class="nav-item">
                         <span className={ page == 'subindustry' ? 'nav-link active' : 'nav-link'} onClick={ e => {this.changePage('subindustry')} } style={{cursor:'pointer'}}>Subindustry</span>
+                    </li>
+                    <li class="nav-item">
+                        <span className={ page == 'company_acess_role' ? 'nav-link active' : 'nav-link'} onClick={ e => {this.changePage('company_acess_role')} } style={{cursor:'pointer'}}>Company User Role</span>
                     </li>
                 </ul>
                 <Panel>

@@ -42,7 +42,6 @@ class Checkbox extends Component {
         )
     }
     render() { 
-        console.log(this.state.isChecked)
         let wrapperClass = this.props.className ? "form-group rs_form_group " + this.props.className : "form-group rs_form_group";
         return ( 
             <div className={wrapperClass}>

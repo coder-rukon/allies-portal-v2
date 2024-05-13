@@ -142,6 +142,9 @@ opacity: 1;
     padding:30px;
     border-radius: 4px;
 }
+.rs_panel.borderd{
+    border: 1px solid $lightGray;
+}
 .rs_border_box_wrapper{}
 .rs_border_box_wrapper +.rs_border_box_wrapper{
     margin-top: 30px;
