@@ -11,6 +11,7 @@ import Api from "@/inc/Api";
 import Loading from "@/components/widget/Loading";
 import Settings from "@/inc/Settings";
 import Meta from '@/inc/Meta';
+import CompanyTeamAccess from '@/components/company/teamaccess/CompanyTeamAccess';
 class CompanyDetails  extends Component{
     constructor(props){
         super(props);
@@ -239,12 +240,11 @@ class CompanyDetails  extends Component{
                                 </div>
                             </BorderBox>
                             <BorderBox title="Team Access">
-                                <div className="new_team_access_list">
-                                    <p>No Previous Deals</p>
-                                </div>
-                                <Button label="+ Team Member"/>
+                                <CompanyTeamAccess company={company}/>
+                                
                             </BorderBox>
                             <BorderBox title="Linked Properties">
+                                
                                 <div className="property_links">
                                     <p>No Linked Properties</p>
                                 </div>
