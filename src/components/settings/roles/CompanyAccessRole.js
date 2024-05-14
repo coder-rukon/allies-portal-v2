@@ -64,7 +64,7 @@ class CompanyAccessRole extends Component {
                 </div>
                 <div className='all_roles'>
                     {this.state.roles.map( (role , key) => {
-                        return <RoleDetails  kye={ key} role ={role}/>
+                        return <RoleDetails  key={ key} role ={role}/>
                     })}
                 </div>
             </div>
