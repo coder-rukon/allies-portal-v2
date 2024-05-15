@@ -44,6 +44,9 @@ class PropertyGrid extends Component {
             address += ( property.address.address_country && Helper.getNullableValue(property.address.address_country) ) ? property.address.address_country + ', ' : '';
             address += ( property.address.address_zipcode && Helper.getNullableValue(property.address.address_zipcode) ) ? property.address.address_zipcode : '';
         }
+        if(this.props.onPropertyClick){
+            return <div>{address}</div>
+        }
         return <Link href={'/property/edit/'+property.property_id}>{address}</Link>;
     }
     getHeaders(){
@@ -74,6 +77,11 @@ class PropertyGrid extends Component {
             hideHeaderItems:hideHeaderItemsNew
         })
     }
+    onGridRowClick(rowData,headerData){
+        if(this.props.onPropertyClick){
+            this.props.onPropertyClick(rowData,headerData)
+        }
+    }
     render() { 
         let gridData = this.state.gridData;
         let gridheader = this.getHeaders();
@@ -97,7 +105,7 @@ class PropertyGrid extends Component {
                 </div>
                 {this.state.isLoading ? <div className="text-center"><Loading color={"red"}/></div> : ''}
                 
-                <RsGrid id={this.props.gridId} onGridReady={ gridObj => this.gridObj = gridObj } header={gridheader} data={gridData}/>
+                <RsGrid id={this.props.gridId} onRowClick={this.onGridRowClick.bind(this)} onGridReady={ gridObj => this.gridObj = gridObj } header={gridheader} data={gridData}/>
             </div>
          );
     }

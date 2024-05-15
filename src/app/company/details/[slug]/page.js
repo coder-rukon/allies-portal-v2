@@ -12,6 +12,7 @@ import Loading from "@/components/widget/Loading";
 import Settings from "@/inc/Settings";
 import Meta from '@/inc/Meta';
 import CompanyTeamAccess from '@/components/company/teamaccess/CompanyTeamAccess';
+import LinkedProperty from '@/components/company/LinkedProperty';
 class CompanyDetails  extends Component{
     constructor(props){
         super(props);
@@ -244,11 +245,8 @@ class CompanyDetails  extends Component{
                                 
                             </BorderBox>
                             <BorderBox title="Linked Properties">
+                                <LinkedProperty company={company} />
                                 
-                                <div className="property_links">
-                                    <p>No Linked Properties</p>
-                                </div>
-                                <Button label="+ Link Property"/>
                             </BorderBox>
                             <BorderBox title="Lead Capture">
                                 <div className="new_company_lead_type">

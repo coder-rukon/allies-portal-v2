@@ -43,6 +43,11 @@ class RsGrid extends Component {
             hItem.onClick(hItem,hKey);
         }
     }
+    onRowClickHandler(itemData,hItem,key,hKey){
+        if(this.props.onRowClick){
+            this.props.onRowClick(itemData,hItem,key,hKey)
+        }
+    }
     render() {
         let data = this.props.data;
         let header = this.props.header;
@@ -81,7 +86,7 @@ class RsGrid extends Component {
                                                         return <></>
                                                     }
                                                     return(
-                                                        <td key={hKey}>
+                                                        <td key={hKey} onClick={this.onRowClickHandler.bind(this,itemData,hItem,key,hKey)}>
                                                             {
                                                                 hItem.cellRender ? hItem.cellRender(itemData,hItem,key,hKey) : <div className="item_data">{itemData[hItem.id]}</div>
                                                             }
