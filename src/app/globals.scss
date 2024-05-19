@@ -711,3 +711,25 @@ a.rs_btn{
         .popup_contents{}
     }
 }
+.linked_property{
+    .property_links{
+        display: block;
+        .p_item{
+            margin: 10px 0;
+            border: 1px solid #9CA3AF;
+            padding: 5px 0;
+            .ads_p{
+                display: block;
+            }
+            .actions_wraper{
+                display: flex;
+                align-items: center;
+                justify-content: end;
+                gap: 10px;
+                .rs_btn{
+                    display: block;
+                }
+            }
+        }
+    }
+}

@@ -590,4 +590,20 @@ a.rs_btn {
         display: block;
         font-size: 20px; }
 
+.linked_property .property_links {
+  display: block; }
+  .linked_property .property_links .p_item {
+    margin: 10px 0;
+    border: 1px solid #9CA3AF;
+    padding: 5px 0; }
+    .linked_property .property_links .p_item .ads_p {
+      display: block; }
+    .linked_property .property_links .p_item .actions_wraper {
+      display: flex;
+      align-items: center;
+      justify-content: end;
+      gap: 10px; }
+      .linked_property .property_links .p_item .actions_wraper .rs_btn {
+        display: block; }
+
 /*# sourceMappingURL=globals.css.map */
