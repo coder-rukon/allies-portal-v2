@@ -12,9 +12,19 @@ class Contacts extends Component {
             source:this.props.source,
             contacts:[]
         }
+        this.contactComponents = [];
     }
     componentDidMount(){
         this.loadContacts();
+        if(this.props.onReady){
+            this.props.onReady(this);
+        }
+    }
+    onContactReady(contactCmp){
+        //this.contactComponents.push(contactCmp)
+    }
+    getContacts(){
+        return this.state.contacts;
     }
     loadContacts(){
         let that = this, api = Api;
@@ -59,7 +69,7 @@ class Contacts extends Component {
                 {
                     this.state.contacts.map( (contact , key) => {
                         return(
-                           <Contact key={key} disable={this.props.disable} hidePrimary = { this.props.hidePrimary === true ? true : false } contact={contact} integrator={ this.state.integrator} source={this.state.source} labels= {this.props.labels ? this.props.labels : null}/>
+                           <Contact onReady = { this.onContactReady.bind(this)} key={key} disable={this.props.disable} hidePrimary = { this.props.hidePrimary === true ? true : false } contact={contact} integrator={ this.state.integrator} source={this.state.source} labels= {this.props.labels ? this.props.labels : null}/>
                         )
                     })
                 }

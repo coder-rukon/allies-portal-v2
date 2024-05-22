@@ -53,7 +53,6 @@ class CompanyTeamAccess extends Component {
     render() {
         let accessList = this.state.accessList;
         let roles = this.state.roles;
-        console.log(accessList)
         return (
             <div>
                 <div className="new_team_access_list">

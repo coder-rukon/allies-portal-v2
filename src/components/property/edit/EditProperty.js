@@ -10,11 +10,11 @@ import BrockerForm from './../new/BrockerForm';
 import Api from "@/inc/Api";
 import Button from "../../forms/button";
 import Loading from "../../widget/Loading";
-import PropertyHolder from './../propertyholder/PropertyHolder';
 import Address from '@/components/address/Address';
 import PropertyType from '@/components/property/PropertyType';
 import Notes from "@/components/notes/Notes";
 import Contacts from "@/components/contacts/contacts";
+import PropertyCompany from "../company/PropertyCompany";
 class EditProperty extends Component {
     constructor(props) {
         super(props);
@@ -191,9 +191,9 @@ class EditProperty extends Component {
                         </BorderBox>
                     </div>
                     <div className="col-xs-12 col-md-6 input_box_margin_fix">
-                        <PropertyHolder propertyholder_id = {property.property_owner} disable={isDisable} title="Property Owner" onReady={ componentObj => { this.propertyOwnerCmp = componentObj}}/>
+                        <PropertyCompany disable={isDisable}  source="owner" title="Property Owner"  company_id = {property.property_owner}/>
                         <div></div>
-                        <PropertyHolder  disable={isDisable}  propertyholder_id = {property.property_tenant}  title="Property Tenant" onReady={ componentObj => { this.propertyTenantCmp = componentObj}}/>
+                        <PropertyCompany disable={isDisable}  source="tenant" title="Property Tenant"  company_id = {property.property_tenant}/>
                         <BorderBox title="Broker Contact">
                             {property.property_id ? <Contacts  hidePrimary={true} disable={isDisable} source="property_broker" integrator={property.property_id} labels = {brokerLabels}/> : '' } 
                         </BorderBox>

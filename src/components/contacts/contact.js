@@ -15,15 +15,29 @@ class Contact extends Component {
             errors:{},
             isLoading:false
         }
+        //this.timeOut = null;
+    }
+    componentDidMount(){
+        if(this.props.onReady){
+            this.props.onReady(this);
+        }
     }
     onChangeHanlder(event){
         let contact = this.state.contact;
+        let that = this;
         this.setState({
             isVisbleBtn:true,
             contact:{
                 ...contact,
                 [event.target.name]: event.target.value
             }
+        },function(){
+            /*
+            clearTimeout(that.timeOut);
+            that.timeOut = setTimeout(function(){
+                that.onSaveHandler();
+            },1000)
+            */
         })
     }
     onCheckboxChangeHanlder(event,value){

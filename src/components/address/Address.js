@@ -24,10 +24,19 @@ class Address extends Component {
             this.props.onReady(this)
         }
     }
+    componentDidUpdate(prevProps){
+        if(this.props.integrator != prevProps.integrator){
+            this.integrator = this.props.integrator;
+            this.loadAddress()
+        }
+    }
 
     loadAddress(){
         let api = Api;
         let that = this;
+        if(!this.integrator){
+            return;
+        }
         that.setState({
             loading:true
         })

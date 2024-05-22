@@ -13,6 +13,7 @@ import Settings from "@/inc/Settings";
 import Meta from '@/inc/Meta';
 import CompanyTeamAccess from '@/components/company/teamaccess/CompanyTeamAccess';
 import LinkedProperty from '@/components/company/LinkedProperty';
+import Address from "@/components/address/Address";
 class CompanyDetails  extends Component{
     constructor(props){
         super(props);
@@ -25,11 +26,16 @@ class CompanyDetails  extends Component{
             industryList:[],
             subindustryList:[],
         }
+        this.addressComponent = null;
+        this.contactComponent = null;
     }
     componentDidMount(){
         let companyId = this.props.params.slug;
         this.loadCompany(companyId);
         this.loadIndustry();
+    }
+    onContactComponentReady(ctComponent){
+        this.contactComponent = ctComponent;
     }
     loadIndustry(){
         let api = Api, that = this;
@@ -97,8 +103,15 @@ class CompanyDetails  extends Component{
         this.setState({
             isLoading:true
         })
+        
         let api = Api, that = this;
-        let company = this.state.company;
+        let address = this.addressComponent.getAddress();
+        let company = {
+            ...this.state.company,
+            ...address
+        }
+        
+
         if(api.setUserToken()){
             api.axios().post('/company/update/'+company.company_id,company).then(res=>{
                 if(res.data.type){
@@ -198,29 +211,10 @@ class CompanyDetails  extends Component{
                                 
                             </BorderBox>
                             <BorderBox title="Contacts">
-                                {company.company_id ? <Contacts disable={isDisable} source="company" integrator={company.company_id}/> : '' } 
+                                {company.company_id ? <Contacts onReady={this.onContactComponentReady.bind(this)} disable={isDisable} source="company" integrator={company.company_id}/> : '' } 
                             </BorderBox>
                             <BorderBox title="Address">
-                                <div className="row">
-                                    <div className="col-xs-12 col-sm-6">
-                                        <Input name="address_line_1"  disable={isDisable} value={company.address_line_1} onChange={this.onCompanyChangeHandler.bind(this)}  label="Address Line 1 *" errors={this.state.errors}/>
-                                    </div>
-                                    <div className="col-xs-12 col-sm-6">
-                                        <Input name="address_line_2"  disable={isDisable} value={company.address_line_2} onChange={this.onCompanyChangeHandler.bind(this)} label="Address Line 2" errors={this.state.errors}/>
-                                    </div>
-                                    <div className="col-xs-12 col-sm-6">
-                                        <Input name="address_city"  disable={isDisable} value={company.address_city} onChange={this.onCompanyChangeHandler.bind(this)} label="City  *" errors={this.state.errors}/>
-                                    </div>
-                                    <div className="col-xs-12 col-sm-6">
-                                        <Input name="address_state"  disable={isDisable} value={company.address_state} onChange={this.onCompanyChangeHandler.bind(this)} label="State  *" errors={this.state.errors}/>
-                                    </div>                                
-                                    <div className="col-xs-12 col-sm-6">
-                                        <Input name="address_country"  disable={isDisable} value={company.address_country} onChange={this.onCompanyChangeHandler.bind(this)} label="Country  *" errors={this.state.errors}/>
-                                    </div>
-                                    <div className="col-xs-12 col-sm-6">
-                                        <Input name="address_zipcode"  disable={isDisable} value={company.address_zipcode} onChange={this.onCompanyChangeHandler.bind(this)} label="Zip Code  *" errors={this.state.errors}/>
-                                    </div>
-                                </div>
+                                <Address  disable={isDisable} source="company" integrator={company.company_id} onReady={ obj => {this.addressComponent = obj }}/>
                             </BorderBox>
                             <BorderBox title="Notes">
                                {company.company_id ? <Notes source="company" integrator={company.company_id}/> : '' } 
