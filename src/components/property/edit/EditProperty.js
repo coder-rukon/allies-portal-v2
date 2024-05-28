@@ -68,7 +68,6 @@ class EditProperty extends Component {
         })
     }
     onSaveClick(event){
-
         this.setState({
             isSaving:true,
             isEditing:false
@@ -84,40 +83,16 @@ class EditProperty extends Component {
             country: address?.address_country,
             zipcode: address?.address_zipcode,
             broker_contacts:this.state.brokerObj ? this.state.brokerObj.getBrokers() : [],
+            property_owner_details:null,
+            property_tenant_details:null
         };
         let propertyOwner =  this.propertyOwnerCmp.getData();
-        data = {
-            ...data,
-            property_owner_id:propertyOwner?.propertyholder_id,
-            property_owner_company:propertyOwner?.propertyholder_company,
-            property_owner_contact:propertyOwner?.propertyholder_contact,
-            property_owner_title:propertyOwner?.propertyholder_title,
-            property_owner_phone:propertyOwner?.propertyholder_phone,
-            property_owner_website:propertyOwner?.propertyholder_website,
-            property_owner_email:propertyOwner?.propertyholder_email,
-            property_owner_address_line_1:propertyOwner?.propertyholder_address_line_1,
-            property_owner_address_line_2:propertyOwner?.propertyholder_address_line_2,
-            property_owner_city:propertyOwner?.propertyholder_city,
-            property_owner_state:propertyOwner?.propertyholder_state,
-            property_owner_county:propertyOwner?.propertyholder_country,
-            property_owner_zipcode:propertyOwner?.propertyholder_zipcode,
+        if(propertyOwner.address_changed || propertyOwner.compay_changed){
+            data.property_owner_details  = propertyOwner;
         }
-        let propertyTenent =  this.propertyTenantCmp.getData();
-        data = {
-            ...data,
-            property_tenant_id:propertyTenent?.propertyholder_id,
-            property_tenant_company:propertyTenent?.propertyholder_company,
-            property_tenant_contact:propertyTenent?.propertyholder_contact,
-            property_tenant_title:propertyTenent?.propertyholder_title,
-            property_tenant_phone:propertyTenent?.propertyholder_phone,
-            property_tenant_website:propertyTenent?.propertyholder_website,
-            property_tenant_email:propertyTenent?.propertyholder_email,
-            property_tenant_address_line_1:propertyTenent?.propertyholder_address_line_1,
-            property_tenant_address_line_2:propertyTenent?.propertyholder_address_line_2,
-            property_tenant_city:propertyTenent?.propertyholder_city,
-            property_tenant_state:propertyTenent?.propertyholder_state,
-            property_tenant_county:propertyTenent?.propertyholder_country,
-            property_tenant_zipcode:propertyTenent?.propertyholder_zipcode,
+        let propertyTenant =  this.propertyTenantCmp.getData();
+        if(propertyTenant.address_changed || propertyTenant.compay_changed){
+            data.property_tenant_details  = propertyTenant;
         }
         let api = Api, that = this;
         if(api.setUserToken()){
@@ -191,9 +166,9 @@ class EditProperty extends Component {
                         </BorderBox>
                     </div>
                     <div className="col-xs-12 col-md-6 input_box_margin_fix">
-                        <PropertyCompany disable={isDisable}  source="owner" title="Property Owner"  company_id = {property.property_owner}/>
+                        <PropertyCompany onReady={obj => {this.propertyOwnerCmp = obj }} disable={isDisable}  source="owner" title="Property Owner"  company_id = {property.property_owner}/>
                         <div></div>
-                        <PropertyCompany disable={isDisable}  source="tenant" title="Property Tenant"  company_id = {property.property_tenant}/>
+                        <PropertyCompany  onReady={obj => {this.propertyTenantCmp = obj }} disable={isDisable}  source="tenant" title="Property Tenant"  company_id = {property.property_tenant}/>
                         <BorderBox title="Broker Contact">
                             {property.property_id ? <Contacts  hidePrimary={true} disable={isDisable} source="property_broker" integrator={property.property_id} labels = {brokerLabels}/> : '' } 
                         </BorderBox>

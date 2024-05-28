@@ -10,6 +10,7 @@ class Address extends Component {
         super(props);
         this.source = this.props.source;
         this.integrator = this.props.integrator;
+        this.addressChanged = false;
         this.state = {
             address:{}
         }
@@ -79,6 +80,10 @@ class Address extends Component {
     }
     onAddressChangeHandler(event){
         let address = this.state.address;
+        this.addressChanged = true;
+        if(this.props.onChange){
+            this.props.onChange(event,this);
+        }
         this.setState({
             address:{
                 ...address,

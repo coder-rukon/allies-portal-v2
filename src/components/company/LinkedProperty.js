@@ -50,6 +50,7 @@ class LinkedProperty extends Component {
                 that.setState({
                     loading:false
                 })
+                that.loadProperty();
             })
         }
         
@@ -95,18 +96,34 @@ class LinkedProperty extends Component {
         })
         
     }
+    getPropertyLinkType(property){
+        let company = this.props.company;
+        let label = '';
+        if(company){
+            if(company.company_id == property.property_owner){
+                label = <div className='badge bg-primary'>Owner</div>
+            }
+            if(company.company_id == property.property_tenant){
+                label = <div className='badge bg-secondary'>Tenant</div>
+            }
+        }
+        return label;
+    }
     render() {
         return (
             <div className='linked_property'>
                 <div className="property_links">
                     {this.state.loading ? <Loading/> :''}
-                    {this.state.propertyList.length <=0 ? <p>No Linked Properties</p> : ''}
+                    {this.state.propertyList.length <=0 ? <p>No Linked Properties</p> :  ""}
                     {
                         this.state.propertyList.map( (propery,key) => {
                             return(
                                 <div className='row p_item' key={key}>
-                                    <div className='col-xs-12 col-sm-8'>
-                                    {this.getAddress(propery)}
+                                    <div className='col-xs-12 col-sm-6'>
+                                        {this.getAddress(propery)}
+                                    </div>
+                                    <div className='col-xs-12 col-sm-2'>
+                                        {this.getPropertyLinkType(propery)}
                                     </div>
                                     <div className='col-xs-12 col-sm-4'>
                                         <div className='actions_wraper' >

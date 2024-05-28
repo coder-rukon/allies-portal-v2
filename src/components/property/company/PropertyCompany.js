@@ -15,10 +15,27 @@ class PropertyCompany extends Component {
             loading:false,
             searching:false
         }
+        this.onCompanyChanged = false;
         this.addressComponent = null;
         this.source = this.props.source ? this.props.source : 'owner';
     }
+    getData(){
+        return {
+            compay_changed: this.onCompanyChanged,
+            company:{
+                company_id:this.state.company_id,
+                ...this.state.company
+            },
+            address_changed: this.addressComponent.addressChanged,
+            address:{
+                ...this.addressComponent.getAddress()
+            }
+        }
+    }
     componentDidMount(){
+        if(this.props.onReady){
+            this.props.onReady(this);
+        }
         if(this.props.company_id){
             let that = this;
             this.setState({
@@ -61,10 +78,25 @@ class PropertyCompany extends Component {
         }
     }
     onChangeHandler(event){
+        this.onCompanyChanged = true;
+        if(this.props.onChange){
+            this.props.onChange(this)
+        }
+        let company = this.state.company;
+        this.setState({
+            company:{
+                ...company,
+                [event.target.name]:event.target.value
+            }
+        })
 
+    }
+    onAddressChange(event){
+        this.onCompanyChanged = true;
     }
     onSearchItemClick(data){
         let that = this;
+        this.onCompanyChanged = true;
         this.setState({
             company_id:data.company_id
         },()=>{
@@ -85,25 +117,25 @@ class PropertyCompany extends Component {
                     </div>
                     
                     <div className="col-xs-12 col-sm-6">
-                        <Input  label="Company" name="name" value={company.name}/>
+                        <Input  label="Company" name="name" value={company.name} onChange={this.onChangeHandler.bind(this)}/>
                     </div>
                     <div className="col-xs-12 col-sm-6">
-                        <Input  label="Contact" name="contact_name" value={company.contact_name}/>
+                        <Input  label="Contact" name="contact_name" value={company.contact_name}  onChange={this.onChangeHandler.bind(this)}/>
                     </div>
                     <div className="col-xs-12 col-sm-6">
-                        <Input label="Title" name="contact_title" value={company.contact_title}/>
+                        <Input label="Title" name="contact_title" value={company.contact_title}  onChange={this.onChangeHandler.bind(this)}/>
                     </div>
                     <div className="col-xs-12 col-sm-6">
-                        <Input label="Phone" name="contact_phone" value={company.contact_phone}/>
+                        <Input label="Phone" name="contact_phone" value={company.contact_phone}  onChange={this.onChangeHandler.bind(this)}/>
                     </div>
                     <div className="col-xs-12 col-sm-6">
-                        <Input label="Website" name="contact_website" value={company.contact_website}/>
+                        <Input label="Website" name="contact_website" value={company.contact_website}  onChange={this.onChangeHandler.bind(this)}/>
                     </div>
                     <div className="col-xs-12 col-sm-6">
-                        <Input  name="contact_email" label="Email" value={company.contact_email}/>
+                        <Input  name="contact_email" label="Email" value={company.contact_email}  onChange={this.onChangeHandler.bind(this)}/>
                     </div>
                     <div className="col-xs-12 col-sm-12">
-                        <Address  disable={disable} source="company" integrator={company.company_id} onReady={ obj => {this.addressComponent = obj }}/>
+                        <Address  disable={disable} source="company" integrator={company.company_id} onChange={this.onAddressChange.bind(this)} onReady={ obj => {this.addressComponent = obj }}/>
 
                     </div>
                     
