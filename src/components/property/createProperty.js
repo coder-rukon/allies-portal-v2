@@ -106,7 +106,7 @@ class CreatePropertyForm extends Component {
             property_owner_address_line_2:propertyOwner?.propertyholder_address_line_2,
             property_owner_city:propertyOwner?.propertyholder_city,
             property_owner_state:propertyOwner?.propertyholder_state,
-            property_owner_county:propertyOwner?.propertyholder_country,
+            property_owner_country:propertyOwner?.propertyholder_country,
             property_owner_zipcode:propertyOwner?.propertyholder_zipcode,
         }
         let propertyTenent =  this.propertyTenantCmp.getData();
@@ -123,7 +123,7 @@ class CreatePropertyForm extends Component {
             property_tenant_address_line_2:propertyTenent?.propertyholder_address_line_2,
             property_tenant_city:propertyTenent?.propertyholder_city,
             property_tenant_state:propertyTenent?.propertyholder_state,
-            property_tenant_county:propertyTenent?.propertyholder_country,
+            property_tenant_country:propertyTenent?.propertyholder_country,
             property_tenant_zipcode:propertyTenent?.propertyholder_zipcode,
         }
         let api = Api, that = this;

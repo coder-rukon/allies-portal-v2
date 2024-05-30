@@ -117,7 +117,7 @@ class PropertyHolder extends Component {
                 <BorderBox title={this.props.title}>
                     <div className="row">
                         <div className="col-xs-12 col-sm-12">
-                            <AjaxSearchInput  disable = {disable}  name="s_company" sUrl="/propertyholder/search" filterResult = { data => { return data.propertyholders.map( (item => { return {...item,item_label:item.propertyholder_company} }) ) }  } onItemClick={this.onPropertyHolderItemClick.bind(this)} placeholder="Search existing company"/>
+                            <AjaxSearchInput  disable = {disable}  name="s_company" sUrl="/company/my-company-list" filterResult = { data => { return data.company.data.map( (item => { return {...item,item_label:item.name} }) ) }  } onItemClick={this.onPropertyHolderItemClick.bind(this)} placeholder="Search existing company"/>
                         </div>
                         {
                             this.getSelectedItemControler()

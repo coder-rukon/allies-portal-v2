@@ -15,11 +15,13 @@ import PropertyType from '@/components/property/PropertyType';
 import Notes from "@/components/notes/Notes";
 import Contacts from "@/components/contacts/contacts";
 import PropertyCompany from "../company/PropertyCompany";
+import ErrorMessage from "@/components/widget/errormessage";
 class EditProperty extends Component {
     constructor(props) {
         super(props);
         this.state = {
             errors:[],
+            error:null,
             isSaving:false,
             property: null,
             isEditing:false,
@@ -97,9 +99,18 @@ class EditProperty extends Component {
         let api = Api, that = this;
         if(api.setUserToken()){
             api.axios().post('/property/update',data).then(res=> {
-                that.setState({
-                    isSaving:false
-                })
+                
+                if(res.data.type){
+                    that.setState({
+                        isSaving:false,
+                        error:null
+                    })
+                }else{
+                    that.setState({
+                        isSaving:false,
+                        error:res.data.message
+                    })
+                }
                 console.log(res.data)
                 
             }).catch(errors => {
@@ -111,6 +122,7 @@ class EditProperty extends Component {
     }
     render() {
         let property = this.state.property;
+        let errors = this.state.errors;
         let isDisable = !this.state.isEditing;
         if(!property){
             return <Loading/>
@@ -127,19 +139,20 @@ class EditProperty extends Component {
         return (
             <div className="edit_property_form">
                 <div className="pannel_header">
-                        <div></div>
-                        <div>
-                            {
+                    <div></div>
+                    <div>
+                        {
 
-                                this.state.isSaving ? <Loading/> :                                
-                                    ( isDisable ? 
-                                    <Button onClick={ this.onEditIconClick.bind(this) } className="md" beforeIcon="border_color" label= {"Edit"}/>
-                                    :<Button onClick={ this.onSaveClick.bind(this) }  className="md" beforeIcon="save" label= {"Save"}/> )
-                                
+                            this.state.isSaving ? <Loading/> :                                
+                                ( isDisable ? 
+                                <Button onClick={ this.onEditIconClick.bind(this) } className="md" beforeIcon="border_color" label= {"Edit"}/>
+                                :<Button onClick={ this.onSaveClick.bind(this) }  className="md" beforeIcon="save" label= {"Save"}/> )
+                            
 
-                            }
-                        </div>
+                        }
                     </div>
+                </div>
+                { this.state.error ? <ErrorMessage error={this.state.error} /> : '' }
                 <div className="row">
                     <div className="col-xs-12 col-md-6">
                         <BorderBox className="input_box_margin_fix" title="Property Details">
