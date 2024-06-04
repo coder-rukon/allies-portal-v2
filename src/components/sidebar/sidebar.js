@@ -10,20 +10,20 @@ let Sidebar = () => {
                     <img src="/allies-dark-logo.png" alt="Allies logo"/>
                 </Link>
                 <ul className="sidebar_menu">
-                    <li><Link href="#" className={pathName === '/' ? 'active' : ''}>Dashboard</Link></li>
-                    <li><Link href="#" className={pathName === '/deals' ? 'active' : ''}>Deal Pipeline</Link></li>
-                    <li><Link href="/company" className={pathName === '/company' ? 'active' : ''}>Companies</Link></li>
-                    <li><Link href="/property" className={pathName === '/property' ? 'active' : ''}>Property</Link></li>
-                    <li><Link href="#" className={pathName === '/active-deals' ? 'active' : ''}>Active Deals</Link></li>
-                    <li><Link href="#" className={pathName === '/calander' ? 'active' : ''}>Calander</Link></li>
-                    <li><Link href="/users" className={pathName === '/users' ? 'active' : ''}>Users</Link></li>
-                    <li><Link href="/settings" className={pathName === '/settings' ? 'active' : ''}>Settings</Link></li>
+                    <li><Link href="#" className={pathName === '/' ? 'active' : ''}><img src='/images/icons/deshboard.png' />Dashboard</Link></li>
+                    <li><Link href="#" className={pathName === '/deals' ? 'active' : ''}><img src='/images/icons/deal-pipeline.png' />Deal Pipeline</Link></li>
+                    <li><Link href="/company" className={pathName === '/company' ? 'active' : ''}><img src='/images/icons/company.png' />Companies</Link></li>
+                    <li><Link href="/property" className={pathName === '/property' ? 'active' : ''}><img src='/images/icons/property.png' />Property</Link></li>
+                    <li><Link href="#" className={pathName === '/active-deals' ? 'active' : ''}><img src='/images/icons/active-deals.png' />Active Deals</Link></li>
+                    <li><Link href="#" className={pathName === '/calander' ? 'active' : ''}><img src='/images/icons/calendar.png' />Calander</Link></li>
+                    <li><Link href="/users" className={pathName === '/users' ? 'active' : ''}><img src='/images/icons/company.png' />Users</Link></li>
+                    <li><Link href="/settings" className={pathName === '/settings' ? 'active' : ''}><img src='/images/icons/settings.png' />Settings</Link></li>
                 </ul>
                 <div className='divider'></div>
                 <ul className="sidebar_menu sidebar_menu_2">
-                    <li><Link href="/company/new-company" className={pathName === '/company/new-company' ? 'active' : ''}>Add Company</Link></li>
-                    <li><Link href="/property/create" className={pathName === '/property/create' ? 'active' : ''}>Add property</Link></li>
-                    <li><Link href="#" className={pathName === '/deal/create' ? 'active' : ''}>Add Deal</Link></li>
+                    <li><Link href="/company/new-company" className={pathName === '/company/new-company' ? 'active' : ''}><img src='/images/icons/add-company.png' />Add Company</Link></li>
+                    <li><Link href="/property/create" className={pathName === '/property/create' ? 'active' : ''}><img src='/images/icons/add-property.png' />Add property</Link></li>
+                    <li><Link href="#" className={pathName === '/deal/create' ? 'active' : ''}><img src='/images/icons/add-deal.png' />Add Deal</Link></li>
                 </ul>
             </div>
             
