@@ -53,6 +53,7 @@ class CompanyTeamAccess extends Component {
     render() {
         let accessList = this.state.accessList;
         let roles = this.state.roles;
+        let disable = this.props.disable  === true ? true : false;
         return (
             <div>
                 <div className="new_team_access_list">
@@ -63,9 +64,10 @@ class CompanyTeamAccess extends Component {
                     </div>
                     {accessList.length <=0 ? <p>No members</p> : ''}
 
-                    { accessList.map( (access,key) => { return <TeamAccess company={this.props.company} access={access} key={key} roles={roles} />}) }
+                    { accessList.map( (access,key) => { return <TeamAccess disable={disable} company={this.props.company} access={access} key={key} roles={roles} />}) }
                 </div>
-                <Button label="+ Team Member" onClick={this.addNewItem.bind(this)}/>
+                {disable ? '' : <Button label="+ Team Member" onClick={this.addNewItem.bind(this)}/> }
+                
             </div>
         );
     }

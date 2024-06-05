@@ -109,30 +109,38 @@ class Contact extends Component {
                 ...this.props.labels
             }
         }
+        let disable = this.props.disable  === true ? true : false;
         return ( 
-            <div className="row contact_list_form_item" >
-                <div className="col-xs-12 col-sm-6">
-                    <Input disable={this.props.disable} errors={this.state.errors} name="contact_name" label={labels.contact_name} onChange = { this.onChangeHanlder.bind(this) } value={contact.contact_name}/>
-                </div>
-                <div className="col-xs-12 col-sm-6">
-                    <Input  disable={this.props.disable} name="contact_title" label={labels.contact_title}  value={contact.contact_title}  onChange = { this.onChangeHanlder.bind(this) }/>
-                </div>
-                <div className="col-xs-12 col-sm-6">
-                    <Input  disable={this.props.disable} name="contact_email"  errors={this.state.errors}  label={labels.contact_email} value={contact.contact_email}  onChange = { this.onChangeHanlder.bind(this) }/>
-                </div>
-                <div className="col-xs-12 col-sm-6">
-                    <Input  disable={this.props.disable} name="contact_phone" label={labels.contact_phone} value={contact.contact_phone}  onChange = { this.onChangeHanlder.bind(this) }/>
-                </div>
-                {
-                    this.props.hidePrimary ? '' : <div className="col-xs-12 col-sm-6"><Checkbox  disable={this.props.disable} name="is_primary" checked={ contact.is_primary } title="Primary Contact"    onChange = { this.onCheckboxChangeHanlder.bind(this) }/></div>
-                }
-                
-                <div className="col-xs-12 col-sm-12">
-                    <div style={{display:'flex', justifyContent:'space-between'}}>
-                        {this.state.isLoading? <div><Loading/></div> : ''}
-                        {this.state.isVisbleBtn && !this.state.isLoading && this.props.disable !== true ? <div><Button onClick={this.onSaveHandler.bind(this)} label="Save"/></div> : '' }
+            <div className="contact_list_form_item" >
+                {disable == true ? '' : <div className="dragdrop_hanlder"><img src="/images/icons/drag-controller.png"/></div> }
+                <div className="contact_list_form_item_contents">
+                    <div className="row">
+                        <div className="col-xs-12 col-sm-6">
+                            <Input disable={this.props.disable} errors={this.state.errors} name="contact_name" label={labels.contact_name} onChange = { this.onChangeHanlder.bind(this) } value={contact.contact_name}/>
+                        </div>
+                        <div className="col-xs-12 col-sm-6">
+                            <Input  disable={this.props.disable} name="contact_title" label={labels.contact_title}  value={contact.contact_title}  onChange = { this.onChangeHanlder.bind(this) }/>
+                        </div>
+                        <div className="col-xs-12 col-sm-6">
+                            <Input  disable={this.props.disable} name="contact_email"  errors={this.state.errors}  label={labels.contact_email} value={contact.contact_email}  onChange = { this.onChangeHanlder.bind(this) }/>
+                        </div>
+                        <div className="col-xs-12 col-sm-6">
+                            <Input  disable={this.props.disable} name="contact_phone" label={labels.contact_phone} value={contact.contact_phone}  onChange = { this.onChangeHanlder.bind(this) }/>
+                        </div>
+                        {
+                            //this.props.hidePrimary ? '' : <div className="col-xs-12 col-sm-6"><Checkbox  disable={this.props.disable} name="is_primary" checked={ contact.is_primary } title="Primary Contact"    onChange = { this.onCheckboxChangeHanlder.bind(this) }/></div>
+                        }
+                        
+                        <div className="col-xs-12 col-sm-12">
+                            <div style={{display:'flex', justifyContent:'space-between'}}>
+                                {this.state.isLoading? <div><Loading/></div> : ''}
+                                {this.state.isVisbleBtn && !this.state.isLoading && this.props.disable !== true ? <div><Button onClick={this.onSaveHandler.bind(this)} label="Save"/></div> : '' }
+                            </div>
+                        </div>
                     </div>
                 </div>
+                
+                
             </div>
          );
     }

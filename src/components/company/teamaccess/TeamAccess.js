@@ -166,14 +166,15 @@ class TeamAccess extends Component {
         
         let name = access?.first_name +' '+access?.last_name;
         let accessLabel =  access?.role_name;
+        let disable = this.props.disable  === true ? true : false;
         return(
             <div className='row'>
                 <div className='col-xs-12 col-sm-5'>{name}</div>
                 <div className='col-xs-12 col-sm-3'>{accessLabel}</div>
                 <div className='col-xs-12 col-sm-4'>
                     <div className='d-flex gap-2'>
-                        <Button icon="border_color" onClick={ () => { this.setState({isEditing:true})}}/>
-                        {this.state.isDeleting ? <Loading/> : <Button icon="delete" onClick={this.onDeleteHandler.bind(this)} />}
+                        {disable ? "" : <Button icon="border_color" onClick={ () => { this.setState({isEditing:true})}}/> }
+                        {this.state.isDeleting ? <Loading/> : ( disable ? '' : <Button icon="delete" onClick={this.onDeleteHandler.bind(this)} />) }
                     </div>
                 </div>
             </div>
@@ -187,6 +188,7 @@ class TeamAccess extends Component {
         if(!access){
             return(<></>)
         }
+        let disable = this.props.disable  === true ? true : false;
         return (
             <div className='team_access_item'>
                 {this.getView()}

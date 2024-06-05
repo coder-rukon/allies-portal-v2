@@ -71,7 +71,7 @@ class Contacts extends Component {
                     })
                 }
                 
-                <Button onClick={ this.addNewContact.bind(this)} label="+ Add Contact"/>
+                <Button onClick={ this.addNewContact.bind(this)} label="+ Additional Contact"/>
             </div>
         );
     }

@@ -14,6 +14,7 @@ import Meta from '@/inc/Meta';
 import CompanyTeamAccess from '@/components/company/teamaccess/CompanyTeamAccess';
 import LinkedProperty from '@/components/company/LinkedProperty';
 import Address from "@/components/address/Address";
+import CompanyDeals from "@/components/company/deals/CompanyDeals";
 class CompanyDetails  extends Component{
     constructor(props){
         super(props);
@@ -224,10 +225,8 @@ class CompanyDetails  extends Component{
                         </div>
                         <div className="col-xs-12 col-sm-6">
                             <BorderBox title="Current Deals">
-                                <div className="current_deals_demo">
-                                    <p>No Current Deals</p>
-                                    <Button label="+ Create Deal"/>
-                                </div>
+                                <CompanyDeals disable={isDisable} />
+                                
                             </BorderBox>
                             <BorderBox title="Previous Deals">
                                 <div className="current_deals_demo">
@@ -235,12 +234,10 @@ class CompanyDetails  extends Component{
                                 </div>
                             </BorderBox>
                             <BorderBox title="Team Access">
-                                <CompanyTeamAccess company={company}/>
-                                
+                                <CompanyTeamAccess  disable={isDisable}  company={company}/>
                             </BorderBox>
                             <BorderBox title="Linked Properties">
-                                <LinkedProperty company={company} />
-                                
+                                <LinkedProperty  disable={isDisable} company={company} />
                             </BorderBox>
                             <BorderBox title="Lead Capture">
                                 <div className="new_company_lead_type">

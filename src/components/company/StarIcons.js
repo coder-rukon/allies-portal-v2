@@ -76,7 +76,7 @@ class StarIcons extends Component {
             <div className='all_star'>
                 {
                     colorStatus.map( (color,key) => {
-                        return <span key={key} class="material-symbols-outlined" onClick={ event => { this.updateCompanyStatus(color)}} style={{color:color.color}}>star_rate</span>
+                        return <span key={key} class="star_icon" onClick={ event => { this.updateCompanyStatus(color)}} ><img src={'/images/icons/star_color_'+color.id+'.png'}/></span>
                     })
                 }
             </div>

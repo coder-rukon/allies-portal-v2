@@ -25,7 +25,7 @@ class CompanyListPage  extends Component {
     }
     componentDidMount(){
         this.loadCompany();
-        this.props.setOptions({title:'All Company'})
+        this.props.setOptions({title:'Companies'})
     }
     loadCompany(s = null){
         this.setState({

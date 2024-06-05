@@ -17,7 +17,6 @@ let Sidebar = () => {
                     <li><Link href="#" className={pathName === '/active-deals' ? 'active' : ''}><img src='/images/icons/active-deals.png' />Active Deals</Link></li>
                     <li><Link href="#" className={pathName === '/calander' ? 'active' : ''}><img src='/images/icons/calendar.png' />Calander</Link></li>
                     <li><Link href="/users" className={pathName === '/users' ? 'active' : ''}><img src='/images/icons/company.png' />Users</Link></li>
-                    <li><Link href="/settings" className={pathName === '/settings' ? 'active' : ''}><img src='/images/icons/settings.png' />Settings</Link></li>
                 </ul>
                 <div className='divider'></div>
                 <ul className="sidebar_menu sidebar_menu_2">
@@ -25,6 +24,7 @@ let Sidebar = () => {
                     <li><Link href="/property/create" className={pathName === '/property/create' ? 'active' : ''}><img src='/images/icons/add-property.png' />Add property</Link></li>
                     <li><Link href="#" className={pathName === '/deal/create' ? 'active' : ''}><img src='/images/icons/add-deal.png' />Add Deal</Link></li>
                 </ul>
+                <Link href="/settings" className={pathName === '/settings' ? 'settings_link active' : 'settings_link'}><img src='/images/icons/settings.png' />Settings</Link>
             </div>
             
         </div>

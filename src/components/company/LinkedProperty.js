@@ -6,6 +6,7 @@ import Popup from '@/components/widget/Popup';
 import PropertyListPage from '@/app/property/PropertyListPage';
 import Helper from '@/inc/Helper';
 import Loading from '../widget/Loading';
+import Link from 'next/link';
 
 class LinkedProperty extends Component {
     constructor(props){
@@ -81,7 +82,7 @@ class LinkedProperty extends Component {
             address += ( property.address.address_country && Helper.getNullableValue(property.address.address_country) ) ? property.address.address_country + ', ' : '';
             address += ( property.address.address_zipcode && Helper.getNullableValue(property.address.address_zipcode) ) ? property.address.address_zipcode : '';
         }
-        return <div className='ads_p'>{address}</div>
+        return <div className='ads_p'><Link href={'/property/edit/'+ property.property_id}>{address}</Link></div>
     }
     deleteHandler(property){
         let api = Api, that = this;
@@ -109,7 +110,15 @@ class LinkedProperty extends Component {
         }
         return label;
     }
+    getLinkBtn(){
+        let disable = this.props.disable  === true ? true : false;
+        if(this.state.showPopup || disable == true){
+            return;
+        }
+        return <Button label="+ Link Property" onClick={ e => { this.setState({showPopup:true})}}/> 
+    }
     render() {
+        let disable = this.props.disable  === true ? true : false;
         return (
             <div className='linked_property'>
                 <div className="property_links">
@@ -127,8 +136,7 @@ class LinkedProperty extends Component {
                                     </div>
                                     <div className='col-xs-12 col-sm-4'>
                                         <div className='actions_wraper' >
-                                            <Button href={'/property/edit/'+propery.property_id} icon="link" label="View Property" />
-                                            <Button onClick={ e => this.deleteHandler(propery) } icon="delete" />
+                                            {disable ? '' : <Button onClick={ e => this.deleteHandler(propery) } icon="delete" />}
                                         </div>
                                     </div>
                                 </div>
@@ -139,7 +147,7 @@ class LinkedProperty extends Component {
                 {
                     this.showPropertyList()
                 }
-                {!this.state.showPopup ? <Button label="+ Link Property" onClick={ e => { this.setState({showPopup:true})}}/> : '' }
+                {this.getLinkBtn()}
             </div>
         );
     }

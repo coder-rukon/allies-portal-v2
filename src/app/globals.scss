@@ -31,12 +31,17 @@ p{
     padding: 0;
     background-color: #F2F2F2;
     min-height: 100vh;
+    
 }
 .main_header {
     display: flex;
     justify-content: space-between;
     gap: 10px;
-    padding: 10px 20px;
+    padding: 20px 20px 10px 20px;
+    align-items: center;
+    .h_title{
+        margin: 0 0 0 30px;
+    }
 }
 .main_header .mh_right_side {
     display: flex;
@@ -107,29 +112,49 @@ color: #6B7280;
 }
 .main_sidebar .sidebar_menu li a{
     display: flex;
-    color: #333;
+    color: #111827;
     text-decoration: none;
     padding: 8px 12px;
     font-size: 15px;
-    opacity: .5;
+    opacity: 1;
     margin: 2px 0;
     align-items: center;
     gap: 12px;
 }
+.main_sidebar .settings_link img,
 .main_sidebar .sidebar_menu li a img{
     display: block;
-    height: 20px;
     margin: 0;
-    padding:0;
+    padding: 0;
+    max-width: 20px;
+    width: auto;
+    max-height: 20px;
 }
 .main_sidebar .sidebar_menu li a.active{
     opacity: 1;
     background-color: #E5E7EB;
     color: #111827;
     border-radius: 4px;
+    font-weight: 700;
 }
 .main_sidebar .sidebar_menu li a:hover{
-opacity: 1;
+    opacity: 1;
+}
+.main_sidebar .settings_link{
+    cursor: pointer;
+    position: fixed;
+    bottom: 20px;
+    left: 33px;
+    color: #6B7280;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+
+}
+.main_sidebar .settings_link img{
+    display: block;
 }
 .main_sidebar .divider {
     background: #D1D5DB;
@@ -211,7 +236,7 @@ opacity: 1;
     color: #fff;
     background: #062C3E;
     border: 1px solid #062C3E;
-    padding: 9px 14px;
+    padding: 7px 20px;
     font-size: 14px;
     font-weight: 400;
     border-radius: 4px;
@@ -389,6 +414,22 @@ a.rs_btn{
     margin-bottom: 20px;
 }
 .contact_list_form{
+    .contact_list_form_item{
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    .contact_list_form_item .dragdrop_hanlder{
+        padding: 10px 5px;
+        cursor: move;
+    }
+    .contact_list_form_item .dragdrop_hanlder img{
+        height: 30px;
+        margin:0;
+        padding:0;
+        display: block;
+        width: auto;
+    }
     .contact_list_form_item+.contact_list_form_item{
         margin-top: 15px;
         padding-top: 15px;
@@ -654,9 +695,9 @@ a.rs_btn{
     display: block;
     position: relative;
     span{
-        font-size: 20px;
         color: #9CA3AF;
         cursor: pointer;
+        display: block;
     }
     .active{}
     .all_star{
@@ -665,11 +706,18 @@ a.rs_btn{
         overflow: hidden;
         left: 23px;
         background: #fff;
-        top: -3px;
+        top: -10px;
         z-index: 100;
-        box-shadow: 0 0 5px rgba(0,0,0,.5);
-        padding: 3px 8px;
-        gap: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        padding: 8px 11px;
+        gap: 7px;
+        border-radius: 11px;
+        img{
+            height: 18px;
+            width: auto;
+            margin: 0;
+            padding:0;
+        }
     }
     .all_star span{
         transition: all .2s;
@@ -724,10 +772,14 @@ a.rs_btn{
         display: block;
         .p_item{
             margin: 10px 0;
-            border: 1px solid #9CA3AF;
             padding: 5px 0;
             .ads_p{
                 display: block;
+                a{
+                    display: block;
+                    text-decoration: none;
+                    color: #111827;
+                }
             }
             .actions_wraper{
                 display: flex;
@@ -738,6 +790,13 @@ a.rs_btn{
                     display: block;
                 }
             }
+        }
+        .p_item:hover .ads_p a{
+            color:$lightGray;
+        }
+        .p_item + .p_item{
+            border-top: 1px solid #D1D5DB;
+            padding-top: 10px;
         }
     }
 }
