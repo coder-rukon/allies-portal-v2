@@ -53,19 +53,22 @@ class Contacts extends Component {
                 {
                     this.state.contacts.map( (contact , key) => {
                         return(
-                            <div className="row contact_list_form_item" key={key}>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input name="contact_name" label="Contact Name" onChange = { (event) => { this.onChangeHanlder(event,key,contact) }} value={contact.contact_name}/>
+                            <div className="contact_list_form_item" key={key}>
+                                <div className="row">
+                                    <div className="col-xs-12 col-sm-6">
+                                        <Input name="contact_name" label="Contact Name" onChange = { (event) => { this.onChangeHanlder(event,key,contact) }} value={contact.contact_name}/>
+                                    </div>
+                                    <div className="col-xs-12 col-sm-6">
+                                        <Input name="title" label="Title"  value={contact.title}  onChange = { (event) => { this.onChangeHanlder(event,key,contact) }}/>
+                                    </div>
+                                    <div className="col-xs-12 col-sm-6">
+                                        <Input name="email" label="Email"  value={contact.email}  onChange = { (event) => { this.onChangeHanlder(event,key,contact) }}/>
+                                    </div>
+                                    <div className="col-xs-12 col-sm-6">
+                                        <Input name="phone" label="Phone"  value={contact.phone}  onChange = { (event) => { this.onChangeHanlder(event,key,contact) }}/>
+                                    </div>
                                 </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input name="title" label="Title"  value={contact.title}  onChange = { (event) => { this.onChangeHanlder(event,key,contact) }}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input name="email" label="Email"  value={contact.email}  onChange = { (event) => { this.onChangeHanlder(event,key,contact) }}/>
-                                </div>
-                                <div className="col-xs-12 col-sm-6">
-                                    <Input name="phone" label="Phone"  value={contact.phone}  onChange = { (event) => { this.onChangeHanlder(event,key,contact) }}/>
-                                </div>
+                                
                             </div>
                         )
                     })

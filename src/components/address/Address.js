@@ -128,28 +128,28 @@ class Address extends Component {
         })
         let stateList = this.getCountryState();
         let disable= this.props.disable === true ? true : false;
-        
+        let errors = this.props.errors ? this.props.errors : [];
         return (
             <div className='row'>
                 <div className="col-xs-12 col-sm-6">
-                    <Input disable = {disable} onChange={this.onAddressChangeHandler.bind(this)}  name="address_line_1" label="Address Line 1" value={address.address_line_1}/>
+                    <Input disable = {disable} errors ={errors} onChange={this.onAddressChangeHandler.bind(this)}  name="address_line_1" label="Address Line 1" value={address.address_line_1}/>
                 </div>
                 <div className="col-xs-12 col-sm-6">
-                    <Input  disable = {disable} onChange={this.onAddressChangeHandler.bind(this)}  name="address_line_2" label="Address Line 2" value={address.address_line_2}/>
+                    <Input  disable = {disable}  errors ={errors} onChange={this.onAddressChangeHandler.bind(this)}  name="address_line_2" label="Address Line 2" value={address.address_line_2}/>
                 </div>
                
                 
                 <div className="col-xs-12 col-sm-6">
-                    <Dropdown  disable = {disable} options={countryList} onChange={this.onAddressChangeHandler.bind(this)} name="address_country" label="Country" value={address.address_country}/>
+                    <Dropdown  disable = {disable}  errors ={errors} options={countryList} onChange={this.onAddressChangeHandler.bind(this)} name="address_country" label="Country" value={address.address_country}/>
                 </div>
                 <div className="col-xs-12 col-sm-6">
-                    <Dropdown  disable = {disable} options={stateList} onChange={this.onAddressChangeHandler.bind(this)} name="address_state" label="State" value={address.address_state}/>
+                    <Dropdown  disable = {disable}  errors ={errors} options={stateList} onChange={this.onAddressChangeHandler.bind(this)} name="address_state" label="State" value={address.address_state}/>
                 </div>
                 <div className="col-xs-12 col-sm-6">
-                    <Input  disable = {disable} onChange={this.onAddressChangeHandler.bind(this)}  name="address_city" label="City" value={address.address_city}/>
+                    <Input  disable = {disable}  errors ={errors} onChange={this.onAddressChangeHandler.bind(this)}  name="address_city" label="City" value={address.address_city}/>
                 </div>
                 <div className="col-xs-12 col-sm-6">
-                    <Input  disable = {disable} onChange={this.onAddressChangeHandler.bind(this)}  name="address_zipcode" label="Zipcode" value={address.address_zipcode}/>
+                    <Input  disable = {disable}  errors ={errors} onChange={this.onAddressChangeHandler.bind(this)}  name="address_zipcode" label="Zipcode" value={address.address_zipcode}/>
                 </div>
             </div>
         );

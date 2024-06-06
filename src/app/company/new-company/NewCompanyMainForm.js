@@ -184,7 +184,7 @@ class NewCompanyMainForm extends Component {
                             <Contacts onContactReady={this.onContactComponentReady.bind(this) }/>
                         </BorderBox>
                         <BorderBox title="Address">
-                            <Address source="company" exportable={true} onReady={ obj => {this.addressComponent = obj }}/>
+                            <Address source="company" errors={this.state.errors} exportable={true} onReady={ obj => {this.addressComponent = obj }}/>
                             
                         </BorderBox>
                         <BorderBox title="Notes">
