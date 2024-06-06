@@ -14,12 +14,14 @@ class StarIcons extends Component {
     }
     componentDidUpdate(prevProps) {
         // Compare current props with previous props
+        /*
         if (this.state.company?.color_status_id !== this.props.company?.color_status_id) {
           this.setState({
             company:this.props.company
           })
         }
-      }
+        */
+    }
     updateCompanyStatus(color){
         if(this.props.onItemClick){
             this.setState({
@@ -44,8 +46,7 @@ class StarIcons extends Component {
         api.axios().post('/company/update-color-status',data).then(res => {
             that.setState({
                 company:{
-                    ...that.state.company,
-                    color_status_id:data.color_status
+                    ...res.data.data.company
                 },
                 isShowPopup:false,
                 isLoading:false
@@ -87,6 +88,7 @@ class StarIcons extends Component {
         if(this.state.isLoading){
             return <Loading/>
         }
+
         return (
             <div className='grid_status_star'>
                 <span class="material-symbols-outlined active" style={{color:this.getColorCodeById(company.color_status_id)}} onClick={ this.showPopup.bind(this) }>star_rate</span>

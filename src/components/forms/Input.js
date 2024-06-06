@@ -51,7 +51,7 @@ class Input extends Component {
             <div className={wrapperClass}>
                 { this.props.label ? <label className="rs_form_label">{this.props.label}</label> : ''}
                 { this.getInputBox() }
-                <ErrorMessage errors={this.props.errors} field={this.props.name} />
+                <ErrorMessage errors={this.props.errors} field={this.props.errorName ? this.props.errorName : this.props.name} />
             </div>
          );
     }

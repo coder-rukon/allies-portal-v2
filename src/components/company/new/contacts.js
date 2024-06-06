@@ -48,6 +48,7 @@ class Contacts extends Component {
         })
     }
     render() { 
+        let errors = this.props.errors ?  this.props.errors : []
         return (
             <div className="contact_list_form">
                 {
@@ -56,16 +57,16 @@ class Contacts extends Component {
                             <div className="contact_list_form_item" key={key}>
                                 <div className="row">
                                     <div className="col-xs-12 col-sm-6">
-                                        <Input name="contact_name" label="Contact Name" onChange = { (event) => { this.onChangeHanlder(event,key,contact) }} value={contact.contact_name}/>
+                                        <Input name="contact_name" errors={errors} errorName={'contacts.'+key+'.contact_name'}  label="Contact Name" onChange = { (event) => { this.onChangeHanlder(event,key,contact) }} value={contact.contact_name}/>
                                     </div>
                                     <div className="col-xs-12 col-sm-6">
-                                        <Input name="title" label="Title"  value={contact.title}  onChange = { (event) => { this.onChangeHanlder(event,key,contact) }}/>
+                                        <Input name="title" label="Title" errors={errors} errorName={'contacts.'+key+'.title'} value={contact.title}  onChange = { (event) => { this.onChangeHanlder(event,key,contact) }}/>
                                     </div>
                                     <div className="col-xs-12 col-sm-6">
-                                        <Input name="email" label="Email"  value={contact.email}  onChange = { (event) => { this.onChangeHanlder(event,key,contact) }}/>
+                                        <Input name="email" label="Email" errors={errors} errorName={'contacts.'+key+'.email'} value={contact.email}  onChange = { (event) => { this.onChangeHanlder(event,key,contact) }}/>
                                     </div>
                                     <div className="col-xs-12 col-sm-6">
-                                        <Input name="phone" label="Phone"  value={contact.phone}  onChange = { (event) => { this.onChangeHanlder(event,key,contact) }}/>
+                                        <Input name="phone" label="Phone" errors={errors} errorName={'contacts.'+key+'.phone'} value={contact.phone}  onChange = { (event) => { this.onChangeHanlder(event,key,contact) }}/>
                                     </div>
                                 </div>
                                 

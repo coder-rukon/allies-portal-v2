@@ -64,7 +64,7 @@ class BrockerForm extends Component {
                     </div>
 
                 </div>
-                <Button onClick = {this.addBroker.bind(this)} label="+ Add brocker" />
+                <Button onClick = {this.addBroker.bind(this)} label="+ Add Broker" />
             </BorderBox>
         );
     }

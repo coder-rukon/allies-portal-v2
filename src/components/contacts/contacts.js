@@ -73,7 +73,7 @@ class Contacts extends Component {
                         )
                     })
                 }
-                {this.props.disable == true ? "" : <Button className="add_new" onClick={ this.addNewContact.bind(this)} label="+ Additional Contact"/> }
+                {this.props.disable == true ? "" : <Button className="add_new" onClick={ this.addNewContact.bind(this)} label={this.props.btnLabel ? this.props.btnLabel : '+ Additional Contact'}/> }
                 
             </div>
         );

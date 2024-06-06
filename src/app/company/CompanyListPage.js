@@ -29,7 +29,8 @@ class CompanyListPage  extends Component {
     }
     loadCompany(s = null){
         this.setState({
-            isLoading:true
+            isLoading:true,
+            companyList:[]
         })
         let filter = this.state.filter;
         let api = Api;

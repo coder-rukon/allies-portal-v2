@@ -183,7 +183,7 @@ class EditProperty extends Component {
                         <div></div>
                         <PropertyCompany  onReady={obj => {this.propertyTenantCmp = obj }} disable={isDisable}  source="tenant" title="Property Tenant"  company_id = {property.property_tenant}/>
                         <BorderBox title="Broker Contact">
-                            {property.property_id ? <Contacts  hidePrimary={true} disable={isDisable} source="property_broker" integrator={property.property_id} labels = {brokerLabels}/> : '' } 
+                            {property.property_id ? <Contacts btnLabel="+ Add contact"  hidePrimary={true} disable={isDisable} source="property_broker" integrator={property.property_id} labels = {brokerLabels}/> : '' } 
                         </BorderBox>
                     </div>
                 </div>

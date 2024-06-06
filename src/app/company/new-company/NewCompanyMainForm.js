@@ -181,7 +181,7 @@ class NewCompanyMainForm extends Component {
                             
                         </BorderBox>
                         <BorderBox title="Contacts">
-                            <Contacts onContactReady={this.onContactComponentReady.bind(this) }/>
+                            <Contacts errors={this.state.errors}  onContactReady={this.onContactComponentReady.bind(this) }/>
                         </BorderBox>
                         <BorderBox title="Address">
                             <Address source="company" errors={this.state.errors} exportable={true} onReady={ obj => {this.addressComponent = obj }}/>
@@ -196,20 +196,10 @@ class NewCompanyMainForm extends Component {
                         
                     </div>
                     <div className="col-xs-12 col-sm-6">
-                        <BorderBox title="Current Deals">
-                            <div className="current_deals_demo">
-                                <p>No Current Deals</p>
-                                <Button label="+ Create Deal"/>
-                            </div>
-                        </BorderBox>
-                        <BorderBox title="Previous Deals">
-                            <div className="current_deals_demo">
-                                <p>No Previous Deals</p>
-                            </div>
-                        </BorderBox>
+                        
                         <BorderBox title="Team Access">
                             <div className="new_team_access_list">
-                                <p>No Previous Deals</p>
+                                <p>No team access</p>
                             </div>
                             <Button label="+ Team Member"/>
                         </BorderBox>
