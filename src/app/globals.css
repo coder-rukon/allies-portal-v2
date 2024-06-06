@@ -241,6 +241,13 @@ a.rs_btn {
   border: 1px solid #6B7280;
   color: #000; }
 
+.rs_btn.only_icon {
+  padding: 8px 10px;
+  line-height: 20px; }
+  .rs_btn.only_icon .btn_icon {
+    font-size: 20px;
+    display: block; }
+
 .rs_btn.md {
   padding: 8px 20px; }
   .rs_btn.md .btn_icon {
@@ -362,6 +369,9 @@ a.rs_btn {
   display: flex;
   align-items: center;
   gap: 15px; }
+.contact_list_form .contact_list_form_item.ui-sortable-helper {
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); }
 .contact_list_form .contact_list_form_item .dragdrop_hanlder {
   padding: 10px 5px;
   cursor: move; }

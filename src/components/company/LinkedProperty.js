@@ -136,7 +136,7 @@ class LinkedProperty extends Component {
                                     </div>
                                     <div className='col-xs-12 col-sm-4'>
                                         <div className='actions_wraper' >
-                                            {disable ? '' : <Button onClick={ e => this.deleteHandler(propery) } icon="delete" />}
+                                            {disable ? '' : <div><Button onClick={ e => this.deleteHandler(propery) } className="only_icon" icon="delete" /></div>}
                                         </div>
                                     </div>
                                 </div>

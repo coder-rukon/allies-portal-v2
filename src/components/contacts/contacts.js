@@ -3,6 +3,8 @@ import Input from "@/components/forms/Input";
 import Button from "@/components/forms/button";
 import Contact from "./contact";
 import Api from "@/inc/Api";
+import $ from 'jquery';
+import '../../../public/js/jquery-ui.min.js';
 class Contacts extends Component {
     constructor(props) {
         super(props);
@@ -19,6 +21,14 @@ class Contacts extends Component {
         if(this.props.onReady){
             this.props.onReady(this);
         }
+    }
+    componentDidUpdate(){
+        this.intShortable();
+    }
+    intShortable(){
+        $(".shortable_items").sortable({
+            handle: ".dragdrop_hanlder"
+        });
     }
     onContactReady(contactCmp){
         //this.contactComponents.push(contactCmp)
@@ -66,13 +76,16 @@ class Contacts extends Component {
     render() { 
         return (
             <div className="contact_list_form contact_component">
+                <div className="shortable_items">
                 {
                     this.state.contacts.map( (contact , key) => {
                         return(
-                           <Contact onReady = { this.onContactReady.bind(this)} key={key} disable={this.props.disable} hidePrimary = { this.props.hidePrimary === true ? true : false } contact={contact} integrator={ this.state.integrator} source={this.state.source} labels= {this.props.labels ? this.props.labels : null}/>
+                           <Contact canDelete={key >= 1 } onReady = { this.onContactReady.bind(this)} key={key} disable={this.props.disable} hidePrimary = { this.props.hidePrimary === true ? true : false } contact={contact} integrator={ this.state.integrator} source={this.state.source} labels= {this.props.labels ? this.props.labels : null}/>
                         )
                     })
                 }
+                </div>
+                
                 {this.props.disable == true ? "" : <Button className="add_new" onClick={ this.addNewContact.bind(this)} label={this.props.btnLabel ? this.props.btnLabel : '+ Additional Contact'}/> }
                 
             </div>

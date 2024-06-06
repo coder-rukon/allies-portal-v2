@@ -95,6 +95,32 @@ class Contact extends Component {
             })
         }
     }
+    getPhoneField(contact,labels){
+        if(this.props.canDelete){
+            return(
+                <div className={'col-xs-12 col-sm-6'}>
+                    <div className="d-flex gap-2">
+                        <div style={{width:'calc(100% - 50px)'}}>
+                            <Input  disable={this.props.disable} name="contact_phone" label={labels.contact_phone} value={contact.contact_phone}  onChange = { this.onChangeHanlder.bind(this) }/>
+                        </div>
+                        <div style={{marginTop:'24px'}}>
+                            <Button onClick={ e => this.deleteHandler() } className="only_icon" icon="delete" />
+                        </div>
+                        
+                    </div>
+                </div>
+            )
+
+        }
+        return(
+            <div className={'col-xs-12 col-sm-6'}>
+                <Input  disable={this.props.disable} name="contact_phone" label={labels.contact_phone} value={contact.contact_phone}  onChange = { this.onChangeHanlder.bind(this) }/>
+            </div>
+        )
+    }
+    deleteHandler(){
+
+    }
     render() {
         let contact = this.state.contact;
         let labels = {
@@ -124,9 +150,9 @@ class Contact extends Component {
                         <div className="col-xs-12 col-sm-6">
                             <Input  disable={this.props.disable} name="contact_email"  errors={this.state.errors}  label={labels.contact_email} value={contact.contact_email}  onChange = { this.onChangeHanlder.bind(this) }/>
                         </div>
-                        <div className="col-xs-12 col-sm-6">
-                            <Input  disable={this.props.disable} name="contact_phone" label={labels.contact_phone} value={contact.contact_phone}  onChange = { this.onChangeHanlder.bind(this) }/>
-                        </div>
+                        {
+                            this.getPhoneField(contact,labels)
+                        }
                         {
                             //this.props.hidePrimary ? '' : <div className="col-xs-12 col-sm-6"><Checkbox  disable={this.props.disable} name="is_primary" checked={ contact.is_primary } title="Primary Contact"    onChange = { this.onCheckboxChangeHanlder.bind(this) }/></div>
                         }

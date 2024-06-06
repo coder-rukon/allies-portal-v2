@@ -173,8 +173,8 @@ class TeamAccess extends Component {
                 <div className='col-xs-12 col-sm-3'>{accessLabel}</div>
                 <div className='col-xs-12 col-sm-4'>
                     <div className='d-flex gap-2'>
-                        {disable ? "" : <Button icon="border_color" onClick={ () => { this.setState({isEditing:true})}}/> }
-                        {this.state.isDeleting ? <Loading/> : ( disable ? '' : <Button icon="delete" onClick={this.onDeleteHandler.bind(this)} />) }
+                        {disable ? "" : <Button icon="border_color" className="only_icon" onClick={ () => { this.setState({isEditing:true})}}/> }
+                        {this.state.isDeleting ? <Loading/> : ( disable ? '' : <Button icon="delete" className="only_icon" onClick={this.onDeleteHandler.bind(this)} />) }
                     </div>
                 </div>
             </div>
