@@ -218,7 +218,7 @@ class CompanyDetails  extends Component{
                                 <Address  disable={isDisable} source="company" integrator={company.company_id} onReady={ obj => {this.addressComponent = obj }}/>
                             </BorderBox>
                             <BorderBox title="Notes">
-                               {company.company_id ? <Notes source="company" integrator={company.company_id}/> : '' } 
+                               {company.company_id ? <Notes  disable={isDisable} source="company" integrator={company.company_id}/> : '' } 
                             </BorderBox>
                             <div className="mt-3"></div>
                             {isDisable ? '' : <Button label="Save Company" onClick={ this.onSaveClick.bind(this) } /> }

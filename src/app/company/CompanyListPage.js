@@ -10,6 +10,7 @@ import Link from "next/link";
 import { Component } from "react";
 import { connect } from "react-redux";
 import StarIcons from '@/components/company/StarIcons'
+import Helper from "@/inc/Helper";
 class CompanyListPage  extends Component {
     constructor(props){
         super(props);
@@ -18,7 +19,7 @@ class CompanyListPage  extends Component {
                 color:null,
             },
             companyList:[],
-            hideHeaderItems:[],
+            hideHeaderItems:['website','industry_name','subindustry_name','company_address','lead_capture_type'],
             isLoading:false
         }
         this.sChangeHandler = null;
@@ -75,14 +76,31 @@ class CompanyListPage  extends Component {
             hideHeaderItems:hideHeaderItemsNew
         })
     }
+    getAddress(company){
+        let address = '';
+        if(company.company_address){
+            address += ( company.company_address.address_line_1 && Helper.getNullableValue(company.company_address.address_line_1) ) ? company.company_address.address_line_1 + ', ' : '';
+            address += ( company.company_address.address_line_2 && Helper.getNullableValue(company.company_address.address_line_2) ) ? company.company_address.address_line_2 + ', ' : '';
+            address += ( company.company_address.address_city && Helper.getNullableValue(company.company_address.address_city) ) ? company.company_address.address_city + ', ' : '';
+            address += ( company.company_address.address_state && Helper.getNullableValue(company.company_address.address_state) ) ? company.company_address.address_state + ', ' : '';
+            address += ( company.company_address.address_country && Helper.getNullableValue(company.company_address.address_country) ) ? company.company_address.address_country + ', ' : '';
+            address += ( company.company_address.address_zipcode && Helper.getNullableValue(company.company_address.address_zipcode) ) ? company.company_address.address_zipcode : '';
+        }
+        return address;
+    }
     getHeaders(){
         let hideHeaderItems = this.state.hideHeaderItems;
         
         let headers = [
+            {id:'website',title:'Website',width:'100px',hide:hideHeaderItems.includes('website')},
+            {id:'industry_name',title:'Industry',width:'100px',hide:hideHeaderItems.includes('industry_name')},
+            {id:'subindustry_name',title:'Sub-Industry',width:'100px',hide:hideHeaderItems.includes('subindustry_name')},
             {id:'contact_name',title:'CONTACT NAME',hide:hideHeaderItems.includes('contact_name'),width:'100px',cellRender:(item) => { return item.company_contact? item.company_contact.contact_name:''  }},
             {id:'title',title:'TITLE',width:'100px',hide:hideHeaderItems.includes('title'),cellRender:(item) => { return item.company_contact? item.company_contact.contact_title:''  }},
             {id:'phone',title:'PHONE',width:'100px',hide:hideHeaderItems.includes('phone'),cellRender:(item) => { return item.company_contact? item.company_contact.contact_phone:''  }},
-            {id:'email',title:'EMAIL',width:'100px',hide:hideHeaderItems.includes('email'),cellRender:(item) => { return item.company_contact? item.company_contact.contact_email:''  }}
+            {id:'email',title:'EMAIL',width:'100px',hide:hideHeaderItems.includes('email'),cellRender:(item) => { return item.company_contact? item.company_contact.contact_email:''  }},
+            {id:'company_address',title:'Address',width:'100px',hide:hideHeaderItems.includes('company_address'),cellRender:(item) => { return this.getAddress(item)  }},
+            {id:'lead_capture_type',title:'Lead Capture',width:'100px',hide:hideHeaderItems.includes('lead_capture')},
         ];
         return headers;
     }

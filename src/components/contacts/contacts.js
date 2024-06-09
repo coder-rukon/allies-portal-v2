@@ -26,9 +26,11 @@ class Contacts extends Component {
         this.intShortable();
     }
     intShortable(){
+        /*
         $(".shortable_items").sortable({
             handle: ".dragdrop_hanlder"
         });
+        */
     }
     onContactReady(contactCmp){
         //this.contactComponents.push(contactCmp)

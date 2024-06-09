@@ -13,6 +13,8 @@ class Contact extends Component {
             source:this.props.source,
             isVisbleBtn: !this.props.contact.contact_id ? true : false,
             errors:{},
+            isDeleted:false,
+            isDeleting:false,
             isLoading:false
         }
         //this.timeOut = null;
@@ -104,7 +106,7 @@ class Contact extends Component {
                             <Input  disable={this.props.disable} name="contact_phone" label={labels.contact_phone} value={contact.contact_phone}  onChange = { this.onChangeHanlder.bind(this) }/>
                         </div>
                         <div style={{marginTop:'24px'}}>
-                            <Button onClick={ e => this.deleteHandler() } className="only_icon" icon="delete" />
+                            { this.state.isDeleting ? <Loading/> : this.props.disable  ? <></> : <Button onClick={ e => this.deleteHandler() } className="only_icon" icon="delete" /> }
                         </div>
                         
                     </div>
@@ -119,9 +121,36 @@ class Contact extends Component {
         )
     }
     deleteHandler(){
-
+        this.setState({
+            isDeleted:false,
+            isDeleting:true
+        })
+        let api = Api, that = this;
+        let contact = this.state.contact;
+        api.setUserToken();
+        api.axios().post('/contact/delete',{contact_id:contact.contact_id}).then(res=>{
+            if(res.data.type ){
+                that.setState({
+                    isDeleted:true,
+                    isDeleting:false
+                })
+            }else{
+                that.setState({
+                    isDeleted:false,
+                    isDeleting:false
+                })
+            }
+        }).catch(error=>{
+            that.setState({
+                isDeleted:false,
+                isDeleting:false
+            })
+        })
     }
     render() {
+        if(this.state.isDeleted){
+            return <></>
+        }
         let contact = this.state.contact;
         let labels = {
             contact_name: 'Contact Name',
@@ -138,7 +167,7 @@ class Contact extends Component {
         let disable = this.props.disable  === true ? true : false;
         return ( 
             <div className="contact_list_form_item" >
-                {disable == true ? '' : <div className="dragdrop_hanlder"><img src="/images/icons/drag-controller.png"/></div> }
+                {true ? '' : <div className="dragdrop_hanlder"><img src="/images/icons/drag-controller.png"/></div> }
                 <div className="contact_list_form_item_contents">
                     <div className="row">
                         <div className="col-xs-12 col-sm-6">

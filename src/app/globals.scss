@@ -740,9 +740,17 @@ a.rs_btn{
     }
 }
 .team_access_item{
+    align-items: center;
+    padding:5px 0;
     .row{
-        margin-bottom: 10px;
+        align-items: center;
     }
+    .rs_form_group{
+        margin:0;
+    }
+}
+.team_access_item+.team_access_item{
+    border-top: 1px solid $lightGray;
 }
 .rs_popup_section{
     position: fixed;

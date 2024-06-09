@@ -149,9 +149,9 @@ class TeamAccess extends Component {
                     <Dropdown name="role_id" options={roles}  onChange={this.roleChangeHnadler.bind(this)}/>
                 </div>
                 <div className='col-xs-12 col-sm-4'>
-                    <div className='d-flex gap-2 mt-2'>
-                        {this.state.saving ? <Loading/> : <Button icon="save" onClick={ this.onSaveHander.bind(this)} /> }
-                        {this.state.isDeleting ? <Loading/> : <Button icon="delete" onClick={this.onDeleteHandler.bind(this)} />}
+                    <div className='d-flex gap-2 mt-2 justify-content-end' style={{paddingRight:'10px'}}>
+                        {this.state.saving ? <Loading/> : <Button icon="save" className="only_icon" onClick={ this.onSaveHander.bind(this)} /> }
+                        {this.state.isDeleting ? <Loading/> : <Button icon="delete" className="only_icon" onClick={this.onDeleteHandler.bind(this)} />}
                     </div>
                 </div>
             </div>
@@ -169,11 +169,11 @@ class TeamAccess extends Component {
         let disable = this.props.disable  === true ? true : false;
         return(
             <div className='row'>
-                <div className='col-xs-12 col-sm-5'>{name}</div>
+                <div className='col-xs-12 col-sm-7'>{name}</div>
                 <div className='col-xs-12 col-sm-3'>{accessLabel}</div>
-                <div className='col-xs-12 col-sm-4'>
-                    <div className='d-flex gap-2'>
-                        {disable ? "" : <Button icon="border_color" className="only_icon" onClick={ () => { this.setState({isEditing:true})}}/> }
+                <div className='col-xs-12 col-sm-2'>
+                    <div className='d-flex gap-2 justify-content-end' style={{paddingRight:'10px'}}>
+                        {true ? "" : <Button icon="border_color" className="only_icon" onClick={ () => { this.setState({isEditing:true})}}/> }
                         {this.state.isDeleting ? <Loading/> : ( disable ? '' : <Button icon="delete" className="only_icon" onClick={this.onDeleteHandler.bind(this)} />) }
                     </div>
                 </div>

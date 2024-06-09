@@ -58,9 +58,9 @@ class CompanyTeamAccess extends Component {
             <div>
                 <div className="new_team_access_list">
                     <div className='row'>
-                        <div className='col-xs-12 col-sm-5'>Name</div>
+                        <div className='col-xs-12 col-sm-7'>Name</div>
                         <div className='col-xs-12 col-sm-3'>Access Level</div>
-                        <div className='col-xs-12 col-sm-4'></div>
+                        <div className='col-xs-12 col-sm-2'></div>
                     </div>
                     {accessList.length <=0 ? <p>No members</p> : ''}
 

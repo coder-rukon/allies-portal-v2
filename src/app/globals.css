@@ -614,8 +614,16 @@ a.rs_btn {
   .grid_status_star .all_star span:hover {
     transform: scale(1.5); }
 
-.team_access_item .row {
-  margin-bottom: 10px; }
+.team_access_item {
+  align-items: center;
+  padding: 5px 0; }
+  .team_access_item .row {
+    align-items: center; }
+  .team_access_item .rs_form_group {
+    margin: 0; }
+
+.team_access_item + .team_access_item {
+  border-top: 1px solid #9CA3AF; }
 
 .rs_popup_section {
   position: fixed;

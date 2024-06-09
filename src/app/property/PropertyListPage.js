@@ -3,8 +3,9 @@ import { Component } from "react";
 import Panel from "@/components/widget/panel";
 import Button from "@/components/forms/button";
 import Input from "@/components/forms/Input";
-import RsGrid from "@/components/grid/rsgrid";
 import PropertyGrid from '@/components/property/PropertyGrid';
+import { connect } from "react-redux";
+import ActionsTypes from "@/inc/ActionTypes";
 class PropertyListPage extends Component {
     constructor(props) {
         super(props);
@@ -16,6 +17,9 @@ class PropertyListPage extends Component {
                 land:false,   
             }
         }
+    }
+    componentDidMount(){
+        this.props.setOptions({title:'Properties'})
     }
     onSearchChangeHandler(event){
 
@@ -70,5 +74,10 @@ class PropertyListPage extends Component {
         );
     }
 }
- 
-export default PropertyListPage;
+const mapStateToProps = (state) => ({
+    
+});
+const mapDispatchToProps = (dispatch) => ({
+    setOptions: (data) => dispatch({type:ActionsTypes.SET_OPTION,data:data}), // Map your state to props
+});
+export default connect (mapStateToProps,mapDispatchToProps) (PropertyListPage);

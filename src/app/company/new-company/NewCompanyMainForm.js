@@ -197,18 +197,7 @@ class NewCompanyMainForm extends Component {
                     </div>
                     <div className="col-xs-12 col-sm-6">
                         
-                        <BorderBox title="Team Access">
-                            <div className="new_team_access_list">
-                                <p>No team access</p>
-                            </div>
-                            <Button label="+ Team Member"/>
-                        </BorderBox>
-                        <BorderBox title="Linked Properties">
-                            <div className="property_links">
-                                <p>No Linked Properties</p>
-                            </div>
-                            <Button label="+ Link Property"/>
-                        </BorderBox>
+                      
                         <BorderBox title="Lead Capture">
                             <div className="new_company_lead_type">
                                 <Dropdown name="lead_capture_type" options={lead_capture_type_otpions} errors={this.state.errors}  value={company.lead_capture_type} onChange={this.onCompanyChangeHandler.bind(this)} label="Lead Type" />

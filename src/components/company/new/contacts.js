@@ -47,6 +47,40 @@ class Contacts extends Component {
             contacts:newState
         })
     }
+    deleteHandler(contact){
+        let contacts = this.state.contacts;
+        let newContact = [];
+        contacts.forEach(oldContact => {
+            if(oldContact.tempId != contact.tempId){
+                newContact.push(oldContact)
+            }
+        });
+        this.setState({
+            contacts:newContact
+        })
+    }
+    getPhoneField(contact,canDelete,inputArg){
+        if(canDelete){
+            return(
+                <div className={'col-xs-12 col-sm-6'}>
+                    <div className="d-flex gap-2">
+                        <div style={{width:'calc(100% - 50px)'}}>
+                            <Input {...inputArg}/>
+                        </div>
+                        <div style={{marginTop:'24px'}}>
+                            <Button onClick={ e => this.deleteHandler(contact) } className="only_icon" icon="delete" />
+                        </div>
+                        
+                    </div>
+                </div>
+            )
+        }
+        return(
+            <div className={'col-xs-12 col-sm-6'}>
+                <Input  {...inputArg}/>
+            </div>
+        )
+    }
     render() { 
         let errors = this.props.errors ?  this.props.errors : []
         return (
@@ -65,9 +99,16 @@ class Contacts extends Component {
                                     <div className="col-xs-12 col-sm-6">
                                         <Input name="email" label="Email" errors={errors} errorName={'contacts.'+key+'.email'} value={contact.email}  onChange = { (event) => { this.onChangeHanlder(event,key,contact) }}/>
                                     </div>
-                                    <div className="col-xs-12 col-sm-6">
-                                        <Input name="phone" label="Phone" errors={errors} errorName={'contacts.'+key+'.phone'} value={contact.phone}  onChange = { (event) => { this.onChangeHanlder(event,key,contact) }}/>
-                                    </div>
+                                    {
+                                        this.getPhoneField(contact,key >= 1,{
+                                            name:"phone", 
+                                            label:"Phone", 
+                                            errors:errors ,
+                                            errorName:'contacts.'+key+'.phone',
+                                            value:contact.phone,
+                                            onChange : (event) => { this.onChangeHanlder(event,key,contact) }
+                                        })
+                                    }
                                 </div>
                                 
                             </div>
