@@ -15,6 +15,7 @@ import CompanyTeamAccess from '@/components/company/teamaccess/CompanyTeamAccess
 import LinkedProperty from '@/components/company/LinkedProperty';
 import Address from "@/components/address/Address";
 import CompanyDeals from "@/components/company/deals/CompanyDeals";
+import Helper from "@/inc/Helper";
 class CompanyDetails  extends Component{
     constructor(props){
         super(props);
@@ -26,6 +27,7 @@ class CompanyDetails  extends Component{
             isSubindustryLoading:false,
             industryList:[],
             subindustryList:[],
+            errorMessage:null
         }
         this.addressComponent = null;
         this.contactComponent = null;
@@ -101,15 +103,32 @@ class CompanyDetails  extends Component{
         }
     }
     onSaveClick(){
+        let contacts = this.contactComponent.getContacts();
+        let isErrorFound = false;
+        contacts.forEach(contact => {
+            if( !Helper.getNullableValue(contact.contact_name)){
+                isErrorFound = true;
+            }
+            if( !Helper.getNullableValue(contact.contact_title)){
+                isErrorFound = true;
+
+            }
+        });
+        if(isErrorFound){
+            return;
+        }
+
         this.setState({
             isLoading:true
         })
         
         let api = Api, that = this;
         let address = this.addressComponent.getAddress();
+        
         let company = {
             ...this.state.company,
-            ...address
+            ...address,
+            company_contacts:contacts
         }
         
 

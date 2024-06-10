@@ -5,6 +5,8 @@ import Contact from "./contact";
 import Api from "@/inc/Api";
 import $ from 'jquery';
 import '../../../public/js/jquery-ui.min.js';
+import Helper from "@/inc/Helper";
+import Loading from "../widget/Loading";
 class Contacts extends Component {
     constructor(props) {
         super(props);
@@ -38,6 +40,48 @@ class Contacts extends Component {
     getContacts(){
         return this.state.contacts;
     }
+    onContactChange(updatedContact){
+        let contacts = this.state.contacts;
+        let newContactsList = [];
+        contacts.forEach(item => {
+            if(updatedContact.contact_id && updatedContact.contact_id  == item.contact_id){
+                newContactsList.push(updatedContact)
+            }
+            else if(updatedContact.new_contact_random_id && updatedContact.new_contact_random_id  == item.new_contact_random_id ){
+                newContactsList.push(updatedContact)
+            }
+            else{
+                newContactsList.push(item)
+            }
+        })
+        this.setState({
+            contacts:newContactsList
+        })
+    }    
+    onContactDelete(updatedContact){
+        let contacts = this.state.contacts;
+        let newContactsList = [];
+        contacts.forEach(item => {
+            if(updatedContact.contact_id && updatedContact.contact_id  == item.contact_id){
+                //newContactsList.push(updatedContact)
+            }
+            else if(updatedContact.new_contact_random_id && updatedContact.new_contact_random_id  == item.new_contact_random_id ){
+                //newContactsList.push(updatedContact)
+            }
+            else{
+                newContactsList.push(item)
+            }
+        })
+        this.setState({
+            isLoading:true
+        },function(){
+            this.setState({
+                isLoading:false,
+                contacts:newContactsList
+            })
+        })
+        
+    }
     loadContacts(){
         let that = this, api = Api;
         if(api.setUserToken()){
@@ -61,10 +105,12 @@ class Contacts extends Component {
     }
     getNewBlankObj(){
         return({
+            new_contact_random_id:Helper.getUniqueId(),
             contact_name:'',
             contact_title:'',
             contact_phone:'',
             contact_email:'',
+            contact_website:'',
             is_primary:'no'
         })
     }
@@ -76,13 +122,16 @@ class Contacts extends Component {
         })
     }
     render() { 
+        if(this.state.isLoading){
+            return <Loading/>
+        }
         return (
             <div className="contact_list_form contact_component">
                 <div className="shortable_items">
                 {
                     this.state.contacts.map( (contact , key) => {
                         return(
-                           <Contact canDelete={key >= 1 } onReady = { this.onContactReady.bind(this)} key={key} disable={this.props.disable} hidePrimary = { this.props.hidePrimary === true ? true : false } contact={contact} integrator={ this.state.integrator} source={this.state.source} labels= {this.props.labels ? this.props.labels : null}/>
+                           <Contact onChange = {this.onContactChange.bind(this)} onDelete={this.onContactDelete.bind(this)} canDelete={key >= 1 } onReady = { this.onContactReady.bind(this)} key={key} disable={this.props.disable} hidePrimary = { this.props.hidePrimary === true ? true : false } contact={contact} integrator={ this.state.integrator} source={this.state.source} labels= {this.props.labels ? this.props.labels : null}/>
                         )
                     })
                 }

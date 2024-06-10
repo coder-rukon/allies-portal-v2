@@ -68,7 +68,7 @@ class LinkedProperty extends Component {
         }
         return (
             <Popup width="80%" onClose={ () => { this.setState({ showPopup:false })}}>
-                <PropertyListPage onPropertyClick={this.onPropertySelect.bind(this)}/>
+                <PropertyListPage onPropertyClick={this.onPropertySelect.bind(this)} exportable={true}/>
             </Popup>
         )
     }

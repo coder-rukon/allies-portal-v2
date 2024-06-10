@@ -3,6 +3,9 @@ import Axios from "axios"
 import Settings from './Settings';
 
 let Helper = {
+    getUniqueId:(prefix='id') => {
+        return prefix + Math.random().toString(16).slice(2)
+    },
     setPageData(newData = {}){
         document.title = newData?.title;
         document.getElementById('h_title').innerHTML = newData?.pageTitle;

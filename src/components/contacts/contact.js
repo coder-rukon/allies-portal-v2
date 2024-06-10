@@ -34,6 +34,9 @@ class Contact extends Component {
                 [event.target.name]: event.target.value
             }
         },function(){
+            if(that.props.onChange){
+                that.props.onChange(this.state.contact);
+            }
             /*
             clearTimeout(that.timeOut);
             that.timeOut = setTimeout(function(){
@@ -121,31 +124,37 @@ class Contact extends Component {
         )
     }
     deleteHandler(){
-        this.setState({
-            isDeleted:false,
-            isDeleting:true
-        })
-        let api = Api, that = this;
         let contact = this.state.contact;
-        api.setUserToken();
-        api.axios().post('/contact/delete',{contact_id:contact.contact_id}).then(res=>{
-            if(res.data.type ){
-                that.setState({
-                    isDeleted:true,
-                    isDeleting:false
-                })
-            }else{
+        if(contact.contact_id){
+            this.setState({
+                isDeleted:false,
+                isDeleting:true
+            })
+            let api = Api, that = this;
+            api.setUserToken();
+            api.axios().post('/contact/delete',{contact_id:contact.contact_id}).then(res=>{
+                if(res.data.type ){
+                    that.setState({
+                        isDeleted:true,
+                        isDeleting:false
+                    })
+                }else{
+                    that.setState({
+                        isDeleted:false,
+                        isDeleting:false
+                    })
+                }
+            }).catch(error=>{
                 that.setState({
                     isDeleted:false,
                     isDeleting:false
                 })
-            }
-        }).catch(error=>{
-            that.setState({
-                isDeleted:false,
-                isDeleting:false
             })
-        })
+        }
+       
+        if(this.props.onDelete){
+            this.props.onDelete(contact)
+        }
     }
     render() {
         if(this.state.isDeleted){
@@ -189,7 +198,9 @@ class Contact extends Component {
                         <div className="col-xs-12 col-sm-12">
                             <div style={{display:'flex', justifyContent:'space-between'}}>
                                 {this.state.isLoading? <div><Loading/></div> : ''}
-                                {this.state.isVisbleBtn && !this.state.isLoading && this.props.disable !== true ? <div><Button onClick={this.onSaveHandler.bind(this)} label="Save"/></div> : '' }
+                                { 
+                                 //this.state.isVisbleBtn && !this.state.isLoading && this.props.disable !== true ? <div><Button className="btn_contact_save" onClick={this.onSaveHandler.bind(this)} label="Save"/></div> : '' 
+                                }
                             </div>
                         </div>
                     </div>

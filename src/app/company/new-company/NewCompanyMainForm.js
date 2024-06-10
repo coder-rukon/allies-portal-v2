@@ -14,6 +14,7 @@ import ActionsTypes from "@/inc/ActionTypes";
 import { redirect } from 'next/navigation';
 import Address from "@/components/address/Address";
 import Settings from "@/inc/Settings";
+import NewCompanyLinkProperty from '@/components/company/new/property/NewCompanyLinkProperty';
 class NewCompanyMainForm extends Component {
     constructor(props){
         super(props);
@@ -30,6 +31,7 @@ class NewCompanyMainForm extends Component {
         }
         this.contactComponent = null;
         this.addressComponent = null;
+        this.propertyLinkComponent = null;
     }
     componentDidMount(){
         this.props.setOptions({title:'Create Company'})
@@ -77,6 +79,7 @@ class NewCompanyMainForm extends Component {
             address_country: address?.address_country,
             address_zipcode: address?.address_zipcode,
             contacts: this.contactComponent ? this.contactComponent.getContacts() : null,
+            properties:  this.propertyLinkComponent ? this.propertyLinkComponent.getData().map( item => { return item.property_id }) : null,
         }
         that.setState({
             isSaving:true
@@ -197,7 +200,15 @@ class NewCompanyMainForm extends Component {
                     </div>
                     <div className="col-xs-12 col-sm-6">
                         
-                      
+                        <BorderBox title="Team Access">
+                            <div className="new_team_access_list">
+                                <p>No Previous Deals</p>
+                            </div>
+                            <Button label="+ Team Member"/>
+                        </BorderBox>
+                        <BorderBox title="Linked Properties">
+                            <NewCompanyLinkProperty onReady={ objCmp => { this.propertyLinkComponent = objCmp }}/>
+                        </BorderBox>
                         <BorderBox title="Lead Capture">
                             <div className="new_company_lead_type">
                                 <Dropdown name="lead_capture_type" options={lead_capture_type_otpions} errors={this.state.errors}  value={company.lead_capture_type} onChange={this.onCompanyChangeHandler.bind(this)} label="Lead Type" />

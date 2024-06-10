@@ -19,7 +19,10 @@ class PropertyListPage extends Component {
         }
     }
     componentDidMount(){
-        this.props.setOptions({title:'Properties'})
+        if(!this.props.exportable){
+            this.props.setOptions({title:'Properties'})
+        }
+        
     }
     onSearchChangeHandler(event){
 
