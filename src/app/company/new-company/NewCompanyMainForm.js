@@ -15,6 +15,7 @@ import { redirect } from 'next/navigation';
 import Address from "@/components/address/Address";
 import Settings from "@/inc/Settings";
 import NewCompanyLinkProperty from '@/components/company/new/property/NewCompanyLinkProperty';
+import TeamAccessExportable from '@/components/company/teamaccess/exportable/TeamAccessExportable';
 class NewCompanyMainForm extends Component {
     constructor(props){
         super(props);
@@ -32,6 +33,7 @@ class NewCompanyMainForm extends Component {
         this.contactComponent = null;
         this.addressComponent = null;
         this.propertyLinkComponent = null;
+        this.teamAccessComponent = null;
     }
     componentDidMount(){
         this.props.setOptions({title:'Create Company'})
@@ -201,10 +203,8 @@ class NewCompanyMainForm extends Component {
                     <div className="col-xs-12 col-sm-6">
                         
                         <BorderBox title="Team Access">
-                            <div className="new_team_access_list">
-                                <p>No Previous Deals</p>
-                            </div>
-                            <Button label="+ Team Member"/>
+                            <TeamAccessExportable onReady={ obj => { this.teamAccessComponent = obj }}/>
+                            
                         </BorderBox>
                         <BorderBox title="Linked Properties">
                             <NewCompanyLinkProperty onReady={ objCmp => { this.propertyLinkComponent = objCmp }}/>
