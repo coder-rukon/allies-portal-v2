@@ -106,7 +106,12 @@ class CompanyListPage  extends Component {
     }
     onStarFilterItemClick(color){
         let filter = this.state.filter;
-        filter.color = color.id;
+        
+        if(filter.color == color.id){
+            filter.color = null;
+        }else{
+            filter.color = color.id;
+        }
         this.setState({
             filter:filter
         },()=>{

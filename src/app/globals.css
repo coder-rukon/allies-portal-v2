@@ -588,6 +588,11 @@ a.rs_btn {
 .grid_status_star {
   display: block;
   position: relative; }
+  .grid_status_star .active_icon {
+    cursor: pointer;
+    display: block; }
+    .grid_status_star .active_icon img {
+      width: 20px; }
   .grid_status_star span {
     color: #9CA3AF;
     cursor: pointer;

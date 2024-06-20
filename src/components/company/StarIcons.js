@@ -24,13 +24,22 @@ class StarIcons extends Component {
     }
     updateCompanyStatus(color){
         if(this.props.onItemClick){
-            this.setState({
-                company:{
-                    ...this.state.company,
-                    color_status_id:color.id
-                },
-                isShowPopup:false,
-            })
+            if(this.state.company?.color_status_id == color.id){
+                this.setState({
+                    company:{
+                    },
+                    isShowPopup:false,
+                })
+            }else{
+                this.setState({
+                    company:{
+                        ...this.state.company,
+                        color_status_id:color.id
+                    },
+                    isShowPopup:false,
+                })
+            }
+            
             this.props.onItemClick(color)
             return;
         }
@@ -83,6 +92,15 @@ class StarIcons extends Component {
             </div>
         )
     }
+    getActiveIcon(){
+        let company = this.state.company;
+        let iconUrl = '/images/icons/star_color_default.png';
+        if(company.color_status_id){
+            iconUrl = '/images/icons/star_color_'+company.color_status_id+'.png';
+        }
+
+        return <img src={iconUrl} style={{width:'20px'}}/>
+    }
     render() {
         let company = this.state.company;
         if(this.state.isLoading){
@@ -91,7 +109,9 @@ class StarIcons extends Component {
 
         return (
             <div className='grid_status_star'>
-                <span class="material-symbols-outlined active" style={{color:this.getColorCodeById(company.color_status_id)}} onClick={ this.showPopup.bind(this) }>star_rate</span>
+                <div className='active_icon' onClick={ this.showPopup.bind(this) }>
+                    {this.getActiveIcon()}
+                </div>
                 { this.getPopup() }
             </div>
         );

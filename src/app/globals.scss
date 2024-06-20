@@ -707,6 +707,13 @@ a.rs_btn{
 .grid_status_star{
     display: block;
     position: relative;
+    .active_icon{
+        cursor: pointer;
+        display: block;
+        img{
+            width: 20px;
+        }
+    }
     span{
         color: #9CA3AF;
         cursor: pointer;
