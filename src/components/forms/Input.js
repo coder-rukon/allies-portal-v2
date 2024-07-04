@@ -1,5 +1,6 @@
 import { Component } from "react";
 import ErrorMessage from '@/components/widget/errormessage';
+import InputRadio from "./inputradio";
 class Input extends Component {
     constructor(props) {
         super(props);
@@ -44,13 +45,28 @@ class Input extends Component {
             />
         )
     }
+    getOptions(){
+        if(!this.props.options){
+            return <></>
+        }
+        return(
+            <div className="rs_option_group">
+                {
+                    this.props.options.map( optionItem => {
+                        return <InputRadio {...optionItem} />
+                    })
+                }
+            </div>
+        )
+    }
     render() { 
-        
-        let wrapperClass = this.props.className ? "form-group rs_form_group " + this.props.className : "form-group rs_form_group";
+        let hasOptions = this.props.options ? true : false;
+        let classForOptionsGroup = hasOptions ? ' with_options ' : '';
+        let wrapperClass = this.props.className ? "form-group rs_form_group "+ classForOptionsGroup + this.props.className :  classForOptionsGroup +" form-group rs_form_group";
         return ( 
             <div className={wrapperClass}>
                 { this.props.label ? <label className="rs_form_label">{this.props.label}</label> : ''}
-                { this.getInputBox() }
+                { hasOptions ? <div className="rs_options_box_wraper">{this.getInputBox() } {this.getOptions()} </div> : this.getInputBox()  }
                 <ErrorMessage errors={this.props.errors} field={this.props.errorName ? this.props.errorName : this.props.name} />
             </div>
          );

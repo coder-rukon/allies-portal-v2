@@ -5,6 +5,7 @@ import Panel from "@/components/widget/panel";
 import Industry from '@/components/settings/Industry'
 import Subindustry from '@/components/settings/Subindustry'
 import CompanyAccessRoles from '@/components/settings/roles/CompanyAccessRole'
+import PropertySubTypes from '../../components/settings/PropertySubTypes';
 class SettingsMainPage extends Component {
     constructor(props){
         super(props);
@@ -28,6 +29,9 @@ class SettingsMainPage extends Component {
         if(page == 'company_acess_role'){
             return <CompanyAccessRoles/>
         }
+        if(page == 'subtypes'){
+            return <PropertySubTypes/>
+        }
         return <></>
     }
     render() {
@@ -43,6 +47,9 @@ class SettingsMainPage extends Component {
                     </li>
                     <li class="nav-item">
                         <span className={ page == 'company_acess_role' ? 'nav-link active' : 'nav-link'} onClick={ e => {this.changePage('company_acess_role')} } style={{cursor:'pointer'}}>Company User Role</span>
+                    </li> 
+                    <li class="nav-item">
+                        <span className={ page == 'subtypes' ? 'nav-link active' : 'nav-link'} onClick={ e => {this.changePage('subtypes')} } style={{cursor:'pointer'}}>Property Subtype</span>
                     </li>
                 </ul>
                 <Panel>

@@ -17,6 +17,8 @@ import { redirect } from 'next/navigation';
 import Address from "../address/Address";
 import { connect } from "react-redux";
 import ActionsTypes from "@/inc/ActionTypes";
+import Helper from "@/inc/Helper";
+import Checkbox from "../forms/checkbox";
 class CreatePropertyForm extends Component {
     constructor(props) {
         super(props);
@@ -30,7 +32,11 @@ class CreatePropertyForm extends Component {
             state:{},
             successMessage: null,
             errorMessage:null,
-            redirectTo:null
+            redirectTo:null,
+            isExpandTypeSubtype:false,
+            isSelectedSubtype:false,
+            propertyTypeSubtype:{},
+            allSubtypes:[]
         }
         this.fileUploader = null;
         this.addressComponent = null;
@@ -39,10 +45,24 @@ class CreatePropertyForm extends Component {
     }
     componentDidMount(){
         this.props.setOptions({title:'Create Property'})
+        this.loadSubtypes();
     }
     onBrokerFormReady(brokerObject){
         this.setState({
             brokerObj: brokerObject
+        })
+    }
+    loadSubtypes(){
+        let api = Api, that = this;
+        that.setState({
+            isLoading:true
+        })
+        api.setUserToken();
+        api.axios().get('/property-subtype').then(res => {
+            that.setState({
+                isLoading:false,
+                allSubtypes:res.data.data
+            })
         })
     }
     onPropertyChangeHanlder(event){
@@ -174,8 +194,12 @@ class CreatePropertyForm extends Component {
             property_tenant:company
         })
     }
+    allFields(field_id,property){
+        
+    }
     getSpaceFields(allowField){
         let property = this.state.property;
+
         return(
             <>
                 {( allowField == 'property_size') ? <div className="col-xs-12 col-sm-6"><Input onChange={this.onPropertyChangeHanlder.bind(this)}  name="property_size" label="Size" value={property.property_size}/></div> :''}
@@ -201,6 +225,68 @@ class CreatePropertyForm extends Component {
             </>
         )
     }
+    propertyTypeSubtypeOnClick(){
+        this.setState({
+            isSelectedSubtype:true
+        })
+    }
+    onPropertySubTypeChange(event){
+        let subtype = this.state.allSubtypes.find(item => { return event.target.value == item.subtype_id })
+        if(!subtype){
+            subtype = null;
+        }
+        this.setState({
+            propertyTypeSubtype:{
+                type:subtype ? Helper.getPropertyType(subtype.property_type_id) : null,
+                subtype:  subtype
+            }
+        })
+    }
+    getTypeSubtypeBox(){
+        if(this.state.isLoading){
+            return <Loading/>
+        }
+
+        return(
+            <>
+            <BorderBox title="Property Type/Subtype">
+                <div className="p_typesubtype_rows">
+                {
+                    Helper.getPropertyType().map( pType => {
+                        let gorupSubtypes = this.state.allSubtypes.filter( typeItem => typeItem.property_type_id == pType.pt_id )
+                        return (
+                            <div className={gorupSubtypes.length >= 2 ? "p_group p_group_full" : "p_group"}>
+                                <h4>{pType.label}</h4>
+                                <div className="pgroup_subtypes">
+                                {
+                                    gorupSubtypes.map( subtype => {
+                                        return(
+                                            <div className="pgroup_subtype">
+                                                <InputRadio onChange={ this.onPropertySubTypeChange.bind(this)} name="item_subtype" value={subtype.subtype_id} title={subtype.subtype_name}/>
+                                            </div>
+                                        )
+                                    })
+                                }
+                                </div>
+                                
+                            </div>
+                        )
+                    } )
+                }
+                    <div className={"p_group"}>
+                        <h4>Other</h4>
+                        <div className="pgroup_subtypes">
+                            <Input name="other" />
+                        </div>
+                        
+                    </div>
+                </div>
+                
+            </BorderBox>
+            {!this.state.isSelectedSubtype ? <Button className="mt-3" label="Continue" onClick={ e => { this.propertyTypeSubtypeOnClick() } } /> : '' }
+            </>
+        )
+    }
     render() { 
         let property = this.state.property;
         let listing_type_options = Settings.listingType;
@@ -208,21 +294,68 @@ class CreatePropertyForm extends Component {
         if(this.state.redirectTo){
             redirect(this.state.redirectTo)
         }
+        if(!this.state.isSelectedSubtype){
+            return this.getTypeSubtypeBox();
+        }
+        let propertyTypeSubtype = this.state.propertyTypeSubtype;
+        
         return(
             <div className="property_create_form">
+
                 <div className="row">
                     <div className="col-xs-12 col-sm-6">
                         <BorderBox title="Property Details">
+                            <div className="property_tst_details">
+                                <div className="ptsd_label">Property Type/Subtype</div>
+                                <div className="ptsd_selected_label_ctl">
+                                    <div className="ptsd_selected_label"><strong>{propertyTypeSubtype.type ? propertyTypeSubtype?.type?.label : "Other"} </strong>- {propertyTypeSubtype?.subtype?.subtype_name}</div>
+                                    <div>
+                                        <img onClick={ e => { this.setState({isExpandTypeSubtype: !this.state.isExpandTypeSubtype}) }} src={this.state.isExpandTypeSubtype ? "/images/icons/minus.svg" : "/images/icons/plus.svg"} />
+                                    </div>
+                                </div>
+                                {
+                                    this.state.isExpandTypeSubtype ? this.getTypeSubtypeBox() : ''
+                                }
+                            </div>
                             <div className="row">
+                                
+                                <div className="col-xs-12">
+                                    <Address source="property" exportable={true} onReady={ obj => {this.addressComponent = obj }}/>
+                                </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Dropdown  name="property_listing_type" options={listing_type_options} errors={this.state.errors}  value={property.property_listing_type} onChange={this.onPropertyDropdownChangeHandler.bind(this)} label="Listing Type*" />
+                                    <Dropdown  name="property_tenancy" options={listing_type_options} errors={this.state.errors}  value={property.property_tenancy} onChange={this.onPropertyDropdownChangeHandler.bind(this)} label="Tenancy" />
+                                </div>  
+                                <div className="col-xs-12 col-sm-6">
+                                    <Input  name="property_submarket" errors={this.state.errors}  value={property.property_submarket} onChange={this.onPropertyChangeHanlder.bind(this)} label="Submarket" />
+                                </div>   
+                                <div className="col-xs-12 col-sm-6">
+                                    <Input  name="property_size"
+                                        errors={this.state.errors}  
+                                        value={property.property_size} 
+                                        onChange={this.onPropertyChangeHanlder.bind(this)} 
+                                        label="Size" 
+                                        options = {
+                                            [{ name:'property_size_unit', title:"SF" },{ name:'property_size_unit', title:"Acre" }]
+                                        }
+                                    />
+                                </div>   
+                                <div className="col-xs-12 col-sm-6">
+                                    <Input  
+                                        name="property_additional_size"
+                                        options = {
+                                            [{ name:'property_size_unit', title:"SF" },{ name:'property_size_unit', title:"Acre" }]
+                                        }
+                                        errors={this.state.errors}  value={property.property_additional_size } onChange={this.onPropertyChangeHanlder.bind(this)} label="Additional Size (Optional)" />
+                                </div>
+                                <div className="col-xs-12 col-sm-6">
+                                    <Input  name="property_zoning" errors={this.state.errors}  value={property.property_zoning } onChange={this.onPropertyChangeHanlder.bind(this)} label="Zoning" />
+                                </div> 
+                                <div className="col-xs-12 col-sm-6">
+                                    <Input  name="property_cross_street" errors={this.state.errors}  value={property.property_cross_street } onChange={this.onPropertyChangeHanlder.bind(this)} label="Cross Street" />
                                 </div> 
                                 <div className="col-xs-12 col-sm-6">
                                     <Dropdown  name="property_status" options={listing_status_options} errors={this.state.errors}  value={property.property_status} onChange={this.onPropertyDropdownChangeHandler.bind(this)} label="Status*" />
                                 </div> 
-                                <div className="col-xs-12">
-                                    <Address source="property" exportable={true} onReady={ obj => {this.addressComponent = obj }}/>
-                                </div>
                             </div>
                         </BorderBox>
                         <BorderBox>
