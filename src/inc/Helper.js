@@ -68,6 +68,13 @@ let Helper = {
         }
         return null;
     },
+    tenancyOptions(data){
+        return [
+            {id:'1',label:'Single'},
+            {id:'2',label:'Multile'},
+            {id:'3',label:'Triple'}
+        ]
+    },
     formateDateFromDb(dateDateString){
         const d = new Date(dateDateString)
         return d.getDate()+'-'+d.getMonth()+'-'+d.getFullYear();

@@ -37,7 +37,7 @@ class CreatePropertyForm extends Component {
             errorMessage:null,
             redirectTo:null,
             isExpandTypeSubtype:false,
-            isSelectedSubtype:true,
+            isSelectedSubtype:false,
             propertyTypeSubtype:{},
             activeAdditionalType:'industrial',
             allSubtypes:[]
@@ -46,6 +46,7 @@ class CreatePropertyForm extends Component {
         this.addressComponent = null;
         this.propertyOwnerCmp = null;
         this.propertyTenantCmp = null;
+        this.additionalFieldsObj = new AdditionalFields(this.state.property);
     }
     componentDidMount(){
         this.props.setOptions({title:'Create Property'})
@@ -101,13 +102,19 @@ class CreatePropertyForm extends Component {
         })
     }
     onPropertyCreateHanlder(event){
-
+        
         this.setState({
             isCreatingProperty:true
         })
+
         let address = this.addressComponent.getAddress();
+        let propertyTypeSubtype = this.state.propertyTypeSubtype;
         let data = {
             ...this.state.property,
+            property_type : ( propertyTypeSubtype.type &&  propertyTypeSubtype.type.pt_id )? propertyTypeSubtype.type.pt_id  : null ,
+            property_subtype : ( propertyTypeSubtype.subtype &&  propertyTypeSubtype.subtype.subtype_id )? propertyTypeSubtype.type.subtype_id  : null ,
+            property_subtype_name : ( propertyTypeSubtype.subtype &&  propertyTypeSubtype.subtype.subtype_name ) ? propertyTypeSubtype.subtype.subtype_name : null ,
+            property_additional_type : this.state.activeAdditionalType,
             address_line_1: address?.address_line_1,
             address_line_2: address?.address_line_2,
             city: address?.address_city,
@@ -117,8 +124,14 @@ class CreatePropertyForm extends Component {
             broker_contacts:this.state.brokerObj ? this.state.brokerObj.getBrokers() : [],
         };
         let propertyOwner =  this.propertyOwnerCmp.getData();
+        let addtionalFieldData = {};
+        if(  this.additionalFieldsObj ){
+            addtionalFieldData = this.additionalFieldsObj.getData(this.state.activeAdditionalType);
+        }
+
         data = {
             ...data,
+            ...addtionalFieldData,
             property_owner_id:propertyOwner?.propertyholder_id,
             property_owner_company:propertyOwner?.propertyholder_company,
             property_owner_contact:propertyOwner?.propertyholder_contact,
@@ -134,6 +147,7 @@ class CreatePropertyForm extends Component {
             property_owner_zipcode:propertyOwner?.propertyholder_zipcode,
         }
         let propertyTenent =  this.propertyTenantCmp.getData();
+        
         data = {
             ...data,
             property_tenant_id:propertyTenent?.propertyholder_id,
@@ -284,7 +298,7 @@ class CreatePropertyForm extends Component {
             return this.getTypeSubtypeBox();
         }
         let propertyTypeSubtype = this.state.propertyTypeSubtype;
-        let additionalFieldsObj = new AdditionalFields(property);
+        
         return(
             <div className="property_create_form">
 
@@ -309,7 +323,7 @@ class CreatePropertyForm extends Component {
                                     <Address source="property" exportable={true} onReady={ obj => {this.addressComponent = obj }}/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Dropdown  name="property_tenancy" options={listing_type_options} errors={this.state.errors}  value={property.property_tenancy} onChange={this.onPropertyDropdownChangeHandler.bind(this)} label="Tenancy" />
+                                    <Dropdown  name="property_tenancy" options={Helper.tenancyOptions()} errors={this.state.errors}  value={property.property_tenancy} onChange={this.onPropertyDropdownChangeHandler.bind(this)} label="Tenancy" />
                                 </div>  
                                 <div className="col-xs-12 col-sm-6">
                                     <Input  name="property_submarket" errors={this.state.errors}  value={property.property_submarket} onChange={this.onPropertyChangeHanlder.bind(this)} label="Submarket" />
@@ -347,7 +361,7 @@ class CreatePropertyForm extends Component {
                         <BorderBox title="Additional Property Details">
                             <div className="property_accordian">
                                 {
-                                    additionalFieldsObj.getAdditionalType().map( (propertyAdditionalType,key) => {
+                                    this.additionalFieldsObj.getAdditionalType().map( (propertyAdditionalType,key) => {
                                         let isActiveType = this.state.activeAdditionalType == propertyAdditionalType.slug ? true : false;
                                         return(
                                             <div className="property_accordian_item" key={key}>
@@ -359,7 +373,7 @@ class CreatePropertyForm extends Component {
                                                     
                                                 </div>
                                                 {
-                                                    isActiveType? <div className="pa_contents"> {additionalFieldsObj.displayAditionalFields(propertyAdditionalType.slug)} </div> : ''
+                                                    isActiveType? <div className="pa_contents"> {this.additionalFieldsObj.displayAditionalFields(propertyAdditionalType.slug)} </div> : ''
                                                 }
                                                 
                                             </div>

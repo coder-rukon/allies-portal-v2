@@ -26,7 +26,7 @@ class PropertyGrid extends Component {
             isLoading:true
         })
         api.setUserToken();
-        api.axios().get('/property/list?property_type='+this.props.propertyType).then(res=>{
+        api.axios().get('/property/list?listing_type='+this.props.propertyType).then(res=>{
             that.setState({
                 isLoading:false,
                 apiData:res.data,

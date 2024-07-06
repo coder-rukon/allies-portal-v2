@@ -12,9 +12,18 @@ class AdditionalFields{
             {id:'13',name:'Retail',slug:'retail'},
             {id:'14',name:'Land',slug:'land'}
         ]
-
     }
-    
+    getData(additional_type_slug){
+        let fields = this.getPropertyAdditionalFields(additional_type_slug);
+        const outputData = fields.reduce((acc, obj) => {
+            acc[obj.name] =  typeof obj.value === 'undefined' ? null : obj.value;
+            if(obj.options && obj.type == 'text'){
+               acc[obj.options[0].name] = document.querySelector('input[name="'+obj.options[0].name+'"]:checked') ? document.querySelector('input[name="'+obj.options[0].name+'"]:checked').value : ''; 
+            }
+            return acc;
+          }, {});
+        return outputData;
+    }
     getPropertyAdditionalFields(additional_type_slug){
         let propertyObj = this.propertyDb;
         let fileds = {
@@ -33,7 +42,7 @@ class AdditionalFields{
             property_year_renovated:{type:'text',name:'property_year_renovated',label:"Year Renovated",value:propertyObj.property_year_renovated},
             property_total_parking_spaces:{type:'text',name:'property_total_parking_spaces',label:"Total Parking Spaces",value:propertyObj.property_total_parking_spaces},
             property_power:{type:'text',name:'property_power',label:"Power",value:propertyObj.property_power},
-            property_office_available:{type:'text',name:'property_office_available',label:"Office Available",value:propertyObj.property_office_available,options:[{label:'SF',value:'sf',name:'property_office_available_unit'},{label:'%',value:'percentage',name:'property_office_available_unit'}]},
+            property_office_available:{type:'text',name:'property_office_available',label:"Office Available",value:propertyObj.property_office_available,options:[{label:'SF',value:'sf',name:'property_office_available_unit',onChange:this.onChangeHanlder.bind(this)},{label:'%',value:'percentage',name:'property_office_available_unit',onChange:this.onChangeHanlder.bind(this)}]},
             
             property_min_space:{type:'text',name:'property_min_space',label:"Min Space",value:propertyObj.property_min_space},
             property_max_contiguous_space:{type:'text',name:'property_max_contiguous_space',label:"Max Contiguous Space",value:propertyObj.property_max_contiguous_space},
@@ -90,7 +99,10 @@ class AdditionalFields{
         return output;
     }
     onChangeHanlder(event){
-
+        this.propertyDb = {
+            ...this.propertyDb,
+            [event.target.name]: event.target.value
+        }
     }
     getField(fieldObj,key){
         if(!fieldObj){
