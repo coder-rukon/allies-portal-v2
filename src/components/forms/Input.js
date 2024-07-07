@@ -52,8 +52,8 @@ class Input extends Component {
         return(
             <div className="rs_option_group">
                 {
-                    this.props.options.map( optionItem => {
-                        return <InputRadio {...optionItem} />
+                    this.props.options.map( (optionItem, key) => {
+                        return <InputRadio {...optionItem} key={key} />
                     })
                 }
             </div>

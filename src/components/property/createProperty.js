@@ -252,16 +252,16 @@ class CreatePropertyForm extends Component {
             <BorderBox title="Property Type/Subtype">
                 <div className="p_typesubtype_rows">
                 {
-                    Helper.getPropertyType().map( pType => {
+                    Helper.getPropertyType().map( (pType,key) => {
                         let gorupSubtypes = this.state.allSubtypes.filter( typeItem => typeItem.property_type_id == pType.pt_id )
                         return (
-                            <div className={gorupSubtypes.length >= 2 ? "p_group p_group_full" : "p_group"}>
+                            <div key={key} className={gorupSubtypes.length >= 2 ? "p_group p_group_full" : "p_group"}>
                                 <h4>{pType.label}</h4>
                                 <div className="pgroup_subtypes">
                                 {
-                                    gorupSubtypes.map( subtype => {
+                                    gorupSubtypes.map( ( subtype , keyInner) => {
                                         return(
-                                            <div className="pgroup_subtype">
+                                            <div key={keyInner} className="pgroup_subtype">
                                                 <InputRadio onChange={ this.onPropertySubTypeChange.bind(this)} name="item_subtype" value={subtype.subtype_id} title={subtype.subtype_name}/>
                                             </div>
                                         )
