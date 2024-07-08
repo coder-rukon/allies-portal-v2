@@ -225,6 +225,10 @@ p {
         order: 2;
         padding-left: 5px;
         padding-right: 0; }
+  .with_options .rs_options_box_wraper .rs_option_group.disabled {
+    border: 0 none; }
+    .with_options .rs_options_box_wraper .rs_option_group.disabled .form-check-input {
+      opacity: .5; }
 
 .disable_with_border .disable_input {
   display: block;

@@ -50,7 +50,7 @@ class Input extends Component {
             return <></>
         }
         return(
-            <div className="rs_option_group">
+            <div className={this.props.disable == true ? 'rs_option_group disabled' : 'rs_option_group'}>
                 {
                     this.props.options.map( (optionItem, key) => {
                         return <InputRadio {...optionItem} key={key} />

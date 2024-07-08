@@ -247,6 +247,12 @@ color: #6B7280;
                 }
             }
         }
+        .rs_option_group.disabled{
+            border: 0 none;
+            .form-check-input{
+                opacity: .5;
+            }
+        }
 
     }
 }

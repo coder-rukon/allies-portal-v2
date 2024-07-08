@@ -104,21 +104,21 @@ class AdditionalFields{
             [event.target.name]: event.target.value
         }
     }
-    getField(fieldObj,key){
+    getField(fieldObj,isDisable,key){
         if(!fieldObj){
             return <></>
         }
         if(fieldObj.type =='dropdown'){
-            return <div className="col-xs-12 col-sm-6"><Dropdown key={key}  {...fieldObj} name={fieldObj.name} options={fieldObj.options}  placeholder={fieldObj.label} onChange={this.onChangeHanlder.bind(this)}/></div>
+            return <div className="col-xs-12 col-sm-6"><Dropdown disable={isDisable} key={key}  {...fieldObj} name={fieldObj.name} options={fieldObj.options}  placeholder={fieldObj.label} onChange={this.onChangeHanlder.bind(this)}/></div>
         }
-        return <div className="col-xs-12 col-sm-6"><Input key={key} {...fieldObj} name={fieldObj.name}   onChange={this.onChangeHanlder.bind(this)}/></div>
+        return <div className="col-xs-12 col-sm-6"><Input disable={isDisable} key={key} {...fieldObj} name={fieldObj.name}   onChange={this.onChangeHanlder.bind(this)}/></div>
     }
-    displayAditionalFields(additionalTypeSlug){
+    displayAditionalFields(additionalTypeSlug,isDisable = false){
         let fields = this.getPropertyAdditionalFields(additionalTypeSlug);
         return(
             <div className="row">
                 {fields.map(  (fieldObj,key ) => {
-                    return( this.getField(fieldObj,key))
+                    return( this.getField(fieldObj,isDisable,key))
                 } )}
             </div>
         )
