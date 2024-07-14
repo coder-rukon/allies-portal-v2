@@ -38,7 +38,17 @@ class Contacts extends Component {
         //this.contactComponents.push(contactCmp)
     }
     getContacts(){
-        return this.state.contacts;
+        let contacts = this.state.contacts.map(contact => {
+            return {
+                ...contact,
+                contact_name : Helper.getNullableValue(contact.contact_name),
+                contact_title : Helper.getNullableValue(contact.contact_title),
+                contact_email : Helper.getNullableValue(contact.contact_email),
+                contact_phone : Helper.getNullableValue(contact.contact_phone),
+                contact_website : Helper.getNullableValue(contact.contact_website)
+            }
+        })
+        return contacts;
     }
     onContactChange(updatedContact){
         let contacts = this.state.contacts;

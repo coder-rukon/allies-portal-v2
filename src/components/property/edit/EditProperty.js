@@ -38,6 +38,7 @@ class EditProperty extends Component {
         this.propertyTenantCmp = null;
         this.propertyTypeCmp = null;
         this.additionalFieldsObj = new AdditionalFields({});
+        this.brokerContactComponent = null;
     }
     
     componentDidMount(){
@@ -121,9 +122,11 @@ class EditProperty extends Component {
     onSaveClick(event){
         this.setState({
             isSaving:true,
-            isEditing:false
         })
         let address = this.addressComponent.getAddress();
+        let brokerContacts = this.brokerContactComponent.getContacts();
+
+        
         let propertyTypeSubtype = this.state.propertyTypeSubtype;
         let addtionalFieldData = {};
         if(  this.additionalFieldsObj ){
@@ -131,6 +134,7 @@ class EditProperty extends Component {
         }
         let data = {
             ...this.state.property,
+            broker_contacts:brokerContacts,
             property_type : ( propertyTypeSubtype.type &&  propertyTypeSubtype.type.pt_id )? propertyTypeSubtype.type.pt_id  : null ,
             property_subtype : ( propertyTypeSubtype.subtype &&  propertyTypeSubtype.subtype.subtype_id )? propertyTypeSubtype.type.subtype_id  : null ,
             property_subtype_name : ( propertyTypeSubtype.subtype &&  propertyTypeSubtype.subtype.subtype_name ) ? propertyTypeSubtype.subtype.subtype_name : null ,
@@ -142,7 +146,6 @@ class EditProperty extends Component {
             state: address?.address_state,
             country: address?.address_country,
             zipcode: address?.address_zipcode,
-            broker_contacts:this.state.brokerObj ? this.state.brokerObj.getBrokers() : [],
             property_owner_details:null,
             property_tenant_details:null
         };
@@ -161,13 +164,14 @@ class EditProperty extends Component {
                 if(res.data.type){
                     that.setState({
                         isSaving:false,
+                        isEditing:false,
                         activeAdditionalType:res.data.data.property_additional_type,
                         error:null
                     })
                 }else{
                     that.setState({
                         isSaving:false,
-                        
+                        isEditing:true,
                         error:res.data.message
                     })
                 }
@@ -200,6 +204,9 @@ class EditProperty extends Component {
                 subtype:  subtype
             }
         })
+    }
+    onBrokerContactComponentReady(ctComponent){
+        this.brokerContactComponent = ctComponent;
     }
     getTypeSubtypeBox(){
         if(!this.state.isEditing){
@@ -383,7 +390,7 @@ class EditProperty extends Component {
                         <div></div>
                         <PropertyCompany  onReady={obj => {this.propertyTenantCmp = obj }} disable={isDisable}  source="tenant" title="Property Tenant"  company_id = {property.property_tenant}/>
                         <BorderBox title="Broker Contact">
-                            {property.property_id ? <Contacts btnLabel="+ Add contact"  hidePrimary={true} disable={isDisable} source="property_broker" integrator={property.property_id} labels = {brokerLabels}/> : '' } 
+                            {property.property_id ? <Contacts btnLabel="+ Add contact" onReady={this.onBrokerContactComponentReady.bind(this)} hidePrimary={true} disable={isDisable} source="property_broker" integrator={property.property_id} labels = {brokerLabels}/> : '' } 
                         </BorderBox>
                     </div>
                 </div>
