@@ -71,7 +71,7 @@ let Helper = {
     tenancyOptions(data){
         return [
             {id:'1',label:'Single'},
-            {id:'2',label:'Multile'},
+            {id:'2',label:'Multi'},
             {id:'3',label:'Triple'}
         ]
     },

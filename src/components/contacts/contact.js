@@ -71,7 +71,7 @@ class Contact extends Component {
         let api = Api, that = this;
         if(this.state.contact.contact_id){
             data.contact_id = this.state.contact.contact_id;
-            api.axios().post('/contact/update',data).then(res => {
+            api.axios().post('/contacts/update',data).then(res => {
                 that.setState({
                     isVisbleBtn:false,
                     isLoading:false,
@@ -86,7 +86,7 @@ class Contact extends Component {
         }else{
             data.integrator = this.state.integrator;
             data.source = this.state.source;
-            api.axios().post('/contact/create',data).then(res => {
+            api.axios().post('/contacts/create',data).then(res => {
                 that.setState({
                     isVisbleBtn:false,
                     isLoading:false,
@@ -132,7 +132,7 @@ class Contact extends Component {
             })
             let api = Api, that = this;
             api.setUserToken();
-            api.axios().post('/contact/delete',{contact_id:contact.contact_id}).then(res=>{
+            api.axios().post('/contacts/delete',{contact_id:contact.contact_id}).then(res=>{
                 if(res.data.type ){
                     that.setState({
                         isDeleted:true,

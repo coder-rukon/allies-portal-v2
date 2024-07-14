@@ -92,7 +92,7 @@ class Contacts extends Component {
                 integrator:this.state.integrator,
                 source:this.state.source
             }
-            api.axios().get('/contact/all?source='+data.source+'&integrator='+data.integrator).then(response => {
+            api.axios().get('/contacts/all?source='+data.source+'&integrator='+data.integrator).then(response => {
                 that.setState({
                     contacts:response.data.data.contacts,
                     isLoading:false

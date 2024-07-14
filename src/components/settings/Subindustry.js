@@ -129,7 +129,7 @@ class Subindustry extends Component {
     }
     subindustryActionsButton(subindustry){
         return(
-            <div className="d-flex justify-content-around">
+            <div className="d-flex justify-content-around gap-2">
                 <Button label="Edit" onClick={ event => { this.makeEditable(subindustry) }}/>
                 <Button label="Delete" className="danger" onClick={ event => { this.deleteSubindustry(subindustry.subindustry_id) }}/>
             </div>
@@ -137,7 +137,7 @@ class Subindustry extends Component {
     }
     render() {
         let gridheader = [
-            {id:'subindustry_name',title:'Subidustry'},
+            {id:'subindustry_name',title:'Sub-industry'},
             {id:'industry_id',title:'Industry', cellRender : (industry) => { return this.getIndustryName(industry) }},
             {id:'action',title:'Action', cellRender : (industry) => { return this.subindustryActionsButton(industry)  }},
         ]

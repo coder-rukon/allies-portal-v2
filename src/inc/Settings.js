@@ -26,7 +26,7 @@ let Settings = {
         {value:'2', label:'Mining'},
         {value:'3', label:'Construction'},
         {value:'4', label:'Manufacturing'},
-        {value:'5', label:'Transporation'},
+        {value:'5', label:'Transportation'},
         {value:'6', label:'Wholesale/Distributors'},
         {value:'7', label:'Retail Trade'},
         {value:'8', label:'Finance, Insurance & Real Estate'},
