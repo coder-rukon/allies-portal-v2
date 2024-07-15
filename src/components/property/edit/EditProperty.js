@@ -30,14 +30,13 @@ class EditProperty extends Component {
             isExpandTypeSubtype:false,
             isSelectedSubtype:false,
             propertyTypeSubtype:{},
-            activeAdditionalType:'industrial',
             allSubtypes:[]
         }
         this.addressComponent = null;
         this.propertyOwnerCmp = null;
         this.propertyTenantCmp = null;
         this.propertyTypeCmp = null;
-        this.additionalFieldsObj = new AdditionalFields({});
+        this.additionalFieldsObj = null;
         this.brokerContactComponent = null;
     }
     
@@ -45,9 +44,7 @@ class EditProperty extends Component {
         let property = this.props.property;
         this.setState({
             property: property,
-            activeAdditionalType:property?.property_additional_type,
         })
-        this.additionalFieldsObj = new AdditionalFields(property);
         this.loadSubtypes()
     }
     setTypeSubtypeFormProperty(){
@@ -129,16 +126,13 @@ class EditProperty extends Component {
         
         let propertyTypeSubtype = this.state.propertyTypeSubtype;
         let addtionalFieldData = {};
-        if(  this.additionalFieldsObj ){
-            addtionalFieldData = this.additionalFieldsObj.getData(this.state.activeAdditionalType);
-        }
+        
         let data = {
             ...this.state.property,
             broker_contacts:brokerContacts,
             property_type : ( propertyTypeSubtype.type &&  propertyTypeSubtype.type.pt_id )? propertyTypeSubtype.type.pt_id  : null ,
             property_subtype : ( propertyTypeSubtype.subtype &&  propertyTypeSubtype.subtype.subtype_id )? propertyTypeSubtype.type.subtype_id  : null ,
             property_subtype_name : ( propertyTypeSubtype.subtype &&  propertyTypeSubtype.subtype.subtype_name ) ? propertyTypeSubtype.subtype.subtype_name : null ,
-            property_additional_type : this.state.activeAdditionalType,
             ...addtionalFieldData,
             address_line_1: address?.address_line_1,
             address_line_2: address?.address_line_2,
@@ -149,6 +143,13 @@ class EditProperty extends Component {
             property_owner_details:null,
             property_tenant_details:null
         };
+        if(  this.additionalFieldsObj ){
+            data = {
+                ...data,
+                property_additional_type:this.additionalFieldsObj.state.activeAdditionalType,
+                ...this.additionalFieldsObj.getData()
+            }
+        }
         let propertyOwner =  this.propertyOwnerCmp.getData();
         if(propertyOwner.address_changed || propertyOwner.compay_changed){
             data.property_owner_details  = propertyOwner;
@@ -165,7 +166,6 @@ class EditProperty extends Component {
                     that.setState({
                         isSaving:false,
                         isEditing:false,
-                        activeAdditionalType:res.data.data.property_additional_type,
                         error:null
                     })
                 }else{
@@ -355,28 +355,7 @@ class EditProperty extends Component {
                             </div>
                         </BorderBox>
                         <BorderBox title="Additional Property Details">
-                            <div className="property_accordian">
-                                {
-                                    this.additionalFieldsObj.getAdditionalType().map( (propertyAdditionalType,key) => {
-                                        let isActiveType = this.state.activeAdditionalType == propertyAdditionalType.slug ? true : false;
-                                        return(
-                                            <div className="property_accordian_item" key={key}>
-                                                <div className="pa_header" onClick={ e => { this.setState({activeAdditionalType:propertyAdditionalType.slug})}}>
-                                                    <div>{propertyAdditionalType.name}</div>
-                                                    <div>
-                                                        <img src={isActiveType ? "/images/icons/minus.svg" :  "/images/icons/plus.svg"} />
-                                                    </div>
-                                                    
-                                                </div>
-                                                {
-                                                    isActiveType? <div className="pa_contents"> {this.additionalFieldsObj.displayAditionalFields(propertyAdditionalType.slug,isDisable)} </div> : ''
-                                                }
-                                                
-                                            </div>
-                                        )
-                                    })
-                                }
-                            </div>
+                            {property.property_id ? <AdditionalFields disable={isDisable} property={property} onReady={obj => { this.additionalFieldsObj = obj }}/> : <Loading/>}
                         </BorderBox>
                         <BorderBox title="Notes" className="input_box_margin_fix">
                             {property.property_id ? <Notes  disable={isDisable} source="property" integrator={property.property_id}/> : '' } 

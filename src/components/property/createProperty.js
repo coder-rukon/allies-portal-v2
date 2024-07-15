@@ -39,14 +39,13 @@ class CreatePropertyForm extends Component {
             isExpandTypeSubtype:false,
             isSelectedSubtype:false,
             propertyTypeSubtype:{},
-            activeAdditionalType:'industrial',
             allSubtypes:[]
         }
         this.fileUploader = null;
         this.addressComponent = null;
         this.propertyOwnerCmp = null;
         this.propertyTenantCmp = null;
-        this.additionalFieldsObj = new AdditionalFields(this.state.property);
+        this.additionalFieldsObj = null;
     }
     componentDidMount(){
         this.props.setOptions({title:'Create Property'})
@@ -114,7 +113,6 @@ class CreatePropertyForm extends Component {
             property_type : ( propertyTypeSubtype.type &&  propertyTypeSubtype.type.pt_id )? propertyTypeSubtype.type.pt_id  : null ,
             property_subtype : ( propertyTypeSubtype.subtype &&  propertyTypeSubtype.subtype.subtype_id )? propertyTypeSubtype.type.subtype_id  : null ,
             property_subtype_name : ( propertyTypeSubtype.subtype &&  propertyTypeSubtype.subtype.subtype_name ) ? propertyTypeSubtype.subtype.subtype_name : null ,
-            property_additional_type : this.state.activeAdditionalType,
             address_line_1: address?.address_line_1,
             address_line_2: address?.address_line_2,
             city: address?.address_city,
@@ -126,7 +124,8 @@ class CreatePropertyForm extends Component {
         let propertyOwner =  this.propertyOwnerCmp.getData();
         let addtionalFieldData = {};
         if(  this.additionalFieldsObj ){
-            addtionalFieldData = this.additionalFieldsObj.getData(this.state.activeAdditionalType);
+            addtionalFieldData = this.additionalFieldsObj.getData();
+            data.property_additional_type = this.additionalFieldsObj.state.activeAdditionalType;
         }
 
         data = {
@@ -289,7 +288,6 @@ class CreatePropertyForm extends Component {
     }
     render() { 
         let property = this.state.property;
-        let listing_type_options = Settings.listingType;
         let listing_status_options = Settings.listingStatus;
         if(this.state.redirectTo){
             redirect(this.state.redirectTo)
@@ -359,29 +357,7 @@ class CreatePropertyForm extends Component {
                             </div>
                         </BorderBox>
                         <BorderBox title="Additional Property Details">
-                            <div className="property_accordian">
-                                {
-                                    this.additionalFieldsObj.getAdditionalType().map( (propertyAdditionalType,key) => {
-                                        let isActiveType = this.state.activeAdditionalType == propertyAdditionalType.slug ? true : false;
-                                        return(
-                                            <div className="property_accordian_item" key={key}>
-                                                <div className="pa_header" onClick={ e => { this.setState({activeAdditionalType:propertyAdditionalType.slug})}}>
-                                                    <div>{propertyAdditionalType.name}</div>
-                                                    <div>
-                                                        <img src={isActiveType ? "/images/icons/minus.svg" :  "/images/icons/plus.svg"} />
-                                                    </div>
-                                                    
-                                                </div>
-                                                {
-                                                    isActiveType? <div className="pa_contents"> {this.additionalFieldsObj.displayAditionalFields(propertyAdditionalType.slug)} </div> : ''
-                                                }
-                                                
-                                            </div>
-                                        )
-                                    })
-                                }
-                                
-                            </div>
+                            <AdditionalFields onReady={obj => { this.additionalFieldsObj = obj }}/>
                         </BorderBox>
                         <BorderBox title="Note">
                             <Input name="property_note" value={property.property_note} onChange={this.onPropertyChangeHanlder.bind(this)}  type="textarea"/>

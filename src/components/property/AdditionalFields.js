@@ -1,9 +1,25 @@
+import { Component } from "react";
 import Dropdown from "../forms/Dropdown";
 import Input from "../forms/Input";
 
-class AdditionalFields{
-    constructor(property = {}){
-        this.propertyDb  = property;
+class AdditionalFields extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            propertyDb:{},
+            activeAdditionalType:'industrial'
+        }
+    }
+    componentDidMount(){
+        if(this.props.property){
+            this.setState({
+                propertyDb:this.props.property,
+                activeAdditionalType:this.props.property?.property_additional_type
+            })
+        }
+        if(this.props.onReady){
+            this.props.onReady(this);
+        }
     }
     getAdditionalType(){
         return [
@@ -13,8 +29,8 @@ class AdditionalFields{
             {id:'14',name:'Land',slug:'land'}
         ]
     }
-    getData(additional_type_slug){
-        let fields = this.getPropertyAdditionalFields(additional_type_slug);
+    getData(){
+        let fields = this.getPropertyAdditionalFields(this.state.activeAdditionalType);
         const outputData = fields.reduce((acc, obj) => {
             acc[obj.name] =  typeof obj.value === 'undefined' ? null : obj.value;
             if(obj.options && obj.type == 'text'){
@@ -25,7 +41,7 @@ class AdditionalFields{
         return outputData;
     }
     getPropertyAdditionalFields(additional_type_slug){
-        let propertyObj = this.propertyDb;
+        let propertyObj = this.state.propertyDb;
         let fileds = {
             //property_acres:{type:'text',name:'property_acres',label:"Acres",value:propertyObj.property_acres},
             //property_zoning:{type:'text',name:'property_zoning',label:"Zoning",value:propertyObj.property_zoning},
@@ -99,19 +115,21 @@ class AdditionalFields{
         return output;
     }
     onChangeHanlder(event){
-        this.propertyDb = {
-            ...this.propertyDb,
-            [event.target.name]: event.target.value
-        }
+        this.setState({
+            propertyDb:{
+                ...this.state.propertyDb,
+                [event.target.name]: event.target.value
+            }
+        })
     }
     getField(fieldObj,isDisable,key){
         if(!fieldObj){
             return <></>
         }
         if(fieldObj.type =='dropdown'){
-            return <div className="col-xs-12 col-sm-6"><Dropdown disable={isDisable} key={key}  {...fieldObj} name={fieldObj.name} options={fieldObj.options}  placeholder={fieldObj.label} onChange={this.onChangeHanlder.bind(this)}/></div>
+            return <div className="col-xs-12 col-sm-6" key={key}><Dropdown disable={isDisable} key={key}  {...fieldObj} name={fieldObj.name} options={fieldObj.options}  placeholder={fieldObj.label} onChange={this.onChangeHanlder.bind(this)}/></div>
         }
-        return <div className="col-xs-12 col-sm-6"><Input disable={isDisable} key={key} {...fieldObj} name={fieldObj.name}   onChange={this.onChangeHanlder.bind(this)}/></div>
+        return <div className="col-xs-12 col-sm-6" key={key}><Input disable={isDisable} key={key} {...fieldObj} name={fieldObj.name}   onChange={this.onChangeHanlder.bind(this)}/></div>
     }
     displayAditionalFields(additionalTypeSlug,isDisable = false){
         let fields = this.getPropertyAdditionalFields(additionalTypeSlug);
@@ -122,6 +140,35 @@ class AdditionalFields{
                 } )}
             </div>
         )
+    }
+    render(){
+        let isDisable = this.props.disable == true ? true : false;
+        return(
+            <div className="property_accordian">
+                {
+                    this.getAdditionalType().map( (propertyAdditionalType,key) => {
+                        let isActiveType = this.state.activeAdditionalType == propertyAdditionalType.slug ? true : false;
+                        return(
+                            <div className="property_accordian_item" key={key}>
+                                <div className="pa_header" onClick={ e => { this.setState({activeAdditionalType:propertyAdditionalType.slug})}}>
+                                    <div>{propertyAdditionalType.name}</div>
+                                    <div>
+                                        <img src={isActiveType ? "/images/icons/minus.svg" :  "/images/icons/plus.svg"} />
+                                    </div>
+                                    
+                                </div>
+                                {
+                                    isActiveType? <div className="pa_contents"> {this.displayAditionalFields(propertyAdditionalType.slug, isDisable)} </div> : ''
+                                }
+                                
+                            </div>
+                        )
+                    })
+                }
+                
+            </div>
+        )
+        
     }
 }
 
