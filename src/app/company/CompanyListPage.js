@@ -27,6 +27,15 @@ class CompanyListPage  extends Component {
     componentDidMount(){
         this.loadCompany();
         this.props.setOptions({title:'Companies'})
+        this.loadCompanyAcess();
+    }
+    loadCompanyAcess(){
+        let that = this, api = Api;
+        if(api.setUserToken()){
+            api.axios().get('/user/access').then(res => {
+                that.props.setCompanyAcess(res.data.data);
+            })
+        }
     }
     loadCompany(s = null){
         this.setState({
@@ -120,6 +129,7 @@ class CompanyListPage  extends Component {
     }
     render(){
         let gridheaders = this.getHeaders();
+        console.log("company_access", this.props.companyAccess)
         let gridheader = [
             {
                 id:'star',style:{width:'50px'},
@@ -179,10 +189,13 @@ class CompanyListPage  extends Component {
     }
     
 }
-const mapStateToProps = (state) => ({
-    
-});
+const mapStateToProps = (state) => {
+    return {
+        companyAccess: state.companyAccess
+    }
+};
 const mapDispatchToProps = (dispatch) => ({
+    setCompanyAcess:(data) => { dispatch({type:ActionsTypes.SET_COMPANY_ACCESS,data:data})},
     setOptions: (data) => dispatch({type:ActionsTypes.SET_OPTION,data:data}), // Map your state to props
 });
 export default connect(mapStateToProps,mapDispatchToProps) (CompanyListPage)

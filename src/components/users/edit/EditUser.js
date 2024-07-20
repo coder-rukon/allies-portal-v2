@@ -7,7 +7,7 @@ import Api from '@/inc/Api';
 import Settings from '@/inc/Settings';
 import React, { Component } from 'react';
 
-class CreateUser extends Component {
+class EditUser extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -18,28 +18,42 @@ class CreateUser extends Component {
             message:null
         }
     }
+    componentDidMount(){
+        this.loadUser()
+    }
+    loadUser(){
+        let userId =  this.props.user_id;
+        if(!userId){
+            return;
+        }
+
+        let that = this, api = Api;
+        if(api.setUserToken()){
+            api.axios().get('/user/get/'+userId).then(res => {
+                if(res.data.type){
+                    that.setState({
+                        user:res.data.data
+                    })
+                }
+            })
+        }
+        
+    }
     onSaveHandler(event){
         let that = this;
         let data = this.state.user;
         let api = Api;
+        let userId =  this.props.user_id;
         if(api.setUserToken()){
             that.setState({
                 loading:true
             })
-            api.axios().post('/user/create',data).then(res=>{
+            api.axios().post('/user/update/'+userId,data).then(res=>{
                 if(res.data.type){
                     that.setState({
                         loading:false,
                         errors:{},
-                        user:{
-                            first_name :'',
-                            last_name :'',
-                            email :'',
-                            status :'',
-                            user_role :'',
-                            password :'',
-                            confirm_password :'',
-                        },
+                        user: res.data.data,
                         messageType:'text-success',
                         message:res.data.message
                     })
@@ -48,7 +62,7 @@ class CreateUser extends Component {
                         loading:false,
                         messageType:'text-danger',
                         errors:res.data.errors,
-                        message:""
+                        message: res.data.message
                     })
                 }
                 
@@ -79,7 +93,7 @@ class CreateUser extends Component {
 
         return (
             <div className='create_user_form'>
-                
+               
                 <div className='row'>
                     <Input className="col-sm-6" errors={errors} name="first_name" label="Frist Name*" value={user.first_name} onChange = {this.onChangeHandler.bind(this)}/>
                     <Input className="col-sm-6"  errors={errors} name="last_name" label="Last Name*"  value={user.last_name} onChange = {this.onChangeHandler.bind(this)}/>
@@ -98,4 +112,4 @@ class CreateUser extends Component {
     }
 }
 
-export default CreateUser;
+export default EditUser;

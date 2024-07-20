@@ -39,7 +39,23 @@ let Settings = {
         {color:'#4ADE80',id:2},
         {color:'#56ACEF',id:3},
         {color:'#EF4444',id:4}
-    ]
+    ],
+    getUserStatus: () => {
+        let status = [
+            {label:'Active',vaue:'active'},
+            {label:'Inactive',vaue:'inactive'},
+            {label:'Suspended',vaue:'suspended'},
+            {label:'Pending',vaue:'pending'}
+        ]
+        return status;
+    },
+    getUserSystemRoles: () => {
+        let roles = [
+            {label:'Broker',vaue:'broker'},
+            {label:'Administrator',vaue:'administrator'}
+        ]
+        return roles;
+    }
     /*
     companyColorStatus:[
         {color:'#9CA3AF',id:1},

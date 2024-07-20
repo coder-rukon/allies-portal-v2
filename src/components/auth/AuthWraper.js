@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation';
 import './authwraper.css';
 import { Provider } from 'react-redux';
 import Store from '@/inc/Store';
+import ActionsTypes from '@/inc/ActionTypes';
 class AuthWraper extends Component {
     constructor(props){
         super(props);
@@ -46,6 +47,14 @@ class AuthWraper extends Component {
         }
         if(!this.state.user){
             redirect('/login')
+        }
+        if(!Store.getState().auth.isLogin && this.state.user.id){
+            Store.dispatch({
+                
+                    type:ActionsTypes.SET_LOGIN,
+                    user:this.state.user
+                
+            })
         }
         return (
             <Provider store={Store}>

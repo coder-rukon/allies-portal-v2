@@ -16,6 +16,8 @@ import LinkedProperty from '@/components/company/LinkedProperty';
 import Address from "@/components/address/Address";
 import CompanyDeals from "@/components/company/deals/CompanyDeals";
 import Helper from "@/inc/Helper";
+import { connect } from "react-redux";
+import CompanySecurityRoles from '@/inc/CompanySecurityRoles';
 class CompanyDetails  extends Component{
     constructor(props){
         super(props);
@@ -179,6 +181,7 @@ class CompanyDetails  extends Component{
         });
         return options;
     }
+    
     render() {
         let isDisable = !this.state.editMode;
         let editMode = this.state.editMode;
@@ -195,6 +198,9 @@ class CompanyDetails  extends Component{
             {label:'Google',value:'Google'},
             {label:'Other',value:'Other'}
         ];
+        let srObj = new CompanySecurityRoles(this.props.companyAccess)
+        console.log(srObj.canViewCompany(company.company_id));
+        console.log('CA from Compay deatils',)
         return(
             <Panel className=" input_box_margin_fix">
                     <Meta title={company?.name}/>
@@ -205,7 +211,7 @@ class CompanyDetails  extends Component{
                                 editMode ? 
                                 <Button onClick={ this.onSaveClick.bind(this) }  className="md" beforeIcon="save" label= {"Save"}/>
                                 :
-                                <Button onClick={ this.onEditIconClick.bind(this) } className="md" beforeIcon="border_color" label= {"Edit"}/>
+                                <Button disable={!srObj.canEditCompany(company.company_id)} onClick={ this.onEditIconClick.bind(this) } className="md" beforeIcon="border_color" label= {"Edit"}/>
 
                             }
                         </div>
@@ -270,4 +276,9 @@ class CompanyDetails  extends Component{
         )
     }
 }
-export default CompanyDetails;
+const mapStateToProps = (state) => {
+    return {
+        companyAccess: state.companyAccess
+    }
+};
+export default connect(mapStateToProps) (CompanyDetails);

@@ -7,6 +7,7 @@ import ActionsTypes from "@/inc/ActionTypes";
 import Button from "@/components/forms/button";
 import Helper from '@/inc/Helper';
 import Api from '@/inc/Api';
+import Link from 'next/link';
 class UsersList extends Component {
     constructor(props){
         super(props);
@@ -68,6 +69,7 @@ class UsersList extends Component {
                 id:'actions',
                 hide:false,
                 title:'Actions',
+                cellRender:(rowData,HeaderItem,CellKey,HeaderKey) => { return <Link href={"/users/edit/" + rowData.id}>Edit</Link> }
             },
         ]
         let serverData = this.state.serverData;

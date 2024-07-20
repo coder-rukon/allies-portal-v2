@@ -256,6 +256,10 @@ p {
   .rs_btn .btn_icon {
     font-size: 14px; }
 
+.rs_btn.btn_disable {
+  opacity: .3;
+  cursor: not-allowed; }
+
 a.rs_btn {
   display: inline-flex;
   text-decoration: none; }
