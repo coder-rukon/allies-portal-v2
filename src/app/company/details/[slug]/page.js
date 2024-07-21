@@ -199,8 +199,6 @@ class CompanyDetails  extends Component{
             {label:'Other',value:'Other'}
         ];
         let srObj = new CompanySecurityRoles(this.props.companyAccess)
-        console.log(srObj.canViewCompany(company.company_id));
-        console.log('CA from Compay deatils',)
         return(
             <Panel className=" input_box_margin_fix">
                     <Meta title={company?.name}/>

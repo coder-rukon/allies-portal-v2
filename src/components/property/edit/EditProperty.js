@@ -18,6 +18,8 @@ import PropertyCompany from "../company/PropertyCompany";
 import ErrorMessage from "@/components/widget/errormessage";
 import AdditionalFields from '@/components/property/AdditionalFields';
 import Helper from "@/inc/Helper";
+import { connect } from "react-redux";
+import CompanySecurityRoles from "@/inc/CompanySecurityRoles";
 class EditProperty extends Component {
     constructor(props) {
         super(props);
@@ -256,6 +258,20 @@ class EditProperty extends Component {
             </>
         )
     }
+    canUserEditProperty(){
+        let property = this.state.property;
+        if(this.props.auth.user.id == property.created_by){
+            return true;
+        }
+        let srObj = new CompanySecurityRoles(this.props.companyAccess)
+        if(srObj.canEditCompany(property.property_owner)){
+            return true;
+        }
+        if(srObj.canEditCompany(property.property_tenant)){
+            return true;
+        }
+        return false;
+    }
     render() {
         let property = this.state.property;
         let errors = this.state.errors;
@@ -263,8 +279,7 @@ class EditProperty extends Component {
         if(!property){
             return <Loading/>
         }
-        let propertyAddress = property.address ? property.address : {}
-        let listing_type_options = Settings.listingType;
+      
         let listing_status_options = Settings.listingStatus;
         let brokerLabels = {
             contact_name: 'Company',
@@ -273,6 +288,8 @@ class EditProperty extends Component {
             contact_phone: 'Phone'
         }
         let propertyTypeSubtype = this.state.propertyTypeSubtype;
+
+
         return (
             <div className="edit_property_form">
                 <div className="pannel_header">
@@ -282,7 +299,7 @@ class EditProperty extends Component {
 
                             this.state.isSaving ? <Loading/> :                                
                                 ( isDisable ? 
-                                <Button onClick={ this.onEditIconClick.bind(this) } className="md" beforeIcon="border_color" label= {"Edit"}/>
+                                <Button disable={!this.canUserEditProperty()} onClick={ this.onEditIconClick.bind(this) } className="md" beforeIcon="border_color" label= {"Edit"}/>
                                 :<Button onClick={ this.onSaveClick.bind(this) }  className="md" beforeIcon="save" label= {"Save"}/> )
                             
 
@@ -377,5 +394,10 @@ class EditProperty extends Component {
         );
     }
 }
- 
-export default EditProperty;
+const mapStateToProps = (state) => {
+    return {
+        auth:state.auth,
+        companyAccess: state.companyAccess
+    }
+};
+export default connect(mapStateToProps) ( EditProperty);
