@@ -1,15 +1,13 @@
-import { Component } from "react";
-import './login.css';
+"use client"
+import React, { Component } from 'react';
+
 import Button from "@/components/forms/button";
 import Input from "@/components/forms/Input";
 import Api from "@/inc/Api";
 import Helper from "@/inc/Helper";
 import Settings from "@/inc/Settings";
 import Router from 'next/router';
-import Header from "../components/loginregister/Header";
-import Footer from "../components/loginregister/Footer";
-import LoginForm from "../components/loginregister/LoginForm";
-class Login extends Component {
+class LoginForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -26,7 +24,7 @@ class Login extends Component {
         let that = this, api = Api;
         that.setState({
             loading:true,
-            message:null,
+            message:null
         })
         api.axios().post('/login',this.state.user).then(res=>{
             
@@ -48,32 +46,22 @@ class Login extends Component {
         let user = this.state.user;
         user[event.target.name]= event.target.value;
         this.setState({
-            user: user
+            user: user,
+            message:null,
         })
     }
     render() { 
         let user = this.state.user;
+        let isInline = this.props.inline == true ? true : false;
         return (
-            <div className="login_reg_page">
-                <Header/>
-                <div className="lr_page_inner">
-                    <div className="container">
-                        <div className="left_side">
-                            <img src="/images/"/>
-                        </div>
-                        <div className="right_side">
-                            <div className="login_box">
-                                <LoginForm/>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    
-                </div>
-                <Footer/>
+            <div className="login_form">
+                <Input name="email" placeholder={isInline ? 'User Email' : null} label={ !isInline ? 'User Email' : null} value={user.email} onChange={ this.onInputChangeHandler.bind(this)}/>
+                <Input name="password" type="password" value={user.password} placeholder= {isInline ? 'Password' : null} label= {!isInline ? 'Password' : null} onChange={ this.onInputChangeHandler.bind(this)}/>
+                <Button label="Login" icon={this.state.loading ? " ...loading.." : null} onClick={ this.login.bind(this)}/>
+                {this.state.message ? <p className="error" style={{color:'red'}} dangerouslySetInnerHTML={{__html:this.state.message}} /> : ''}
             </div>
         );
     }
 }
  
-export default Login;
+export default LoginForm;
