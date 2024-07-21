@@ -42,17 +42,17 @@ let Settings = {
     ],
     getUserStatus: () => {
         let status = [
-            {label:'Active',vaue:'active'},
-            {label:'Inactive',vaue:'inactive'},
-            {label:'Suspended',vaue:'suspended'},
-            {label:'Pending',vaue:'pending'}
+            {label:'Active',value:'active'},
+            {label:'Inactive',value:'inactive'},
+            {label:'Suspended',value:'suspended'},
+            {label:'Pending',value:'pending'}
         ]
         return status;
     },
     getUserSystemRoles: () => {
         let roles = [
-            {label:'Broker',vaue:'broker'},
-            {label:'Administrator',vaue:'administrator'}
+            {label:'Broker',value:'broker'},
+            {label:'Administrator',value:'administrator'}
         ]
         return roles;
     }

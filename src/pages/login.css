@@ -15,6 +15,16 @@ body {
   padding: 60px 0;
   box-sizing: border-box;
   min-height: calc(100vh - 150px); }
+  .login_reg_page .lr_page_inner .log_reg_row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; }
+    .login_reg_page .lr_page_inner .log_reg_row .left_side {
+      text-align: center; }
+      .login_reg_page .lr_page_inner .log_reg_row .left_side .login_reg_banner {
+        display: block;
+        max-width: 100%;
+        opacity: .05; }
 .login_reg_page .container {
   margin: 0 auto;
   display: block;
@@ -123,26 +133,36 @@ body {
       transition: all .5s; }
     .login_reg_page .log_reg_header .btn_links .rs_btn:hover {
       background: #3C6677; }
-
-.login_box {
+.login_reg_page .login_box {
   display: block;
-  background: #fff;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  background: #ededed;
   padding: 30px;
-  width: 500px;
-  margin: 0 auto; }
-
-.login_box input {
-  height: 35px;
+  margin: 0 auto;
+  width: 433px; }
+  .login_reg_page .login_box h2 {
+    font-family: "arial";
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 20px;
+    text-align: center;
+    text-transform: uppercase;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 7px; }
+  .login_reg_page .login_box .error {
+    margin-top: 10px; }
+.login_reg_page .login_box input {
+  height: 40px;
   display: block;
   margin: 10px 0;
   width: 100%;
   border-radius: 4px;
   border: 1px solid #ccc;
   padding: 0 10px;
-  box-sizing: border-box; }
-
-.rs_btn {
+  box-sizing: border-box;
+  outline: none;
+  font-family: "arial";
+  font-size: 14px; }
+.login_reg_page .rs_btn {
   display: block;
   width: 100%;
   height: 40px;
@@ -153,10 +173,15 @@ body {
   font-size: 20px;
   cursor: pointer;
   font-family: "arial"; }
-
-.rs_form_group label {
+.login_reg_page .rs_form_group label {
   font-size: 16px;
   font-family: "arial"; }
+.login_reg_page .reg_row {
+  display: flex;
+  gap: 20px;
+  box-sizing: border-box; }
+  .login_reg_page .reg_row .col_6 {
+    width: 50%; }
 
 .login_regiser_footer {
   text-align: center;

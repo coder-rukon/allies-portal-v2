@@ -8,9 +8,8 @@ import Settings from "@/inc/Settings";
 import Router from 'next/router';
 import Header from "../components/loginregister/Header";
 import Footer from "../components/loginregister/Footer";
-import LoginForm from "../components/loginregister/LoginForm";
 import RegisterForm from "../components/loginregister/RegisterForm";
-class Login extends Component {
+class RegisterPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -30,14 +29,6 @@ class Login extends Component {
                             <div className="right_side">
                                 <div className="login_box">
                                     <RegisterForm/>
-                                    {
-                                        /**
-                                         <h3> Don't have account ?</h3>
-                                    <p>If you want to register with our platform pleaes click the register button</p>
-                                    <Button href="/register" label="Register" />
-                                         */
-                                    }
-                                    
                                 </div>
                             </div>
                         </div>
@@ -52,4 +43,4 @@ class Login extends Component {
     }
 }
  
-export default Login;
+export default RegisterPage;
