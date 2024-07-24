@@ -211,11 +211,13 @@ class CreatePropertyForm extends Component {
             property_tenant:company
         })
     }
-    allFields(field_id,property){
-        
-    }
    
     propertyTypeSubtypeOnClick(){
+        let typeSubtype = this.state.propertyTypeSubtype;
+        if(!typeSubtype.subtype){
+
+            return;
+        }
         this.setState({
             isSelectedSubtype:true
         })

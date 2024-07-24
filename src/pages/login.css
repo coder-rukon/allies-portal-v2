@@ -23,8 +23,7 @@ body {
       text-align: center; }
       .login_reg_page .lr_page_inner .log_reg_row .left_side .login_reg_banner {
         display: block;
-        max-width: 100%;
-        opacity: .05; }
+        max-width: 100%; }
 .login_reg_page .container {
   margin: 0 auto;
   display: block;
@@ -150,10 +149,12 @@ body {
     padding-bottom: 7px; }
   .login_reg_page .login_box .error {
     margin-top: 10px; }
+.login_reg_page .login_box .rs_form_group {
+  margin-bottom: 15px; }
 .login_reg_page .login_box input {
   height: 40px;
   display: block;
-  margin: 10px 0;
+  margin: 0;
   width: 100%;
   border-radius: 4px;
   border: 1px solid #ccc;
@@ -162,6 +163,11 @@ body {
   outline: none;
   font-family: "arial";
   font-size: 14px; }
+.login_reg_page .login_box .rs_form_group label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 14px;
+  text-transform: uppercase; }
 .login_reg_page .rs_btn {
   display: block;
   width: 100%;
@@ -175,7 +181,8 @@ body {
   font-family: "arial"; }
 .login_reg_page .rs_form_group label {
   font-size: 16px;
-  font-family: "arial"; }
+  font-family: "arial";
+  font-weight: 400; }
 .login_reg_page .reg_row {
   display: flex;
   gap: 20px;

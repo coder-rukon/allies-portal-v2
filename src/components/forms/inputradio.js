@@ -38,7 +38,7 @@ class InputRadio extends Component {
         return (
             <div className="form-check">
                 <input className="form-check-input" type="radio" name={this.props.name} value={this.props.value} checked = {this.props.checked } onClick={this.onChangeHanlder.bind(this)} id={this.id}/>
-                <label className="form-check-label">{this.props.title}</label>
+                <label className="form-check-label" htmlFor={this.id}>{this.props.title}</label>
             </div>
         )
     }

@@ -803,4 +803,7 @@ a.rs_btn {
     margin: 0;
     padding: 0; }
 
+.edit_property_form .property_tst_details .ptsd_label {
+  padding-left: 0; }
+
 /*# sourceMappingURL=globals.css.map */

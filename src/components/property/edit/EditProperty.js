@@ -254,7 +254,6 @@ class EditProperty extends Component {
                 </div>
                 
             </BorderBox>
-            {!this.state.isSelectedSubtype ? <Button className="mt-3" label="Continue" onClick={ e => { this.propertyTypeSubtypeOnClick() } } /> : '' }
             </>
         )
     }
@@ -383,7 +382,7 @@ class EditProperty extends Component {
                     </div>
                     <div className="col-xs-12 col-md-6 input_box_margin_fix">
                         <PropertyCompany onReady={obj => {this.propertyOwnerCmp = obj }} disable={isDisable}  source="owner" title="Property Owner"  company_id = {property.property_owner}/>
-                        <div></div>
+                        
                         <PropertyCompany  onReady={obj => {this.propertyTenantCmp = obj }} disable={isDisable}  source="tenant" title="Property Tenant"  company_id = {property.property_tenant}/>
                         <BorderBox title="Broker Contact">
                             {property.property_id ? <Contacts btnLabel="+ Add contact" onReady={this.onBrokerContactComponentReady.bind(this)} hidePrimary={true} disable={isDisable} source="property_broker" integrator={property.property_id} labels = {brokerLabels}/> : '' } 
