@@ -9,8 +9,8 @@ let Settings = {
     device_name:'web',
     userTokenKey:'allies_token',
     secondUserTokenKey:'allies_token_super',
-    apiUrl:'https://portalapi.hostrms.com/api',
-    apiAppUrl:'https://portalapi.hostrms.com',
+    apiUrl:'http://127.0.0.1:8000/api',
+    apiAppUrl:'http://127.0.0.1:8000',
     listingStatus:[
         {label:'Active',value:'active'},
         {label:'Inactive',value:'inactive'}
@@ -55,6 +55,15 @@ let Settings = {
             {label:'Administrator',value:'administrator'}
         ]
         return roles;
+    },
+    getDealType: () => {
+        let dealTypes = [
+            {id:5,name:'Tenant Rep',shortName:'TR'},
+            {id:6,name:'Buyer Rep',shortName:'BR'},
+            {id:7,name:'Landlord Rep',shortName:'LR'},
+            {id:8,name:'Seller Rep',shortName:'SR'}
+        ];
+        return dealTypes;
     }
     /*
     companyColorStatus:[

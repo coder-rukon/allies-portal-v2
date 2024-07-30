@@ -26,7 +26,7 @@ let Sidebar = (props) => {
                 <ul className="sidebar_menu sidebar_menu_2">
                     <li><Link href="/company/new-company" className={pathName === '/company/new-company' ? 'active' : ''}><img src='/images/icons/add-company.png' />Add Company</Link></li>
                     <li><Link href="/property/create" className={pathName === '/property/create' ? 'active' : ''}><img src='/images/icons/add-property.png' />Add property</Link></li>
-                    <li><Link href="#" className={pathName === '/deal/create' ? 'active' : ''}><img src='/images/icons/add-deal.png' />New Deal</Link></li>
+                    <li><Link href="/deals/create" className={pathName === '/deals/create' ? 'active' : ''}><img src='/images/icons/add-deal.png' />New Deal</Link></li>
                 </ul>
                 {user.isAdministrator() ? <Link href="/settings" className={pathName === '/settings' ? 'settings_link active' : 'settings_link'}><img src='/images/icons/settings.png' />Settings</Link> : '' }
             </div>

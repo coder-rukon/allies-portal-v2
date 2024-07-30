@@ -60,14 +60,89 @@ color: #6B7280;
 .main_header .notification_bar{}
 .main_header .notification_bar .notification_icon{}
 .main_header .profile_dropdown_section {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    display: block;
+    position: relative;
+    .dropdown_contents{
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background: #fff;
+        padding: 10px;
+        z-index: 50000;
+        box-sizing: border-box;
+        box-shadow: 0 0 5px rgba(0,0,0,.5);
+        border-radius: 4px;
+        display: none;
+        ul{
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            li{
+                margin: 0;
+                padding:0;
+            }
+            li a{
+                display: block;
+                text-decoration: none;
+                white-space: nowrap;
+                color: #000;
+                padding: 10px 30px;
+                cursor: pointer;
+            }
+            li a:hover{
+                background: $boxBorderColor;
+            }
+        }
+        .logout_btn{
+            background-color: $lightGray2;
+            text-align: center;
+            border-radius: 4px;
+            padding: 6px 10px;
+            overflow: hidden;
+            display: block;
+            color: #fff;
+            cursor: pointer;
+            margin-top: 5px;
+            font-size: 15px;
+            line-height: 25px;
+            span{
+                font-size: 23px;
+                display: block;
+                float: left;
+            }
+        }
+        .logout_btn:hover{}
+    }
+}
+.main_header .profile_dropdown_section:hover{
+    .dropdown_contents{
+        display: block;
+    }
 }
 .main_header .profile_dropdown_section .profile_controler {
     display: flex;
     align-items: center;
     gap: 5px;
+    text-decoration: none;
+    color: $textColor;
+    .user_name_role{
+        padding: 0 5px;
+        width: 100px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        display: block;
+        text-transform: capitalize;
+        font-size: 12px;
+        font-weight: 300;
+        strong{
+            display: block;
+            font-size: 15px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
 }
 .main_header .profile_dropdown_section .profile_controler img {
     width: 40px;
@@ -75,6 +150,11 @@ color: #6B7280;
 .main_header .profile_dropdown_section .dp_icon {
     font-size: 30px;
     color: #6B7280;
+}
+.main_header{
+    .logout_controller{
+        display: block;
+    }
 }
 .main_sidebar {
     background: #fff;
@@ -175,7 +255,9 @@ color: #6B7280;
     padding:30px;
     border-radius: 4px;
 }
-.rs_panel.borderd{
+
+.rs_panel.inner_border{
+
     border: 1px solid $lightGray;
 }
 .rs_border_box_wrapper{}
@@ -990,4 +1072,48 @@ a.rs_btn{
 }
 .edit_property_form .property_tst_details .ptsd_label{
     padding-left: 0;
+}
+.deal_types_box{
+    .deal_type_list{
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        box-sizing: border-box;
+        justify-content: space-between;
+        li{
+            display: block;
+            margin: 0;
+            width: calc(25% - 10px);
+            text-align: center;
+            padding: 30px 15px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            font-size: 20px;
+            border: 1px solid $borderLight;
+            color: $textColor;
+        }
+        li.active{
+            background-color: $borderLight;
+        }
+    }
+}
+.upload_client_agl_section{
+        width: 500px;
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        min-height: calc(100vh - 200px);
+        justify-content: center;
+        padding: 30px 0;
+        margin: 0 auto;
+    .title_subtitle{
+        h2{
+            text-align: center;
+        }
+        p{
+            text-align: center;
+        }
+    }
 }

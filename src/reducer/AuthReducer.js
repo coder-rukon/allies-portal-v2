@@ -12,6 +12,12 @@ const AuthReducer = (state = defaultState, actions) => {
             user:actions.user
         }
     }
+    if(actions.type === ActionsTypes.SET_USER){
+        state = {
+            ...state,
+            user:actions.user
+        }
+    }
     if(actions.type === ActionsTypes.SET_LOGOUT){
         state = {
             ...state,
