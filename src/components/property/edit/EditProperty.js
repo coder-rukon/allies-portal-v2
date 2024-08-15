@@ -339,7 +339,8 @@ class EditProperty extends Component {
                                         errors={this.state.errors}  
                                         value={property.property_size} 
                                         onChange={this.onPropertyChangeHanlder.bind(this)} 
-                                        label="Size" 
+                                        label="Size"
+                                        dropdownValue= {property.property_size_unit}
                                         options = {
                                             [{ name:'property_size_unit',  disable:isDisable, title:"SF", value:'sf',onChange:this.onPropertyChangeHanlder.bind(this),checked:property.property_size_unit == 'sf' ? true : false },{ name:'property_size_unit', title:"Acre", value:'acre',checked:property.property_size_unit == 'acre' ? true : false,disable:isDisable,onChange:this.onPropertyChangeHanlder.bind(this) }]
                                         }
@@ -349,6 +350,7 @@ class EditProperty extends Component {
                                     <Input  
                                         name="property_additional_size"
                                          disable={isDisable} 
+                                        dropdownValue= {property.property_additional_size_unit}
                                         options = {
                                             [{ 
                                                 disable:isDisable,
@@ -370,7 +372,7 @@ class EditProperty extends Component {
                                 </div> 
                             </div>
                         </BorderBox>
-                        <BorderBox title="Additional Property Details">
+                        <BorderBox className="input_box_margin_fix" title="Additional Property Details">
                             {property.property_id ? <AdditionalFields disable={isDisable} property={property} onReady={obj => { this.additionalFieldsObj = obj }}/> : <Loading/>}
                         </BorderBox>
                         <BorderBox title="Notes" className="input_box_margin_fix">

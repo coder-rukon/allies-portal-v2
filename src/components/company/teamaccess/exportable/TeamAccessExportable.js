@@ -24,6 +24,12 @@ class TeamAccessExportable extends Component {
     }
     componentDidMount(){
         this.loadRoles()
+        if(this.props.onReady){
+            this.props.onReady(this);
+        }
+    }
+    getData(){
+        return this.state.accessList;
     }
     loadRoles(){
         let api = Api, that = this;

@@ -20,7 +20,7 @@ class TeamAccess extends Component {
     }
     componentDidMount(){
         this.setState({
-            isEditing: this.props.access?.ca_id ? false : true,
+            isEditing: this.props.access?.ma_id ? false : true,
             access: this.props.access
         })
     }
@@ -46,11 +46,11 @@ class TeamAccess extends Component {
             saving:true
         })
         api.setUserToken();
-        if(access.ca_id){
+        if(access.ma_id){
             let data = {
                 role_id: this.state.access.role_id
             }
-            api.axios().put('/company-access/update/'+access.ca_id,data).then(res=>{
+            api.axios().put('/company-access/update/'+access.ma_id,data).then(res=>{
                 if(res.data.type){
                     that.setState({
                         saving:false,
@@ -103,8 +103,8 @@ class TeamAccess extends Component {
             isDeleting:true
         })
         api.setUserToken();
-        if(access.ca_id){
-            api.axios().get('/company-access/delete/'+access.ca_id).then(res=>{
+        if(access.ma_id){
+            api.axios().get('/company-access/delete/'+access.ma_id).then(res=>{
                 if(res.data.type){
                     that.setState({
                         isDeleting:false,
@@ -142,7 +142,7 @@ class TeamAccess extends Component {
         return(
             <div className='row access_form'>
                 <div className='col-xs-12 col-sm-5'>
-                    { access.ca_id ? <span className='acess_user_name'>{access.first_name} {access.last_name}</span> : <Input name="email" value={this.state.email} placeholder="Type member email.." onChange={this.onEmailChangeHandler.bind(this)} />}
+                    { access.ma_id ? <span className='acess_user_name'>{access.first_name} {access.last_name}</span> : <Input name="email" value={this.state.email} placeholder="Type member email.." onChange={this.onEmailChangeHandler.bind(this)} />}
                     
                 </div>
                 <div className='col-xs-12 col-sm-3'>

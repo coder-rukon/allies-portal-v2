@@ -72,7 +72,7 @@ let Helper = {
         return [
             {id:'1',label:'Single'},
             {id:'2',label:'Multi'},
-            {id:'3',label:'Triple'}
+            //{id:'3',label:'Triple'}
         ]
     },
     formateDateFromDb(dateDateString){

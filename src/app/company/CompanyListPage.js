@@ -129,7 +129,6 @@ class CompanyListPage  extends Component {
     }
     render(){
         let gridheaders = this.getHeaders();
-        console.log("company_access", this.props.companyAccess)
         let gridheader = [
             {
                 id:'star',style:{width:'50px'},

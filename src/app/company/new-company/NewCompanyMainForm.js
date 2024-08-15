@@ -82,6 +82,7 @@ class NewCompanyMainForm extends Component {
             address_zipcode: address?.address_zipcode,
             contacts: this.contactComponent ? this.contactComponent.getContacts() : null,
             properties:  this.propertyLinkComponent ? this.propertyLinkComponent.getData().map( item => { return item.property_id }) : null,
+            team_access: this.teamAccessComponent.getData()
         }
         that.setState({
             isSaving:true
@@ -156,13 +157,7 @@ class NewCompanyMainForm extends Component {
         let isSaving = this.state.isSaving;
         let industry_options = this.getIndustryDropdownOptions();
         let sub_industry_options = this.state.subindustryList.map( item => { return {label:item.subindustry_name, value: item.subindustry_id}}); 
-        let lead_capture_type_otpions = [
-            {label:'Inbound',value:'Inbound'},
-            {label:'Outbound',value:'Outbound'},
-            {label:'Website',value:'Website'},
-            {label:'Google',value:'Google'},
-            {label:'Other',value:'Other'}
-        ];
+        let lead_capture_type_otpions = Settings.getCompanySource();;
         return (
             <Panel>
                 <div className="row">
@@ -176,10 +171,10 @@ class NewCompanyMainForm extends Component {
                                     <Input name="website" errors={this.state.errors}  value={company.website} onChange={this.onCompanyChangeHandler.bind(this)} label="Website"/>
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Dropdown name="industry" options={industry_options} errors={this.state.errors}  value={company.industry} onChange={this.onCompanyChangeHandler.bind(this)} label="Industry  *" />
+                                    <Dropdown name="industry" options={industry_options} errors={this.state.errors}  value={company.industry} onChange={this.onCompanyChangeHandler.bind(this)} label="Industry" />
                                 </div>
                                 <div className="col-xs-12 col-sm-6">
-                                    <Dropdown name="sub_industry" options={sub_industry_options} errors={this.state.errors}  value={company.sub_industry} onChange={this.onCompanyChangeHandler.bind(this)} label="Sub-Industry  *" />
+                                    <Dropdown name="sub_industry" options={sub_industry_options} errors={this.state.errors}  value={company.sub_industry} onChange={this.onCompanyChangeHandler.bind(this)} label="Sub-Industry" />
                                     { this.state.isSubindustryLoading ? <Loading/> : ''}
                                 </div>
                             </div>

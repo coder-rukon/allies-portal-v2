@@ -908,4 +908,53 @@ a.rs_btn {
   .upload_client_agl_section .title_subtitle p {
     text-align: center; }
 
+.dropbox_selected_value {
+  margin-left: 5px;
+  text-transform: uppercase; }
+
+.type_subtype_dropdown_section {
+  display: block;
+  position: relative;
+  margin-bottom: 20px; }
+  .type_subtype_dropdown_section .controller_title {
+    display: block;
+    font-size: 14px;
+    color: #9CA3AF;
+    font-weight: 400;
+    margin: 0 0 2px 0;
+    padding-left: 10px; }
+  .type_subtype_dropdown_section .selector_box .selector_input {
+    display: block;
+    min-height: 40px;
+    border-radius: 4px;
+    border: 1px solid #000;
+    overflow: hidden;
+    padding: 2px; }
+    .type_subtype_dropdown_section .selector_box .selector_input p {
+      margin: 0;
+      padding: 8px 10px;
+      color: #111827;
+      font-size: 14px;
+      font-weight: 400; }
+    .type_subtype_dropdown_section .selector_box .selector_input .selected_item {
+      display: block;
+      overflow: hidden;
+      float: left;
+      background: #D9D9D9;
+      margin: 3px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 14px; }
+      .type_subtype_dropdown_section .selector_box .selector_input .selected_item .t_name {
+        float: left; }
+      .type_subtype_dropdown_section .selector_box .selector_input .selected_item .st_name {
+        float: left;
+        margin-left: 5px; }
+      .type_subtype_dropdown_section .selector_box .selector_input .selected_item .material-symbols-outlined {
+        float: left;
+        font-size: 20px;
+        margin-left: 5px;
+        font-weight: 300;
+        cursor: pointer; }
+
 /*# sourceMappingURL=globals.css.map */

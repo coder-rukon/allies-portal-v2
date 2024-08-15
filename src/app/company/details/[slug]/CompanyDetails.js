@@ -183,21 +183,15 @@ class CompanyDetails  extends Component{
     }
     
     render() {
-        let isDisable = !this.state.editMode;
-        let editMode = this.state.editMode;
+        let isDisable = false //!this.state.editMode;
+        let editMode = true; // this.state.editMode;
         if(this.state.isLoading){
             return <Panel className="text-center"><Loading/></Panel>
         }
         let company = this.state.company;
         let industry_options = this.getIndustryDropdownOptions();
         let sub_industry_options = this.state.subindustryList.map( item => { return {label:item.subindustry_name, value: item.subindustry_id}});
-        let lead_capture_type_otpions = [
-            {label:'Inbound',value:'Inbound'},
-            {label:'Outbound',value:'Outbound'},
-            {label:'Website',value:'Website'},
-            {label:'Google',value:'Google'},
-            {label:'Other',value:'Other'}
-        ];
+        let lead_capture_type_otpions = Settings.getCompanySource();
         let srObj = new CompanySecurityRoles(this.props.companyAccess)
         return(
             <Panel className=" input_box_margin_fix">
@@ -219,16 +213,16 @@ class CompanyDetails  extends Component{
                             <BorderBox title="Details">
                                 <div className="row">
                                     <div className="col-xs-12 col-sm-6">
-                                        <Input disable={isDisable}  onChange={this.onCompanyChangeHandler.bind(this)}  name="name" label="Company Name" value={company.name}/>
+                                        <Input disable={isDisable}  onChange={this.onCompanyChangeHandler.bind(this)}  name="name" label="Company Name *" value={company.name}/>
                                     </div>
                                     <div className="col-xs-12 col-sm-6">
                                         <Input disable={isDisable}  onChange={this.onCompanyChangeHandler.bind(this)} name="website" label="Website" value={company.website}/>
                                     </div>
                                     <div className="col-xs-12 col-sm-6">
-                                        <Dropdown disable={isDisable}  name="industry" options={industry_options} errors={this.state.errors}  value={company.industry} onChange={this.onCompanyChangeHandler.bind(this)} label="Industry  *" />
+                                        <Dropdown disable={isDisable}  name="industry" options={industry_options} errors={this.state.errors}  value={company.industry} onChange={this.onCompanyChangeHandler.bind(this)} label="Industry" />
                                     </div>
                                     <div className="col-xs-12 col-sm-6">
-                                        <Dropdown disable={isDisable} name="sub_industry" options={sub_industry_options} errors={this.state.errors}  value={company.sub_industry} onChange={this.onCompanyChangeHandler.bind(this)} label="Sub-Industry  *" />
+                                        <Dropdown disable={isDisable} name="sub_industry" options={sub_industry_options} errors={this.state.errors}  value={company.sub_industry} onChange={this.onCompanyChangeHandler.bind(this)} label="Sub-Industry" />
                                         { this.state.isSubindustryLoading ? <Loading/> : ''}
                                     </div>
                                 </div>

@@ -49,6 +49,9 @@ class Input extends Component {
         if(!this.props.options){
             return <></>
         }
+        if(this.props.disable == true){
+            return <div className="dropbox_selected_value">{this.props?.dropdownValue}</div> 
+        }
         return(
             <div className={this.props.disable == true ? 'rs_option_group disabled' : 'rs_option_group'}>
                 {

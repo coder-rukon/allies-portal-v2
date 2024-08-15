@@ -64,6 +64,16 @@ let Settings = {
             {id:8,name:'Seller Rep',shortName:'SR'}
         ];
         return dealTypes;
+    },
+    getCompanySource: () => {
+        return [
+            {label:'Inbound',value:'Inbound'},
+            {label:'Outbound',value:'Outbound'},
+            {label:'Website',value:'Website'},
+            {label:'Google',value:'Google'},
+            {label:'ZoomInfo',value:'ZoomInfo'},
+            {label:'Other',value:'Other'}
+        ]
     }
     /*
     companyColorStatus:[

@@ -20,12 +20,14 @@ import ActionsTypes from "@/inc/ActionTypes";
 import Helper from "@/inc/Helper";
 import Checkbox from "../forms/checkbox";
 import AdditionalFields from '@/components/property/AdditionalFields';
+import TypeSubtypeDropdown from './typesubtype/TypeSubtypeDropdown';
 class CreatePropertyForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
             isCreatingProperty:false,
             property:{
+                property_status:'active',
                 property_additional_size_unit:'sf',
                 property_size_unit:'sf',
                 property_type:'industrial'
@@ -37,7 +39,7 @@ class CreatePropertyForm extends Component {
             errorMessage:null,
             redirectTo:null,
             isExpandTypeSubtype:false,
-            isSelectedSubtype:false,
+            isSelectedSubtype:true,
             propertyTypeSubtype:{},
             allSubtypes:[]
         }
@@ -305,6 +307,7 @@ class CreatePropertyForm extends Component {
                 <div className="row">
                     <div className="col-xs-12 col-sm-6">
                         <BorderBox title="Property Details">
+                            <TypeSubtypeDropdown/>
                             <div className="property_tst_details">
                                 <div className="ptsd_label">Property Type/Subtype</div>
                                 <div className="ptsd_selected_label_ctl">
@@ -361,7 +364,7 @@ class CreatePropertyForm extends Component {
                         <BorderBox title="Additional Property Details">
                             <AdditionalFields onReady={obj => { this.additionalFieldsObj = obj }}/>
                         </BorderBox>
-                        <BorderBox title="Note">
+                        <BorderBox title="Notes">
                             <Input name="property_note" value={property.property_note} onChange={this.onPropertyChangeHanlder.bind(this)}  type="textarea"/>
                         </BorderBox>
                         <BorderBox title="Files">
