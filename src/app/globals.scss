@@ -1177,3 +1177,44 @@ a.rs_btn{
         }
     }
 }
+.datepicker{
+    input{
+        background-image: url("/images/icons/calendar.png");
+        background-size: auto 50%;
+        background-position: calc(100% - 10px) center;
+        background-repeat: no-repeat;
+    }
+}
+.follow_up_remainder_module{
+    
+    .reminder_list{
+        display: block;
+        margin: 0 0 20px 0;
+        padding: 0;
+        .reminder_single_item{
+            display: block;
+            margin: 0;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid $borderLight;
+            display: flex;
+            justify-content: space-between;
+            .rm_details{
+                display: block;
+                margin: 0;
+                padding: 0;
+                font-size: 14px;
+                font-weight: 400;
+            }
+            .rm_date{
+                color: $lightGray;
+                font-size: 12px;
+                display: block;
+                margin: 0 0 5px 0;
+            }
+        }
+        .reminder_single_item+.reminder_single_item{
+            margin-top: 5px;
+        }
+    }
+}

@@ -957,4 +957,36 @@ a.rs_btn {
         font-weight: 300;
         cursor: pointer; }
 
+.datepicker input {
+  background-image: url("/images/icons/calendar.png");
+  background-size: auto 50%;
+  background-position: calc(100% - 10px) center;
+  background-repeat: no-repeat; }
+
+.follow_up_remainder_module .reminder_list {
+  display: block;
+  margin: 0 0 20px 0;
+  padding: 0; }
+  .follow_up_remainder_module .reminder_list .reminder_single_item {
+    display: block;
+    margin: 0;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #D1D5DB;
+    display: flex;
+    justify-content: space-between; }
+    .follow_up_remainder_module .reminder_list .reminder_single_item .rm_details {
+      display: block;
+      margin: 0;
+      padding: 0;
+      font-size: 14px;
+      font-weight: 400; }
+    .follow_up_remainder_module .reminder_list .reminder_single_item .rm_date {
+      color: #9CA3AF;
+      font-size: 12px;
+      display: block;
+      margin: 0 0 5px 0; }
+  .follow_up_remainder_module .reminder_list .reminder_single_item + .reminder_single_item {
+    margin-top: 5px; }
+
 /*# sourceMappingURL=globals.css.map */

@@ -18,6 +18,7 @@ import CompanyDeals from "@/components/company/deals/CompanyDeals";
 import Helper from "@/inc/Helper";
 import { connect } from "react-redux";
 import CompanySecurityRoles from '@/inc/CompanySecurityRoles';
+import FollowUpReminder from '@/components/FollowUpReminder/FollowUpReminder';
 class CompanyDetails  extends Component{
     constructor(props){
         super(props);
@@ -183,8 +184,8 @@ class CompanyDetails  extends Component{
     }
     
     render() {
-        let isDisable = false //!this.state.editMode;
-        let editMode = true; // this.state.editMode;
+        let isDisable = !this.state.editMode;
+        let editMode = this.state.editMode;
         if(this.state.isLoading){
             return <Panel className="text-center"><Loading/></Panel>
         }
@@ -241,6 +242,10 @@ class CompanyDetails  extends Component{
                             {isDisable ? '' : <Button label="Save Company" onClick={ this.onSaveClick.bind(this) } /> }
                         </div>
                         <div className="col-xs-12 col-sm-6">
+                            <BorderBox title="Follow Up Reminder">
+                                <FollowUpReminder disable={isDisable} onReady={ obj => { this.followUpRemainderObj = obj }} source="company" integrator={company.company_id}/>
+                                
+                            </BorderBox>
                             <BorderBox title="Current Deals">
                                 <CompanyDeals disable={isDisable} />
                                 

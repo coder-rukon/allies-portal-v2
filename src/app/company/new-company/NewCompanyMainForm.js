@@ -16,6 +16,8 @@ import Address from "@/components/address/Address";
 import Settings from "@/inc/Settings";
 import NewCompanyLinkProperty from '@/components/company/new/property/NewCompanyLinkProperty';
 import TeamAccessExportable from '@/components/company/teamaccess/exportable/TeamAccessExportable';
+import FollowUpReminderNew from "@/components/FollowUpReminder/FollowUpReminderNew";
+import ErrorMessage from "@/components/widget/errormessage";
 class NewCompanyMainForm extends Component {
     constructor(props){
         super(props);
@@ -33,6 +35,7 @@ class NewCompanyMainForm extends Component {
         this.contactComponent = null;
         this.addressComponent = null;
         this.propertyLinkComponent = null;
+        this.followUpRemainderObj = null;
         this.teamAccessComponent = null;
     }
     componentDidMount(){
@@ -82,7 +85,8 @@ class NewCompanyMainForm extends Component {
             address_zipcode: address?.address_zipcode,
             contacts: this.contactComponent ? this.contactComponent.getContacts() : null,
             properties:  this.propertyLinkComponent ? this.propertyLinkComponent.getData().map( item => { return item.property_id }) : null,
-            team_access: this.teamAccessComponent.getData()
+            team_access: this.teamAccessComponent.getData(),
+            follow_up_reminder: this.followUpRemainderObj.getData(),
         }
         that.setState({
             isSaving:true
@@ -193,10 +197,14 @@ class NewCompanyMainForm extends Component {
                         <div className="mt-3 mb-1">{isSaving ? <Loading/> : ''}</div>
                         
                         <Button label="Create Company" onClick={this.onCreateButtonClick.bind(this)}/>
+
                         
                     </div>
                     <div className="col-xs-12 col-sm-6">
                         
+                        <BorderBox title="Follow Up Reminder">
+                            <FollowUpReminderNew error_date={this.state.errors['follow_up_reminder.reminder_date']} onReady={ obj => { this.followUpRemainderObj = obj }}/>
+                        </BorderBox>
                         <BorderBox title="Team Access">
                             <TeamAccessExportable onReady={ obj => { this.teamAccessComponent = obj }}/>
                             
