@@ -84,7 +84,7 @@ class NewCompanyMainForm extends Component {
             address_country: address?.address_country,
             address_zipcode: address?.address_zipcode,
             contacts: this.contactComponent ? this.contactComponent.getContacts() : null,
-            properties:  this.propertyLinkComponent ? this.propertyLinkComponent.getData().map( item => { return item.property_id }) : null,
+            properties:  this.propertyLinkComponent ? this.propertyLinkComponent.getData().map( item => { return {property_id:item.property_id,link_type:item.rs_property_link_type} }) : null,
             team_access: this.teamAccessComponent.getData(),
             follow_up_reminder: this.followUpRemainderObj.getData(),
         }
@@ -207,7 +207,6 @@ class NewCompanyMainForm extends Component {
                         </BorderBox>
                         <BorderBox title="Team Access">
                             <TeamAccessExportable onReady={ obj => { this.teamAccessComponent = obj }}/>
-                            
                         </BorderBox>
                         <BorderBox title="Linked Properties">
                             <NewCompanyLinkProperty onReady={ objCmp => { this.propertyLinkComponent = objCmp }}/>

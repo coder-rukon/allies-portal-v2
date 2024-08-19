@@ -27,16 +27,8 @@ class CompanyListPage  extends Component {
     componentDidMount(){
         this.loadCompany();
         this.props.setOptions({title:'Companies'})
-        this.loadCompanyAcess();
     }
-    loadCompanyAcess(){
-        let that = this, api = Api;
-        if(api.setUserToken()){
-            api.axios().get('/user/access').then(res => {
-                that.props.setCompanyAcess(res.data.data);
-            })
-        }
-    }
+    
     loadCompany(s = null){
         this.setState({
             isLoading:true,

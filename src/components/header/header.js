@@ -1,19 +1,33 @@
 "use client"
 
 import ActionsTypes from "@/inc/ActionTypes";
+import Api from "@/inc/Api";
 import Helper from "@/inc/Helper";
 import Settings from "@/inc/Settings";
 import Link from "next/link";
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 import { connect } from "react-redux";
-
 let MainHeader = (props) =>{
-
+    let loadCompanyAcess = () => {
+        let  api = Api;
+        if(api.setUserToken()){
+            
+            api.axios().get('/user/access').then(res => {
+                props.setCompanyAcess(res.data.data);
+                console.log('company Loaded')
+            })
+        }
+    }
+    useEffect(() => {
+        // call api or anything
+        loadCompanyAcess();
+    },[]);
     let logout = () =>{
         props.logout();
         Helper.setCookie(Settings.userTokenKey,'',0);
         window.location.href = '/login';
     }
+    
     let user = props.auth.user;
     return(
         <div className="main_header">
@@ -59,7 +73,8 @@ const mapStateToProps = (state) => ({
     auth:state.auth
 });
 const mapDispatchToProps = (dispatch) => ({
-    logout: () => { dispatch({type:ActionsTypes.SET_LOGOUT})}
+    logout: () => { dispatch({type:ActionsTypes.SET_LOGOUT})},
+    setCompanyAcess:(data) => { dispatch({type:ActionsTypes.SET_COMPANY_ACCESS,data:data})},
     //setState: (data) => dispatch({type:ActionsTypes.SET_LOCATION_STATE,data:data}), // Map your state to props
 });
 export default connect(mapStateToProps,mapDispatchToProps) (MainHeader);

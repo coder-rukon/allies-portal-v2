@@ -52,7 +52,7 @@ class PropertyGrid extends Component {
     getHeaders(){
         let hideHeaderItems = this.state.hideHeaderItems;
         let headers = [
-            {id:'property_id',title:'#',width:'30px',cellRender:(item) => {  return <Link href={'/property/edit/'+item.property_id}>{"#"+item.property_id}</Link>  }},
+            {id:'property_id',title:'#',width:'30px',cellRender:(item) => {  return this.props.onPropertyClick ? <div>{"#"+item.property_id}</div> : <Link href={'/property/edit/'+item.property_id}>{"#"+item.property_id}</Link>  }},
             {id:'property_address',title:'PROPERTY ADDRESS',width:'100px',cellRender:(item) => {  return this.getAddress(item)  },hide:hideHeaderItems.includes('property_address')},
             {id:'property_size',title:'SIZE',width:'100px',hide:hideHeaderItems.includes('property_size')},
             {id:'property_acres',title:'ACRES',width:'100px',hide:hideHeaderItems.includes('property_acres')},

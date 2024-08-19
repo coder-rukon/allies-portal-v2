@@ -42,7 +42,7 @@ class ReminderItem extends Component {
                     <div className='rm_details'>{reminder.details}</div>
                 </div>
                 <div>
-                    {this.state.deleting ? <Loading/> : <Button className="only_icon" disable={this.props.disable} icon="delete" onClick={this.onDeleteHandler.bind(this)}/>}
+                    {this.state.deleting ? <Loading/> : this.props.disable ? '' : <Button className="only_icon" icon="delete" onClick={this.onDeleteHandler.bind(this)}/>}
                 </div>
                 
             </div>

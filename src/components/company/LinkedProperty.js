@@ -13,6 +13,7 @@ class LinkedProperty extends Component {
         super(props);
         this.state = {
             loading:false,
+            property_link_type:null,
             showPopup:false,
             propertyList:[]
         }
@@ -44,11 +45,13 @@ class LinkedProperty extends Component {
         })
         let data = {
             property:property.property_id,
+            link_type:this.state.property_link_type,
             company: this.props.company.company_id
         }
         if(api.setUserToken()){
             api.axios().post('/company-property',data).then(res=>{
                 that.setState({
+                    property_link_type:null,
                     loading:false
                 })
                 that.loadProperty();
@@ -59,12 +62,31 @@ class LinkedProperty extends Component {
         propertyList.push(property);
         this.setState({
             showPopup:false,
+            property_link_type:null,
             propertyList:propertyList
+        })
+    }
+    selectPropertyLinkType(type){
+        this.setState({
+            property_link_type: type
         })
     }
     showPropertyList(){
         if(!this.state.showPopup){
             return <></>
+        }
+        if(!this.state.property_link_type){
+            return(
+                <Popup width="400px" onClose={ () => { this.setState({ showPopup:false,property_link_type:null })}}>
+                    <div className='class_property_link_types'>
+                        <h3>Select Property link type</h3>
+                        <div>
+                            <Button label="Property Tenant" onClick={ e => { this.selectPropertyLinkType('tenant')}}/>
+                            <Button label="Property Owner" onClick={ e => { this.selectPropertyLinkType('owner')}}/>
+                        </div>
+                    </div>
+                </Popup>
+            )
         }
         return (
             <Popup width="80%" onClose={ () => { this.setState({ showPopup:false })}}>
@@ -81,6 +103,9 @@ class LinkedProperty extends Component {
             address += ( property.address.address_state && Helper.getNullableValue(property.address.address_state) ) ? property.address.address_state + ', ' : '';
             address += ( property.address.address_country && Helper.getNullableValue(property.address.address_country) ) ? property.address.address_country + ', ' : '';
             address += ( property.address.address_zipcode && Helper.getNullableValue(property.address.address_zipcode) ) ? property.address.address_zipcode : '';
+        }
+        if(address == ''){
+            address = property.property_id;
         }
         return <div className='ads_p'><Link href={'/property/edit/'+ property.property_id}>{address}</Link></div>
     }
@@ -99,15 +124,7 @@ class LinkedProperty extends Component {
     }
     getPropertyLinkType(property){
         let company = this.props.company;
-        let label = '';
-        if(company){
-            if(company.company_id == property.property_owner){
-                label = <div className='badge bg-primary'>Owner</div>
-            }
-            if(company.company_id == property.property_tenant){
-                label = <div className='badge bg-secondary'>Tenant</div>
-            }
-        }
+        let label = property.link_type;
         return label;
     }
     getLinkBtn(){
@@ -131,7 +148,7 @@ class LinkedProperty extends Component {
                                     <div className='col-xs-12 col-sm-6'>
                                         {this.getAddress(propery)}
                                     </div>
-                                    <div className='col-xs-12 col-sm-2'>
+                                    <div className='col-xs-12 col-sm-2' style={{textTransform:'capitalize'}}>
                                         {this.getPropertyLinkType(propery)}
                                     </div>
                                     <div className='col-xs-12 col-sm-4'>

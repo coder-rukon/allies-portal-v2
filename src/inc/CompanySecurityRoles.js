@@ -11,7 +11,7 @@ class CompanySecurityRoles{
         return {}
     }
     getCompanyAccess(companyId){
-        let compnayAccess = this.companyAccess.find(companyAcess => { return companyAcess.ca_company_id == companyId})
+        let compnayAccess = this.companyAccess.find(companyAcess => { return companyAcess.ma_integrator == companyId && companyAcess.ma_source == 'company'	 })
         if(compnayAccess){
             return compnayAccess;
         }
@@ -19,7 +19,7 @@ class CompanySecurityRoles{
     }
     canViewCompany(companyId){
         let companyAccess = this.getCompanyAccess(companyId);
-        let role = this.getRole(companyAccess?.ca_role_id);
+        let role = this.getRole(companyAccess?.ma_role_id);
         if(role?.company_access === 'full' || role?.company_access === 'readonly' ){
             return true;
         }
@@ -27,7 +27,7 @@ class CompanySecurityRoles{
     }
     canEditCompany(companyId){
         let companyAccess = this.getCompanyAccess(companyId);
-        let role = this.getRole(companyAccess?.ca_role_id);
+        let role = this.getRole(companyAccess?.ma_role_id);
         if(role?.company_access === 'full' ){
             return true;
         }

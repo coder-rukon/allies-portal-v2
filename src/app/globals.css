@@ -963,6 +963,19 @@ a.rs_btn {
   background-position: calc(100% - 10px) center;
   background-repeat: no-repeat; }
 
+.class_property_link_types h3 {
+  font-size: 20px;
+  text-align: center;
+  margin: 0 0 10px 0; }
+.class_property_link_types div {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  min-height: 50px; }
+
 .follow_up_remainder_module .reminder_list {
   display: block;
   margin: 0 0 20px 0;

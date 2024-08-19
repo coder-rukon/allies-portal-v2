@@ -8,6 +8,7 @@ class NewCompanyLinkProperty extends Component {
     constructor(props){
         super(props);
         this.state = {
+            property_link_type:null,
             propertyList: this.props.propertyList ? this.props.proeprtyList : [],
             showPopup:false,
         }
@@ -23,10 +24,14 @@ class NewCompanyLinkProperty extends Component {
     onPropertySelect(proeprty){
         let allProperty = this.state.propertyList;
         if(!allProperty.some( item => { return item.property_id == proeprty.property_id})){
-            allProperty.push(proeprty);
+            allProperty.push({
+                ...proeprty,
+                rs_property_link_type: this.state.property_link_type
+            });
         }
         this.setState({
             showPopup:false,
+            property_link_type:null,
             propertyList:allProperty
         })
     }
@@ -36,12 +41,31 @@ class NewCompanyLinkProperty extends Component {
             propertyList:filteredProperty
         })
     }
+    selectPropertyLinkType(type){
+        this.setState({
+            property_link_type: type
+        })
+    }
     showPopup(){
         if(!this.state.showPopup){
             return;
         }
+        if(!this.state.property_link_type){
+            return(
+                <Popup width="400px" onClose={ () => { this.setState({ showPopup:false,property_link_type:null })}}>
+                    <div className='class_property_link_types'>
+                        <h3>Select Property link type</h3>
+                        <div>
+                            <Button label="Property Tenant" onClick={ e => { this.selectPropertyLinkType('tenant')}}/>
+                            <Button label="Property Owner" onClick={ e => { this.selectPropertyLinkType('owner')}}/>
+                        </div>
+                    </div>
+                </Popup>
+            )
+        }
+        
         return(
-            <Popup width="80%" onClose={ () => { this.setState({ showPopup:false })}}>
+            <Popup width="80%" onClose={ () => { this.setState({ showPopup:false,property_link_type:null })}}>
                 <PropertyListPage onPropertyClick={this.onPropertySelect.bind(this)} exportable={true}/>
             </Popup>
         )
@@ -56,6 +80,9 @@ class NewCompanyLinkProperty extends Component {
             address += ( property.address.address_country && Helper.getNullableValue(property.address.address_country) ) ? property.address.address_country + ', ' : '';
             address += ( property.address.address_zipcode && Helper.getNullableValue(property.address.address_zipcode) ) ? property.address.address_zipcode : '';
         }
+        if(address == ''){
+            address = property.property_id;
+        }
         return <div className='ads_p'><Link href={'/property/edit/'+ property.property_id}>{address}</Link></div>
     }
     render() {
@@ -65,7 +92,6 @@ class NewCompanyLinkProperty extends Component {
                 {
                     this.state.propertyList.length <= 0 ? <div className="property_links"><p>No Linked Properties</p></div> : ''
                 }
-                
                 <div className='property_links'>
                     {
                         this.state.propertyList.map( (propery,key) => {
