@@ -23,7 +23,7 @@ class CreateDealPage extends Component {
         })
     }
     render() {
-        if (typeof window !== "undefined") {
+        if (typeof window == "undefined") {
             return <></>
         }
         return (
