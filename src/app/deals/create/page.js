@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import CreateDealPage from './CreateDealPage';
 
-class CreateDealPage extends Component {
+class CreateDealPageMain extends Component {
     render() {
         return (
             <div>
@@ -12,4 +12,4 @@ class CreateDealPage extends Component {
     }
 }
 
-export default CreateDealPage;
+export default CreateDealPageMain;
