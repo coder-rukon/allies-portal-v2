@@ -7,8 +7,11 @@ let Helper = {
         return prefix + Math.random().toString(16).slice(2)
     },
     setPageData(newData = {}){
-        document.title = newData?.title;
-        document.getElementById('h_title').innerHTML = newData?.pageTitle;
+        if (typeof document !== "undefined") {
+            document.title = newData?.title;
+            document.getElementById('h_title').innerHTML = newData?.pageTitle;
+        }
+        
     },
     alert(message,options,selector = null){
         /*
