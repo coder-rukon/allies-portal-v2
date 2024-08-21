@@ -1,6 +1,6 @@
 import { Component } from "react";
 import Input from "../../forms/Input";
-class BrokerFormItem extends Component {
+class NewContactFormItem extends Component {
     constructor(props) {
         super(props);
     }
@@ -33,4 +33,4 @@ class BrokerFormItem extends Component {
     }
 }
  
-export default BrokerFormItem;
+export default NewContactFormItem;

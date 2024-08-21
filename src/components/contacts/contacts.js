@@ -25,14 +25,6 @@ class Contacts extends Component {
         }
     }
     componentDidUpdate(){
-        this.intShortable();
-    }
-    intShortable(){
-        /*
-        $(".shortable_items").sortable({
-            handle: ".dragdrop_hanlder"
-        });
-        */
     }
     onContactReady(contactCmp){
         //this.contactComponents.push(contactCmp)
@@ -93,6 +85,9 @@ class Contacts extends Component {
         
     }
     loadContacts(){
+        if(!this.state.integrator){
+            return;
+        }
         let that = this, api = Api;
         if(api.setUserToken()){
             this.setState({
@@ -131,13 +126,25 @@ class Contacts extends Component {
             contacts:oldCont
         })
     }
+    getAddButton(){
+        if(this.props.disable ){
+            return <></>
+        }
+        if(this.props.adv_btn){
+            return(
+                <div className="adv_add_new_btn"><div  onClick={ this.addNewContact.bind(this)}> <img src="/images/icons/plus-icon.png" /> <span>{this.props.btnLabel ? this.props.btnLabel : '+ Additional Contact'}</span></div></div>
+            )
+        }
+        return <Button className="add_new" onClick={ this.addNewContact.bind(this)} label={this.props.btnLabel ? this.props.btnLabel : '+ Additional Contact'}/>
+        
+    }
     render() { 
         if(this.state.isLoading){
             return <Loading/>
         }
         return (
             <div className="contact_list_form contact_component">
-                <div className="shortable_items">
+                <div className={this.state.contacts.length >=1 ? "shortable_items border_bottom" : "shortable_items" }>
                 {
                     this.state.contacts.map( (contact , key) => {
                         return(
@@ -146,9 +153,7 @@ class Contacts extends Component {
                     })
                 }
                 </div>
-                
-                {this.props.disable == true ? "" : <Button className="add_new" onClick={ this.addNewContact.bind(this)} label={this.props.btnLabel ? this.props.btnLabel : '+ Additional Contact'}/> }
-                
+                {this.getAddButton()}
             </div>
         );
     }

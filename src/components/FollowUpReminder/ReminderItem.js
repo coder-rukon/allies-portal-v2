@@ -38,7 +38,9 @@ class ReminderItem extends Component {
         return (
             <div className='reminder_single_item'>
                 <div>
+                    <h3>Reminder Date</h3>
                     <h5 className='rm_date'>{reminder.reminder_date}</h5>
+                    <h3>Note</h3>
                     <div className='rm_details'>{reminder.details}</div>
                 </div>
                 <div>

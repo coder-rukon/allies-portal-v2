@@ -7,7 +7,6 @@ import FileUploader from "../widget/FileUploader";
 import Dropdown from "../forms/Dropdown";
 import InputRadio from "../forms/inputradio";
 import Settings from "@/inc/Settings";
-import BrockerForm from './new/BrockerForm';
 import Api from "@/inc/Api";
 import Button from "../forms/button";
 import Loading from "../widget/Loading";
@@ -21,6 +20,7 @@ import Helper from "@/inc/Helper";
 import Checkbox from "../forms/checkbox";
 import AdditionalFields from '@/components/property/AdditionalFields';
 import TypeSubtypeDropdown from './typesubtype/TypeSubtypeDropdown';
+import Contacts from "../contacts/contacts";
 class CreatePropertyForm extends Component {
     constructor(props) {
         super(props);
@@ -32,7 +32,6 @@ class CreatePropertyForm extends Component {
                 property_size_unit:'sf',
                 property_type:'industrial'
             },
-            brokerObj:null,
             broker_contacts:[],
             state:{},
             successMessage: null,
@@ -45,14 +44,13 @@ class CreatePropertyForm extends Component {
         this.propertyTenantCmp = null;
         this.additionalFieldsObj = null;
         this.typeSubtypeComponentObj = null;
+        this.brokerObj = null;
     }
     componentDidMount(){
         this.props.setOptions({title:'Create Property'})
     }
     onBrokerFormReady(brokerObject){
-        this.setState({
-            brokerObj: brokerObject
-        })
+        this.brokerObj = brokerObject;
     }
     
     onPropertyChangeHanlder(event){
@@ -109,7 +107,7 @@ class CreatePropertyForm extends Component {
             state: address?.address_state,
             country: address?.address_country,
             zipcode: address?.address_zipcode,
-            broker_contacts:this.state.brokerObj ? this.state.brokerObj.getBrokers() : [],
+            broker_contacts:this.brokerObj ? this.brokerObj.getContacts() : [],
         };
         let propertyOwner =  this.propertyOwnerCmp.getData();
         let addtionalFieldData = {};
@@ -207,6 +205,12 @@ class CreatePropertyForm extends Component {
         let listing_status_options = Settings.listingStatus;
         if(this.state.redirectTo){
             redirect(this.state.redirectTo)
+        }
+        let brokerLabels = {
+            contact_name: 'Company',
+            contact_title: 'Contact',
+            contact_email: 'Email',
+            contact_phone: 'Phone'
         }        
         return(
             <div className="property_create_form">
@@ -270,7 +274,10 @@ class CreatePropertyForm extends Component {
                     <div className="col-xs-12 col-sm-6">
                         <PropertyHolder title="Property Owner" onReady={ componentObj => { this.propertyOwnerCmp = componentObj}}/>
                         <PropertyHolder title="Property Tenant" onReady={ componentObj => { this.propertyTenantCmp = componentObj}}/>
-                        <BrockerForm onReady = { this.onBrokerFormReady.bind(this)}/>
+                        <BorderBox title="Broker Contact">
+                            <Contacts adv_btn={true} btnLabel="Add New Contact" onReady = { this.onBrokerFormReady.bind(this)}  hidePrimary={true}  labels = {brokerLabels}/>
+                        </BorderBox>
+                        
                     </div>
                 </div>
                 <div className="mt-3"></div>

@@ -104,12 +104,9 @@ class FollowUpReminder extends Component {
         })
     }
     getForm(){
-        if(this.props.disable){
-            return<></>
-        }
         let remainder = this.state.remainder;
         return (
-            <div className='follow_up_remainder_form'>
+            <div className={this.props.disable ? 'follow_up_remainder_form form_hide' : 'follow_up_remainder_form' }>
                     <div className='row'>
                         <div className='col-xs-12 col-sm-6'>
                             <Input value={remainder.reminder_date}  className="datepicker" id="datepicker" name="reminder_date" label="Listing Expiration Reminder" placeholder="Select Date" />
@@ -131,12 +128,14 @@ class FollowUpReminder extends Component {
         )
     }
     getList(){
+        if(this.state.isLodingRm){
+            return <Loading/>
+        }
         if(this.state.all_remainders.length <1){
             return <></>
         }
         return (
             <div className='reminder_list'>
-                {this.state.isLodingRm ? <Loading/> : ''}
                 {
                     this.state.all_remainders.map( (item,key) => {
                         return <ReminderItem disable={this.props.disable} reminder={item}  key ={key}/>
@@ -149,8 +148,8 @@ class FollowUpReminder extends Component {
         let remainder = this.state.remainder;
         return (
             <div className='follow_up_remainder_module'>
-                { this.getList() }
                 { this.getForm() }
+                { this.getList() }
                 
             </div>
         );

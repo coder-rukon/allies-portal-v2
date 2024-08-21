@@ -2,8 +2,8 @@ import { Component } from "react";
 import Input from "../../forms/Input";
 import Button from "../../forms/button"; 
 import BorderBox from "../../widget/borderbox";
-import BrokerFormItem from "./BrokerFormItem";
-class BrockerForm extends Component {
+import NewContactFormItem from "./NewContactFormItem";
+class ContactFormNew extends Component {
     constructor(props) {
         super(props);
         this.state  = {
@@ -57,7 +57,7 @@ class BrockerForm extends Component {
                         <div className="brockers">
                             {
                                 brokers.map((broker,key) => {
-                                    return <BrokerFormItem key={key} brokerKey={key} broker={broker} onChange={ this.onChangeHander.bind(this)} />
+                                    return <NewContactFormItem key={key} brokerKey={key} broker={broker} onChange={ this.onChangeHander.bind(this)} />
                                 } )
                             }
                         </div>
@@ -70,4 +70,4 @@ class BrockerForm extends Component {
     }
 }
  
-export default BrockerForm;
+export default ContactFormNew;

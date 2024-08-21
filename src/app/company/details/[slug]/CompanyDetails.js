@@ -194,7 +194,6 @@ class CompanyDetails  extends Component{
         let sub_industry_options = this.state.subindustryList.map( item => { return {label:item.subindustry_name, value: item.subindustry_id}});
         let lead_capture_type_otpions = Settings.getCompanySource();
         let srObj = new CompanySecurityRoles(this.props.companyAccess)
-        console.log(this.props.companyAccess,'COmpany access');
         return(
             <Panel className=" input_box_margin_fix">
                     <Meta title={company?.name}/>

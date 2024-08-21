@@ -4,14 +4,11 @@ import AjaxSearchInput from "../../forms/AjaxSearchInput";
 import BorderBox from "../../widget/borderbox";
 import FileUploader from "../../widget/FileUploader";
 import Dropdown from "../../forms/Dropdown";
-import InputRadio from "../../forms/inputradio";
 import Settings from "@/inc/Settings";
-import BrockerForm from './../new/BrockerForm';
 import Api from "@/inc/Api";
 import Button from "../../forms/button";
 import Loading from "../../widget/Loading";
 import Address from '@/components/address/Address';
-import PropertyType from '@/components/property/PropertyType';
 import Notes from "@/components/notes/Notes";
 import Contacts from "@/components/contacts/contacts";
 import PropertyCompany from "../company/PropertyCompany";
@@ -263,7 +260,7 @@ class EditProperty extends Component {
                         
                         <PropertyCompany  onReady={obj => {this.propertyTenantCmp = obj }} disable={isDisable}  source="tenant" title="Property Tenant"  company_id = {property.property_tenant}/>
                         <BorderBox title="Broker Contact">
-                            {property.property_id ? <Contacts btnLabel="+ Add contact" onReady={this.onBrokerContactComponentReady.bind(this)} hidePrimary={true} disable={isDisable} source="property_broker" integrator={property.property_id} labels = {brokerLabels}/> : '' } 
+                            {property.property_id ? <Contacts adv_btn={true} btnLabel="Add New Contact" onReady={this.onBrokerContactComponentReady.bind(this)} hidePrimary={true} disable={isDisable} source="property_broker" integrator={property.property_id} labels = {brokerLabels}/> : '' } 
                         </BorderBox>
                     </div>
                 </div>
