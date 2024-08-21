@@ -7,11 +7,8 @@ let Helper = {
         return prefix + Math.random().toString(16).slice(2)
     },
     setPageData(newData = {}){
-        if (typeof document !== "undefined") {
-            document.title = newData?.title;
-            document.getElementById('h_title').innerHTML = newData?.pageTitle;
-        }
-        
+        document.title = newData?.title;
+        document.getElementById('h_title').innerHTML = newData?.pageTitle;
     },
     alert(message,options,selector = null){
         /*
@@ -95,11 +92,18 @@ let Helper = {
         const d = new Date(dateString)
         return d.getDate()+'-'+d.getMonth()+'-'+d.getFullYear();
     },
-    getPropertyType(){
+    getAdditionalType(){
+        /*
         let propertyTypes = [
             {label:'Industrial' , value:"industrial"},
             {label:'Office' , value:"office"},
             {label:'Retail' , value:"retail"}
+        ]*/
+        let propertyTypes = [
+            {id:'11',name:'Industrial',slug:'industrial'},
+            {id:'12',name:'Office',slug:'office'},
+            {id:'13',name:'Retail',slug:'retail'},
+            {id:'14',name:'Land',slug:'land'}
         ]
         return propertyTypes;
     },

@@ -1176,6 +1176,102 @@ a.rs_btn{
             }
         }
     }
+    .dropdown_contents{
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: #fff;
+        border: 1px solid $inputBorderColor;
+        
+        border-top: 0;
+        padding: 5px 10px;
+        box-sizing: border-box;
+        .type_subtype_group_wraper{
+            display: block;
+            h4{
+                font-size: 14px;
+                font-weight: 500;
+                margin: 0 0 0 0;
+                padding: 5px 0;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                .material-symbols-outlined{
+                    font-size: 30px;
+                    width: 22px;
+                    text-align: center;
+                    margin-left: -8px;
+                    position: relative;
+                }
+                .arrow_drop_down{
+                    display: none;
+                }
+                .arrow_right{
+                    display: block;
+                }
+            }
+            .pgroup_subtypes{
+                display: flex;
+                flex-wrap: wrap;
+                gap: 10px 20px;
+                padding-left: 17px;
+                display: none;
+                .pgroup_input_wraper{
+                    max-width: 33%;
+                    width: calc(33% - 13px);
+                    box-sizing: border-box;
+                }
+            }
+            
+            .pgroup_input_wraper{
+                .form-group{
+                    margin: 0;
+                    padding:0;
+                }
+                .form-check-label{
+                    margin: 0;
+                    padding: 0;
+                    font-size: 14px;
+                    font-weight: 300;
+                    color: #111827;
+                }
+            }
+        }
+        .type_subtype_group_wraper.active{
+            h4{
+                .arrow_drop_down{
+                    display: block;
+                }
+                .arrow_right{
+                    display: none;
+                }
+            }
+            .pgroup_subtypes{
+                display: block;
+                display: flex;
+            }
+        } 
+    }
+}
+.type_subtype_dropdown_section:hover{
+    .dropdown_contents{
+        display: block;
+    }
+ 
+}
+.type_subtype_dropdown_section.disable{
+    .selector_box .selector_input{
+        border:0 none;
+    }
+    .selector_box .selector_input .selected_item{
+       background-color: #F0F0F0;
+    }
+    .controller_title{
+        padding-left: 0;
+    }
 }
 .datepicker{
     input{

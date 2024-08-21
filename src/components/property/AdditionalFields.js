@@ -1,6 +1,7 @@
 import { Component } from "react";
 import Dropdown from "../forms/Dropdown";
 import Input from "../forms/Input";
+import Helper from "@/inc/Helper";
 
 class AdditionalFields extends Component {
     constructor(props){
@@ -22,12 +23,7 @@ class AdditionalFields extends Component {
         }
     }
     getAdditionalType(){
-        return [
-            {id:'11',name:'Industrial',slug:'industrial'},
-            {id:'12',name:'Office',slug:'office'},
-            {id:'13',name:'Retail',slug:'retail'},
-            {id:'14',name:'Land',slug:'land'}
-        ]
+        return Helper.getAdditionalType();
     }
     getData(){
         let fields = this.getPropertyAdditionalFields(this.state.activeAdditionalType);

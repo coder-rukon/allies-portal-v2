@@ -20,6 +20,7 @@ import AdditionalFields from '@/components/property/AdditionalFields';
 import Helper from "@/inc/Helper";
 import { connect } from "react-redux";
 import CompanySecurityRoles from "@/inc/CompanySecurityRoles";
+import TypeSubtypeDropdown from "../typesubtype/TypeSubtypeDropdown";
 class EditProperty extends Component {
     constructor(props) {
         super(props);
@@ -28,18 +29,14 @@ class EditProperty extends Component {
             error:null,
             isSaving:false,
             property: null,
-            isEditing:false,
-            isExpandTypeSubtype:false,
-            isSelectedSubtype:false,
-            propertyTypeSubtype:{},
-            allSubtypes:[]
+            isEditing:false
         }
         this.addressComponent = null;
         this.propertyOwnerCmp = null;
         this.propertyTenantCmp = null;
-        this.propertyTypeCmp = null;
         this.additionalFieldsObj = null;
         this.brokerContactComponent = null;
+        this.typeSubtypeComponentObj = null;
     }
     
     componentDidMount(){
@@ -47,47 +44,6 @@ class EditProperty extends Component {
         this.setState({
             property: property,
         })
-        this.loadSubtypes()
-    }
-    setTypeSubtypeFormProperty(){
-        let property = this.state.property;
-        let subtype_id = property.property_subtype;
-        
-        if(subtype_id){
-            let subtype = res.data.data.find(item => { return subtype_id == item.subtype_id })
-            this.setState({
-                propertyTypeSubtype:{
-                    type:subtype ? Helper.getPropertyType(subtype.property_type_id) : null,
-                    subtype:  subtype
-                }
-            })
-        }else{
-            this.setState({
-                propertyTypeSubtype:{
-                    type:null,
-                    subtype:  {subtype_name: property.property_subtype_name}
-                }
-            })
-        }
-    }
-    loadSubtypes(){
-        let api = Api, that = this;
-        that.setState({
-            isLoading:true
-        })
-        api.setUserToken();
-        api.axios().get('/property-subtype').then(res => {
-            that.setState({
-                isLoading:false,
-                allSubtypes:res.data.data
-            }, () =>{
-                that.setTypeSubtypeFormProperty()
-            })
-            
-        })
-    }
-    onPropertyTypeComponentReady(componentObj){
-        this.propertyTypeCmp = componentObj;
     }
 
     onPropertyDropdownChangeHandler(event){
@@ -124,17 +80,14 @@ class EditProperty extends Component {
         })
         let address = this.addressComponent.getAddress();
         let brokerContacts = this.brokerContactComponent.getContacts();
-
+        let typesSubtypeList = this.typeSubtypeComponentObj.getData();
         
-        let propertyTypeSubtype = this.state.propertyTypeSubtype;
         let addtionalFieldData = {};
         
         let data = {
             ...this.state.property,
             broker_contacts:brokerContacts,
-            property_type : ( propertyTypeSubtype.type &&  propertyTypeSubtype.type.pt_id )? propertyTypeSubtype.type.pt_id  : null ,
-            property_subtype : ( propertyTypeSubtype.subtype &&  propertyTypeSubtype.subtype.subtype_id )? propertyTypeSubtype.type.subtype_id  : null ,
-            property_subtype_name : ( propertyTypeSubtype.subtype &&  propertyTypeSubtype.subtype.subtype_name ) ? propertyTypeSubtype.subtype.subtype_name : null ,
+            type_subtypes:typesSubtypeList,
             ...addtionalFieldData,
             address_line_1: address?.address_line_1,
             address_line_2: address?.address_line_2,
@@ -186,77 +139,11 @@ class EditProperty extends Component {
             }) 
         }
     }
-    propertyTypeOtherChangeHandler(event){
-        this.setState({
-            propertyTypeSubtype:{
-                type:null,
-                subtype:  {subtype_name:event.target.value}
-            }
-        })
-    }
-    onPropertySubTypeChange(event){
-        let subtype = this.state.allSubtypes.find(item => { return event.target.value == item.subtype_id })
-        document.getElementById('psubtype_other').value = '';
-        if(!subtype){
-            subtype = null;
-        }
-        this.setState({
-            propertyTypeSubtype:{
-                type:subtype ? Helper.getPropertyType(subtype.property_type_id) : null,
-                subtype:  subtype
-            }
-        })
-    }
+
     onBrokerContactComponentReady(ctComponent){
         this.brokerContactComponent = ctComponent;
     }
-    getTypeSubtypeBox(){
-        if(!this.state.isEditing){
-            return;
-        }
-        if(this.state.isLoading){
-            return <Loading/>
-        }
-
-        return(
-            <>
-            <BorderBox title="Property Type/Subtype">
-                <div className="p_typesubtype_rows">
-                    {
-                        Helper.getPropertyType().map( (pType,key) => {
-                            let gorupSubtypes = this.state.allSubtypes.filter( typeItem => typeItem.property_type_id == pType.pt_id )
-                            return (
-                                <div key={key} className={gorupSubtypes.length >= 2 ? "p_group p_group_full" : "p_group"}>
-                                    <h4>{pType.label}</h4>
-                                    <div className="pgroup_subtypes">
-                                    {
-                                        gorupSubtypes.map( (subtype , keyInner) => {
-                                            return(
-                                                <div key={keyInner} className="pgroup_subtype">
-                                                    <InputRadio onChange={ this.onPropertySubTypeChange.bind(this)} name="item_subtype" value={subtype.subtype_id} title={subtype.subtype_name}/>
-                                                </div>
-                                            )
-                                        })
-                                    }
-                                    </div>
-                                    
-                                </div>
-                            )
-                        } )
-                    }
-                    <div className={"p_group"}>
-                        <h4>Other</h4>
-                        <div className="pgroup_subtypes">
-                            <Input name="other" id="psubtype_other" onChange={this.propertyTypeOtherChangeHandler.bind(this)} />
-                        </div>
-                        
-                    </div>
-                </div>
-                
-            </BorderBox>
-            </>
-        )
-    }
+    
     canUserEditProperty(){
         let property = this.state.property;
         if(this.props.auth.user.id == property.created_by){
@@ -310,19 +197,8 @@ class EditProperty extends Component {
                 <div className="row">
                     <div className="col-xs-12 col-md-6">
                         <BorderBox className="input_box_margin_fix" title="Property Details">
-                            <div className="property_tst_details">
-                                <div className="ptsd_label">Property Type/Subtype</div>
-                                <div className="ptsd_selected_label_ctl">
-                                    <div className="ptsd_selected_label"><strong>{propertyTypeSubtype.type ? propertyTypeSubtype?.type?.label : "Other"} </strong>- {propertyTypeSubtype?.subtype?.subtype_name}</div>
-                                    
-                                    <div>
-                                       { !isDisable ? <img onClick={ e => { this.setState({isExpandTypeSubtype: !this.state.isExpandTypeSubtype}) }} src={this.state.isExpandTypeSubtype ? "/images/icons/minus.svg" : "/images/icons/plus.svg"} /> : ''} 
-                                    </div>
-                                </div>
-                                {
-                                    this.state.isExpandTypeSubtype ? this.getTypeSubtypeBox() : ''
-                                }
-                            </div>
+                            <TypeSubtypeDropdown disable={isDisable} label={'Property Type/Subtype *'} data={property.type_subtypes ? property.type_subtypes : [] } onReady={ tsDropdown => this.typeSubtypeComponentObj = tsDropdown }/>
+
                             <div className="row">
                                 
                                 <div className="col-xs-12">

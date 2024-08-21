@@ -1,6 +1,7 @@
 "use client"
 import React, { Component } from 'react';
 import Panel from "@/components/widget/panel";
+import Helper from "@/inc/Helper";
 import DealType from '../../../components/deal/create/DealType';
 import UploadClientEngagementLetter from '@/components/deal/UploadClientEngagementLetter';
 class CreateDealPage extends Component {
@@ -11,7 +12,10 @@ class CreateDealPage extends Component {
         }
     }
     componentDidMount(){
-       
+        Helper.setPageData({
+            title:'Create New Deal',
+            pageTitle:'Create New Deal'
+        })
     }
     onDealTypeSelect(){
         this.setState({
