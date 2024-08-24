@@ -21,6 +21,7 @@ import Checkbox from "../forms/checkbox";
 import AdditionalFields from '@/components/property/AdditionalFields';
 import TypeSubtypeDropdown from './typesubtype/TypeSubtypeDropdown';
 import Contacts from "../contacts/contacts";
+import PropertyHolders from '@/components/property/propertyholder/PropertyHolders'
 class CreatePropertyForm extends Component {
     constructor(props) {
         super(props);
@@ -86,21 +87,18 @@ class CreatePropertyForm extends Component {
     }
     onPropertyCreateHanlder(event){
         
+             
+        
+
         this.setState({
             isCreatingProperty:true
         })
 
         let address = this.addressComponent.getAddress();
         let typesSubtypeList = this.typeSubtypeComponentObj.getData();
-        let propertyTypeSubtype = this.state.propertyTypeSubtype;
         let data = {
             ...this.state.property,
             type_subtypes:typesSubtypeList,
-            /*
-            property_type : ( propertyTypeSubtype.type &&  propertyTypeSubtype.type.pt_id )? propertyTypeSubtype.type.pt_id  : null ,
-            property_subtype : ( propertyTypeSubtype.subtype &&  propertyTypeSubtype.subtype.subtype_id )? propertyTypeSubtype.type.subtype_id  : null ,
-            property_subtype_name : ( propertyTypeSubtype.subtype &&  propertyTypeSubtype.subtype.subtype_name ) ? propertyTypeSubtype.subtype.subtype_name : null ,
-            */
             address_line_1: address?.address_line_1,
             address_line_2: address?.address_line_2,
             city: address?.address_city,
@@ -109,7 +107,6 @@ class CreatePropertyForm extends Component {
             zipcode: address?.address_zipcode,
             broker_contacts:this.brokerObj ? this.brokerObj.getContacts() : [],
         };
-        let propertyOwner =  this.propertyOwnerCmp.getData();
         let addtionalFieldData = {};
         if(  this.additionalFieldsObj ){
             addtionalFieldData = this.additionalFieldsObj.getData();
@@ -119,38 +116,22 @@ class CreatePropertyForm extends Component {
         data = {
             ...data,
             ...addtionalFieldData,
-            property_owner_id:propertyOwner?.propertyholder_id,
-            property_owner_company:propertyOwner?.propertyholder_company,
-            property_owner_contact:propertyOwner?.propertyholder_contact,
-            property_owner_title:propertyOwner?.propertyholder_title,
-            property_owner_phone:propertyOwner?.propertyholder_phone,
-            property_owner_website:propertyOwner?.propertyholder_website,
-            property_owner_email:propertyOwner?.propertyholder_email,
-            property_owner_address_line_1:propertyOwner?.propertyholder_address_line_1,
-            property_owner_address_line_2:propertyOwner?.propertyholder_address_line_2,
-            property_owner_city:propertyOwner?.propertyholder_city,
-            property_owner_state:propertyOwner?.propertyholder_state,
-            property_owner_country:propertyOwner?.propertyholder_country,
-            property_owner_zipcode:propertyOwner?.propertyholder_zipcode,
         }
-        let propertyTenent =  this.propertyTenantCmp.getData();
+        if(this.propertyOwnerCmp){
+            let propertyOnerData = this.propertyOwnerCmp.getData();
+            data = {
+                ...data,
+                property_owner:propertyOnerData[0]
+            }
+        }
+        if(this.propertyTenantCmp){
+            data = {
+                ...data,
+                property_tenant:this.propertyTenantCmp.getData()
+            }
+        } 
         
-        data = {
-            ...data,
-            property_tenant_id:propertyTenent?.propertyholder_id,
-            property_tenant_company:propertyTenent?.propertyholder_company,
-            property_tenant_contact:propertyTenent?.propertyholder_contact,
-            property_tenant_title:propertyTenent?.propertyholder_title,
-            property_tenant_phone:propertyTenent?.propertyholder_phone,
-            property_tenant_website:propertyTenent?.propertyholder_website,
-            property_tenant_email:propertyTenent?.propertyholder_email,
-            property_tenant_address_line_1:propertyTenent?.propertyholder_address_line_1,
-            property_tenant_address_line_2:propertyTenent?.propertyholder_address_line_2,
-            property_tenant_city:propertyTenent?.propertyholder_city,
-            property_tenant_state:propertyTenent?.propertyholder_state,
-            property_tenant_country:propertyTenent?.propertyholder_country,
-            property_tenant_zipcode:propertyTenent?.propertyholder_zipcode,
-        }
+        
         let api = Api, that = this;
         if(api.setUserToken()){
             api.axios().post('/property/create',data).then(res=> {
@@ -272,8 +253,19 @@ class CreatePropertyForm extends Component {
                         </BorderBox>
                     </div>
                     <div className="col-xs-12 col-sm-6">
-                        <PropertyHolder title="Property Owner" onReady={ componentObj => { this.propertyOwnerCmp = componentObj}}/>
+                        <BorderBox title="Property Owner">
+                            <PropertyHolders onReady={ componentObj => { this.propertyOwnerCmp = componentObj}}/>
+                        </BorderBox>
+                        <BorderBox title="Property Tenant">
+                            <PropertyHolders multiple={property.property_tenancy == '2' ? true : false} onReady={ componentObj => { this.propertyTenantCmp = componentObj}}/>
+                        </BorderBox>
+                        {
+                            /**
+                             * <PropertyHolder title="Property Owner" onReady={ componentObj => { this.propertyOwnerCmp = componentObj}}/>
                         <PropertyHolder title="Property Tenant" onReady={ componentObj => { this.propertyTenantCmp = componentObj}}/>
+                             */
+                        }
+                        
                         <BorderBox title="Broker Contact">
                             <Contacts adv_btn={true} btnLabel="Add New Contact" onReady = { this.onBrokerFormReady.bind(this)}  hidePrimary={true}  labels = {brokerLabels}/>
                         </BorderBox>

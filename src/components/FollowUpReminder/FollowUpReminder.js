@@ -44,6 +44,9 @@ class FollowUpReminder extends Component {
         
     }
     loadReminder(){
+        if(!this.props.integrator){
+            return;
+        }
         let that = this, api = Api;
         that.setState({
             isLodingRm:true

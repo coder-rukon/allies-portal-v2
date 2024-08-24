@@ -53,6 +53,9 @@ class CompanyDetails  extends Component{
         })
     }    
     loadSubindustry(industry_id){
+        if(!industry_id){
+            return;
+        }
         let api = Api, that = this;
         api.setUserToken();
         this.setState({

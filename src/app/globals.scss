@@ -1351,7 +1351,7 @@ a.rs_btn{
 .adv_add_new_btn{
     text-align: center;
     display: block;
-    padding: 10px 0;
+    padding: 15px 0;
     div{
         display: inline-block;
         cursor: pointer;
@@ -1369,5 +1369,19 @@ a.rs_btn{
             font-weight: 300;
             text-align: center;
         }
+    }
+}
+.property_olders{
+    .property_holders_list{}
+    .property_holders_list_item{}
+    .property_holders_list_item+.property_holders_list_item{
+        border-top: 1px solid $borderLight;
+        margin-top: 16px;
+        padding-top: 23px;
+    }
+    .adv_add_new_btn{
+        margin-top: 16px;
+        border-top: 1px solid $borderLight;
+        padding-top: 30px;
     }
 }

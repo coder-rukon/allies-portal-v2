@@ -70,8 +70,8 @@ let Helper = {
     },
     tenancyOptions(data){
         return [
-            {id:'1',label:'Single'},
-            {id:'2',label:'Multi'},
+            {value:'1',label:'Single'},
+            {value:'2',label:'Multi'},
             //{id:'3',label:'Triple'}
         ]
     },

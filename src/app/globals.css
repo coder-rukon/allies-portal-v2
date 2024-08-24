@@ -1087,7 +1087,7 @@ a.rs_btn {
 .adv_add_new_btn {
   text-align: center;
   display: block;
-  padding: 10px 0; }
+  padding: 15px 0; }
   .adv_add_new_btn div {
     display: inline-block;
     cursor: pointer;
@@ -1103,5 +1103,14 @@ a.rs_btn {
       margin-top: 5px;
       font-weight: 300;
       text-align: center; }
+
+.property_olders .property_holders_list_item + .property_holders_list_item {
+  border-top: 1px solid #D1D5DB;
+  margin-top: 16px;
+  padding-top: 23px; }
+.property_olders .adv_add_new_btn {
+  margin-top: 16px;
+  border-top: 1px solid #D1D5DB;
+  padding-top: 30px; }
 
 /*# sourceMappingURL=globals.css.map */

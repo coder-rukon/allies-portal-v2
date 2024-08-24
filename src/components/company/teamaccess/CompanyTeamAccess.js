@@ -17,10 +17,14 @@ class CompanyTeamAccess extends Component {
         this.loadAccessList();
     }
     loadAccessList(){
+        if(!this.props.company.company_id){
+            return;
+        }
         let api = Api, that = this;
         that.setState({
             loading:true
         })
+
         api.setUserToken();
         api.axios().get('/company-access/members/'+this.props.company.company_id).then(res=>{
             that.setState({

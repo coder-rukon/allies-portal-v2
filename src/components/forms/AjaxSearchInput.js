@@ -12,13 +12,26 @@ class AjaxSearchInput extends Component {
         super(props);
         this.sUrl = this.props.sUrl ? this.props.sUrl : '';
         this.state = {
-            sValue:'',
+            sValue:this.props.value ? this.props.value : '',
             isLoading:false,
             sResult:[]
         }
         this.ajaxCalled = null;
     }
+    componentDidMount(){
+        if(this.props.onReady){
+            this.props.onReady(this)
+        }
+    }
+    setValue(value){
+        this.setState({
+            sValue:value
+        })
+    }
     onChangeHanlder(event){
+        if(this.props.onChange){
+            this.props.onChange(event);
+        }
         clearTimeout(this.ajaxCalled);
         this.setState({
             sValue:event.target.value,
@@ -49,7 +62,8 @@ class AjaxSearchInput extends Component {
             return <div className="disable_input">{this.props.value}</div>
         }
         return (
-            <input 
+            <input
+                onBlur={this.onMouseLeaveHndler.bind(this)} 
                 name={this.props.name ? this.props.name: ''}
                 type={this.props.type ? this.props.type: 'text'}
                 className="form-control" 
@@ -60,8 +74,16 @@ class AjaxSearchInput extends Component {
             />
         )
     }
+    onMouseLeaveHndler(event){
+        let that = this;
+        setTimeout(function(){
+            that.setState({
+                sResult:[]
+            })
+        },500)
+        
+    }
     onItemClick(item,event){
-        console.log(event,item)
         if(this.props.onItemClick){
             this.props.onItemClick(item);
         }
