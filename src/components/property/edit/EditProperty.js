@@ -11,13 +11,13 @@ import Loading from "../../widget/Loading";
 import Address from '@/components/address/Address';
 import Notes from "@/components/notes/Notes";
 import Contacts from "@/components/contacts/contacts";
-import PropertyCompany from "../company/PropertyCompany";
 import ErrorMessage from "@/components/widget/errormessage";
 import AdditionalFields from '@/components/property/AdditionalFields';
 import Helper from "@/inc/Helper";
 import { connect } from "react-redux";
 import CompanySecurityRoles from "@/inc/CompanySecurityRoles";
 import TypeSubtypeDropdown from "../typesubtype/TypeSubtypeDropdown";
+import PropertyHolders from "../propertyholder/PropertyHolders";
 class EditProperty extends Component {
     constructor(props) {
         super(props);
@@ -92,8 +92,8 @@ class EditProperty extends Component {
             state: address?.address_state,
             country: address?.address_country,
             zipcode: address?.address_zipcode,
-            property_owner_details:null,
-            property_tenant_details:null
+            property_owner:null,
+            property_tenant:null
         };
         if(  this.additionalFieldsObj ){
             data = {
@@ -102,14 +102,15 @@ class EditProperty extends Component {
                 ...this.additionalFieldsObj.getData()
             }
         }
-        let propertyOwner =  this.propertyOwnerCmp.getData();
-        if(propertyOwner.address_changed || propertyOwner.compay_changed){
-            data.property_owner_details  = propertyOwner;
+
+        if(this.propertyOwnerCmp){
+            let propertyOnerData = this.propertyOwnerCmp.getData();
+            data.property_owner = propertyOnerData[0];
         }
-        let propertyTenant =  this.propertyTenantCmp.getData();
-        if(propertyTenant.address_changed || propertyTenant.compay_changed){
-            data.property_tenant_details  = propertyTenant;
+        if(this.propertyTenantCmp){
+            data.property_tenant = this.propertyTenantCmp.getData()
         }
+
         let api = Api, that = this;
         if(api.setUserToken()){
             api.axios().post('/property/update',data).then(res=> {
@@ -171,8 +172,6 @@ class EditProperty extends Component {
             contact_phone: 'Phone'
         }
         let propertyTypeSubtype = this.state.propertyTypeSubtype;
-
-
         return (
             <div className="edit_property_form">
                 <div className="pannel_header">
@@ -256,9 +255,14 @@ class EditProperty extends Component {
                         </BorderBox>
                     </div>
                     <div className="col-xs-12 col-md-6 input_box_margin_fix">
-                        <PropertyCompany onReady={obj => {this.propertyOwnerCmp = obj }} disable={isDisable}  source="owner" title="Property Owner"  company_id = {property.property_owner}/>
-                        
-                        <PropertyCompany  onReady={obj => {this.propertyTenantCmp = obj }} disable={isDisable}  source="tenant" title="Property Tenant"  company_id = {property.property_tenant}/>
+
+                        <BorderBox title="Property Owner">
+                            <PropertyHolders disable={isDisable} data={property.property_owner ? property.property_owner : [{}]} onReady={ componentObj => { this.propertyOwnerCmp = componentObj}}/>
+                        </BorderBox>
+                        <BorderBox title="Property Tenant">
+                            <PropertyHolders disable={isDisable} data={property.property_tenant && property.property_tenant.length >=1 ? property.property_tenant : [{}]}  multiple={property.property_tenancy == '2' ? true : false} onReady={ componentObj => { this.propertyTenantCmp = componentObj}}/>
+                        </BorderBox>
+
                         <BorderBox title="Broker Contact">
                             {property.property_id ? <Contacts adv_btn={true} btnLabel="Add New Contact" onReady={this.onBrokerContactComponentReady.bind(this)} hidePrimary={true} disable={isDisable} source="property_broker" integrator={property.property_id} labels = {brokerLabels}/> : '' } 
                         </BorderBox>

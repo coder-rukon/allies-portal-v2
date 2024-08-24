@@ -86,9 +86,6 @@ class CreatePropertyForm extends Component {
         })
     }
     onPropertyCreateHanlder(event){
-        
-             
-        
 
         this.setState({
             isCreatingProperty:true

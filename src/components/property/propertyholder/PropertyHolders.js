@@ -70,7 +70,7 @@ class PropertyHolders extends Component {
                                 return <div key={key}></div>
                             }
                             return(
-                                <PropertyHolder key={key} onReady={ this.onPropertyHolderReady.bind(this)} enableDelete={key >=1 ? true : false}/>
+                                <PropertyHolder disable={this.props.disable} data={property_company} key={key} onReady={ this.onPropertyHolderReady.bind(this)} enableDelete={key >=1 ? true : false}/>
                             )
                         })
                     }

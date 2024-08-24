@@ -13,7 +13,7 @@ class PropertyHolder extends Component {
         this.state = {
             loading:false,
             //selectedCompany:null,
-            propertyHolder:{}
+            propertyHolder: this.props.data ? this.props.data : {}
         }
         this.uid = Helper.getUniqueId();
         this.searchBoxObj = null;
@@ -23,24 +23,15 @@ class PropertyHolder extends Component {
         if(this.props.onReady){
             this.props.onReady(this.uid ,this);
         }
-        if(this.props.propertyholder_id){
-            this.loadPropertyHolder(this.props.propertyholder_id)
-        }
-    }
-    loadPropertyHolder(propertyholder_id){
-        let that = this, api = Api;
-        that.setState({
-            loading:true
-        })
-        api.axios().get('/propertyholder/details/'+propertyholder_id).then(res=> {
-            that.setState({
-                loading:false,
-                propertyHolder:res.data.data
-            })
-        })
+        
     }
     getData(){
         return this.state.propertyHolder;
+    }
+    setData(data){
+        this.setState({
+            propertyHolder:data
+        })
     }
     onClearSelectedHander(){
         let that = this;
@@ -186,7 +177,7 @@ class PropertyHolder extends Component {
                 <div className="row">
                     
                     <div className="col-xs-12 col-sm-6">
-                        <AjaxSearchInput onChange={ this.onSearchChangeHanlder.bind(this)} onReady={ obj => this.searchBoxObj = obj} disable = {disable}  name="s_company" sUrl="/company/my-company-list" filterResult = { data => { return data.company.data.map( (item => { return {...item,item_label:item.name} }) ) }  } label="Company"  value={propertyHolder.propertyholder_company_name} onItemClick={this.onSearchResultItemClick.bind(this)}/>
+                        <AjaxSearchInput  onChange={ this.onSearchChangeHanlder.bind(this)} onReady={ obj => this.searchBoxObj = obj} disable = {disable}  name="s_company" sUrl="/company/my-company-list" filterResult = { data => { return data.company.data.map( (item => { return {...item,item_label:item.name} }) ) }  } label="Company"  value={propertyHolder.propertyholder_company_name} onItemClick={this.onSearchResultItemClick.bind(this)}/>
                     </div>
                     <div className="col-xs-12 col-sm-6">
                         <Input disable={disable} className="disable_with_border_" onChange={this.onPropertyHolderChangeHanlder.bind(this)}  name="propertyholder_contact" label="Contact" value={propertyHolder.propertyholder_contact}/>
