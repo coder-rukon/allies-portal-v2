@@ -21,7 +21,6 @@ let MainHeader = (props) =>{
     useEffect(() => {
         // call api or anything
         $(document).on('security_reload', function(event, data) {
-            alert('trigerd');
             loadCompanyAcess();
         });
         loadCompanyAcess();
