@@ -18,6 +18,7 @@ import NewCompanyLinkProperty from '@/components/company/new/property/NewCompany
 import TeamAccessExportable from '@/components/company/teamaccess/exportable/TeamAccessExportable';
 import FollowUpReminderNew from "@/components/FollowUpReminder/FollowUpReminderNew";
 import ErrorMessage from "@/components/widget/errormessage";
+import $ from 'jquery';
 class NewCompanyMainForm extends Component {
     constructor(props){
         super(props);
@@ -96,11 +97,13 @@ class NewCompanyMainForm extends Component {
         })
         api.axios().post('/company/create',data).then(res=>{
             if(res.data.type){
+                $(document).trigger('security_reload');
                 that.setState({
                     isSaving:false,
                     redirectTo: '/company/details/' + res.data.data.company_id,
                     errors:res.data.errors
                 })
+
             }else{
                 that.setState({
                     isSaving:false,

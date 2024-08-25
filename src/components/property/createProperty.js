@@ -22,6 +22,7 @@ import AdditionalFields from '@/components/property/AdditionalFields';
 import TypeSubtypeDropdown from './typesubtype/TypeSubtypeDropdown';
 import Contacts from "../contacts/contacts";
 import PropertyHolders from '@/components/property/propertyholder/PropertyHolders'
+import $ from 'jquery';
 class CreatePropertyForm extends Component {
     constructor(props) {
         super(props);
@@ -134,6 +135,7 @@ class CreatePropertyForm extends Component {
             api.axios().post('/property/create',data).then(res=> {
                 
                 if(res.data.type){
+                    $(document).trigger('security_reload');
                     if(that.fileUploader.hasExportableFile()){
                         that.fileUploader.uploadExportableFiles('property',res.data.data.property_id,() => {
                             that.setState({

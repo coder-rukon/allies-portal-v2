@@ -123,8 +123,7 @@ class TeamAccessExportable extends Component {
         
     }
     render() {
-        let accessList = this.state.accessList;
-        console.log(accessList)
+       
         return (
             <div className='exportable_team_access'>
                 <div className="new_team_access_list">
@@ -141,7 +140,7 @@ class TeamAccessExportable extends Component {
                     {this.state.accessList.length <= 0 ? <p>No other user access</p> : ''}
                     {
                         this.state.accessList.map( (item,key) => {
-                            return <TeamAccessItem key ={key} access={item} onChange={ item => this.onItemChange(item)} />
+                            return <TeamAccessItem roles ={this.state.roles} key ={key} access={item} onChange={ item => this.onItemChange(item)} />
                         })
                     }
                 </div>

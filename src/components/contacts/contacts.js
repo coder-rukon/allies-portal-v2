@@ -142,11 +142,17 @@ class Contacts extends Component {
         if(this.state.isLoading){
             return <Loading/>
         }
+        let contacts = this.state.contacts;
+        /*
+        if(!this.props.disable && contacts.length <1 && this.props.blank_form == true){
+            contacts = [this.getNewBlankObj()];
+        }
+        */
         return (
             <div className="contact_list_form contact_component">
-                <div className={this.state.contacts.length >=1 ? "shortable_items border_bottom" : "shortable_items" }>
+                <div className={contacts.length >=1 ? "shortable_items border_bottom" : "shortable_items" }>
                 {
-                    this.state.contacts.map( (contact , key) => {
+                    contacts.map( (contact , key) => {
                         return(
                            <Contact onChange = {this.onContactChange.bind(this)} onDelete={this.onContactDelete.bind(this)} canDelete={key >= 1 } onReady = { this.onContactReady.bind(this)} key={key} disable={this.props.disable} hidePrimary = { this.props.hidePrimary === true ? true : false } contact={contact} integrator={ this.state.integrator} source={this.state.source} labels= {this.props.labels ? this.props.labels : null}/>
                         )

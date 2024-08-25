@@ -7,6 +7,7 @@ import Settings from "@/inc/Settings";
 import Link from "next/link";
 import { useState ,useEffect} from "react";
 import { connect } from "react-redux";
+import $ from 'jquery';
 let MainHeader = (props) =>{
     let loadCompanyAcess = () => {
         let  api = Api;
@@ -14,12 +15,15 @@ let MainHeader = (props) =>{
             
             api.axios().get('/user/access').then(res => {
                 props.setCompanyAcess(res.data.data);
-                console.log('company Loaded')
             })
         }
     }
     useEffect(() => {
         // call api or anything
+        $(document).on('security_reload', function(event, data) {
+            alert('trigerd');
+            loadCompanyAcess();
+        });
         loadCompanyAcess();
     },[]);
     let logout = () =>{

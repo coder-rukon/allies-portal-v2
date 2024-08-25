@@ -110,6 +110,7 @@ class CompanyDetails  extends Component{
     }
     onSaveClick(){
         let contacts = this.contactComponent.getContacts();
+        /*
         let isErrorFound = false;
         contacts.forEach(contact => {
             if( !Helper.getNullableValue(contact.contact_name)){
@@ -123,6 +124,7 @@ class CompanyDetails  extends Component{
         if(isErrorFound){
             return;
         }
+        */
 
         this.setState({
             isLoading:true
@@ -233,7 +235,7 @@ class CompanyDetails  extends Component{
                                 
                             </BorderBox>
                             <BorderBox title="Contacts">
-                                {company.company_id ? <Contacts onReady={this.onContactComponentReady.bind(this)} disable={isDisable} source="company" integrator={company.company_id}/> : '' } 
+                                {company.company_id ? <Contacts blank_form={true} onReady={this.onContactComponentReady.bind(this)} disable={isDisable} source="company" integrator={company.company_id}/> : '' } 
                             </BorderBox>
                             <BorderBox title="Address">
                                 <Address  disable={isDisable} source="company" integrator={company.company_id} onReady={ obj => {this.addressComponent = obj }}/>
