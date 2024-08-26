@@ -127,9 +127,7 @@ class EditProperty extends Component {
                         isEditing:true,
                         error:res.data.message
                     })
-                }
-                console.log(res.data)
-                
+                }                
             }).catch(errors => {
                 that.setState({
                     isSaving:false
@@ -171,7 +169,6 @@ class EditProperty extends Component {
             contact_email: 'Email',
             contact_phone: 'Phone'
         }
-        let propertyTypeSubtype = this.state.propertyTypeSubtype;
         return (
             <div className="edit_property_form">
                 <div className="pannel_header">

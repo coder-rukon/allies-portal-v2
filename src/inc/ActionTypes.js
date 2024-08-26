@@ -6,5 +6,6 @@ const ActionsTypes = {
     SET_USER:"SET_USER",
     SET_LOGOUT:"SET_USER_LOGIN_OUT",
     SET_COMPANY_ACCESS:"SET_COMPANY_ACCESS",
+    SET_PROPERTY_SUBTYPE:"SET_PROPERTY_SUBTYPE"
 }
 export default ActionsTypes;

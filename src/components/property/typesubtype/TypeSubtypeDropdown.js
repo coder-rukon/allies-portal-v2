@@ -5,6 +5,7 @@ import Helper from '@/inc/Helper';
 import React, { Component } from 'react';
 import $ from 'jquery';
 import Loading from '@/components/widget/Loading';
+import { connect } from 'react-redux';
 class TypeSubtypeDropdown extends Component {
     constructor(props){
         super(props);
@@ -20,7 +21,6 @@ class TypeSubtypeDropdown extends Component {
         if(this.props.onReady){
             this.props.onReady(this)
         }
-        
     }
     getData(){
         return this.state.selectedSubtypes;
@@ -61,7 +61,7 @@ class TypeSubtypeDropdown extends Component {
         })
     }
     addSubtypeById(subtype_id){
-        let allSubtypes = this.state.allSubtypes;
+        let allSubtypes = this.props.allSubtypes;
         let selectedSubtypes = this.state.selectedSubtypes;
         if(selectedSubtypes.find( item => item.subtype_id === subtype_id )){
             return;
@@ -108,7 +108,7 @@ class TypeSubtypeDropdown extends Component {
             <div className='dropdown_contents'>
                         {
                             Helper.getPropertyType().map( (pType,key) => {
-                                let gorupSubtypes = this.state.allSubtypes.filter( typeItem => typeItem.property_type_id == pType.pt_id )
+                                let gorupSubtypes = this.props.allSubtypes.filter( typeItem => typeItem.property_type_id == pType.pt_id )
                                 return (
                                     <div key={key} className={ "type_subtype_group_wraper " + ( key<1 ? 'active' : '') } >
                                         <h4 onClick={ this.onGroupControllerClick.bind(this)}><div><span class="material-symbols-outlined arrow_drop_down">arrow_drop_down</span><span class="material-symbols-outlined arrow_right">arrow_right</span></div><span>{pType.label}</span></h4>
@@ -166,5 +166,9 @@ class TypeSubtypeDropdown extends Component {
         );
     }
 }
-
-export default TypeSubtypeDropdown;
+const mapStateToProps = (state) => {
+    return {
+        allSubtypes:state.propertyTypeSubtype.subtypes
+    }
+}
+export default connect(mapStateToProps) (TypeSubtypeDropdown);

@@ -9,6 +9,13 @@ import { useState ,useEffect} from "react";
 import { connect } from "react-redux";
 import $ from 'jquery';
 let MainHeader = (props) =>{
+    let loadSubtypes = () =>{
+        let api = Api;
+        api.setUserToken();
+        api.axios().get('/property-subtype').then(res => {
+            props.setPropertySubtype(res.data.data)
+        })
+    }
     let loadCompanyAcess = () => {
         let  api = Api;
         if(api.setUserToken()){
@@ -24,6 +31,7 @@ let MainHeader = (props) =>{
             loadCompanyAcess();
         });
         loadCompanyAcess();
+        loadSubtypes();
     },[]);
     let logout = () =>{
         props.logout();
@@ -77,6 +85,7 @@ const mapStateToProps = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
     logout: () => { dispatch({type:ActionsTypes.SET_LOGOUT})},
+    setPropertySubtype: (subtype) => { dispatch({type:ActionsTypes.SET_PROPERTY_SUBTYPE,subtype:subtype})},
     setCompanyAcess:(data) => { dispatch({type:ActionsTypes.SET_COMPANY_ACCESS,data:data})},
     //setState: (data) => dispatch({type:ActionsTypes.SET_LOCATION_STATE,data:data}), // Map your state to props
 });
