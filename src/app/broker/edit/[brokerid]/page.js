@@ -13,11 +13,8 @@ const Page = (props) => {
     let brokerid = props.params.brokerid;
     return(
         <Panel>
-            <div className='row'>
-                <div className='col-xs-12 col-sm-8 col-md-6'>
-                    <EditBroker broder_id={brokerid}/>
-                </div>
-            </div>
+            <EditBroker broker_id={brokerid}/>
+            
 
             
         </Panel>

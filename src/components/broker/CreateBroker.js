@@ -7,7 +7,7 @@ import Api from '@/inc/Api';
 import Settings from '@/inc/Settings';
 import React, { Component } from 'react';
 import BorderBox from '../widget/borderbox';
-
+import { redirect } from 'next/navigation';
 class CreateBroker extends Component {
     constructor(props){
         super(props);
@@ -16,7 +16,8 @@ class CreateBroker extends Component {
             errors:{},
             messageType:'text-danger',
             loading:false,
-            message:null
+            message:null,
+            redirectTo:null
         }
     }
     onSaveHandler(event){
@@ -34,6 +35,7 @@ class CreateBroker extends Component {
                         errors:{},
                         broker:{},
                         messageType:'text-success',
+                        redirectTo:'/broker',
                         message:res.data.message
                     })
                 }else{
@@ -67,7 +69,9 @@ class CreateBroker extends Component {
     render() {
         let broker = this.state.broker;
         let errors = this.state.errors;
-
+        if(this.state.redirectTo){
+            redirect(this.state.redirectTo)
+        }
         return (
             <div className='create_user_form'>
                 <BorderBox  title="Details">

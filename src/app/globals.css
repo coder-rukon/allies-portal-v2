@@ -347,9 +347,16 @@ a.rs_btn {
     display: block; }
 
 .rs_btn.md {
-  padding: 8px 20px; }
+  padding: 8px 20px;
+  min-height: 40px; }
   .rs_btn.md .btn_icon {
     font-size: 16px; }
+
+.mr-3 {
+  margin-right: 15px; }
+
+.mr-2 {
+  margin-right: 10px; }
 
 .filter_and_search {
   display: flex;

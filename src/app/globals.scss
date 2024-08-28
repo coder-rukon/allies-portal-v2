@@ -396,11 +396,17 @@ a.rs_btn{
 }
 .rs_btn.md{
     padding: 8px 20px;
+    min-height: 40px;
     .btn_icon{
         font-size: 16px;
     }
 }
-
+.mr-3{
+    margin-right: 15px;
+}
+.mr-2{
+    margin-right: 10px;
+}
 .filter_and_search{
     display: flex;
     justify-content: space-between;
