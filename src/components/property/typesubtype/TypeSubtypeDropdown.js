@@ -12,6 +12,7 @@ class TypeSubtypeDropdown extends Component {
         this.state = {
             loading:false,
             isRerendering:false,
+            showDropdown:false,
             allSubtypes:[],
             selectedSubtypes:[]
         }
@@ -98,9 +99,10 @@ class TypeSubtypeDropdown extends Component {
     }
 
     getDropdownContents(){
-        if(this.props.disable){
+        if(this.props.disable || !this.state.showDropdown){
             return;
         }
+
         if(this.state.loading){
             return <Loading/>
         }
@@ -110,7 +112,7 @@ class TypeSubtypeDropdown extends Component {
                             Helper.getPropertyType().map( (pType,key) => {
                                 let gorupSubtypes = this.props.allSubtypes.filter( typeItem => typeItem.property_type_id == pType.pt_id )
                                 return (
-                                    <div key={key} className={ "type_subtype_group_wraper " + ( key<1 ? 'active' : '') } >
+                                    <div key={key} className={ "type_subtype_group_wraper "} >
                                         <h4 onClick={ this.onGroupControllerClick.bind(this)}><div><span class="material-symbols-outlined arrow_drop_down">arrow_drop_down</span><span class="material-symbols-outlined arrow_right">arrow_right</span></div><span>{pType.label}</span></h4>
                                         <div className="pgroup_subtypes">
                                         {
@@ -141,14 +143,24 @@ class TypeSubtypeDropdown extends Component {
         this.deleteItem(subtype_id)
         //$('#subtype_input_'+subtype_id).trigger('click');
     }
-    
+    onToggleControllerClickHandler(event){
+        if(this.props.disable){
+            this.setState({
+                showDropdown: false
+            })
+            return false;
+        }
+        this.setState({
+            showDropdown:!this.state.showDropdown
+        })
+    }
     render() {
         let selectedSubtypes = this.state.selectedSubtypes;
         return (
             <div className={this.props.disable ? 'type_subtype_dropdown_section disable' : 'type_subtype_dropdown_section'}>
                 <label className='controller_title'>{this.props.label ? this.props.label : 'Property Type/Subtype'}</label>
-                <div className='selector_box'>
-                    <div className='selector_input'>
+                <div className='selector_box' >
+                    <div className='selector_input' onClick={ () => { this.onToggleControllerClickHandler() } }>
                         {selectedSubtypes.length <=0 ? <p>Select property type/subtype</p> : ''}
                         {selectedSubtypes.map( (tysub,key) => {
                             return(

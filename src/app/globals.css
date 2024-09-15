@@ -220,7 +220,8 @@ p {
 .header_and_main_contents {
   flex: 1;
   margin: 0;
-  padding: 0; }
+  padding: 0;
+  max-width: calc(100% - 240px); }
 
 .main_contents {
   padding: 20px; }
@@ -968,7 +969,6 @@ a.rs_btn {
         font-weight: 300;
         cursor: pointer; }
   .type_subtype_dropdown_section .dropdown_contents {
-    display: none;
     position: absolute;
     top: 100%;
     left: 0;
@@ -1025,9 +1025,6 @@ a.rs_btn {
     .type_subtype_dropdown_section .dropdown_contents .type_subtype_group_wraper.active .pgroup_subtypes {
       display: block;
       display: flex; }
-
-.type_subtype_dropdown_section:hover .dropdown_contents {
-  display: block; }
 
 .type_subtype_dropdown_section.disable .selector_box .selector_input {
   border: 0 none; }
@@ -1119,5 +1116,215 @@ a.rs_btn {
   margin-top: 16px;
   border-top: 1px solid #D1D5DB;
   padding-top: 30px; }
+
+.rs_smart_box {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  padding: 20px;
+  color: #fff;
+  border-radius: 4px;
+  margin-bottom: 15px; }
+  .rs_smart_box .title {
+    display: block;
+    color: #fff;
+    font-size: 20px;
+    position: relative;
+    z-index: 10;
+    margin: 0 0 20px 0; }
+    .rs_smart_box .title span {
+      display: block;
+      float: right;
+      font-size: 25px;
+      background: #EA973EAB;
+      border-radius: 30px;
+      padding: 4px 15px;
+      min-width: 80px;
+      text-align: center;
+      margin-top: -9px; }
+  .rs_smart_box .bx_contents {
+    position: relative;
+    z-index: 10; }
+    .rs_smart_box .bx_contents ul {
+      list-style: none;
+      display: block;
+      margin: 0;
+      padding: 0;
+      border-style: inset;
+      border-color: rgba(0, 0, 0, 0.2);
+      border-width: 3px; }
+      .rs_smart_box .bx_contents ul li {
+        background: rgba(0, 0, 0, 0.1);
+        margin: 0;
+        padding: 2px 15px;
+        font-size: 14px;
+        font-weight: 400;
+        display: flex;
+        justify-content: space-between;
+        align-items: center; }
+        .rs_smart_box .bx_contents ul li span {
+          font-weight: 700;
+          font-size: 20px; }
+
+.rs_smart_box:after,
+.rs_smart_box:before {
+  content: "";
+  position: absolute;
+  width: 40%;
+  height: 120%;
+  background: #fff;
+  opacity: 0.3;
+  border-radius: 50%;
+  bottom: -10%;
+  right: -10%; }
+
+.rs_smart_box:after {
+  content: "";
+  top: -90%;
+  right: 2%; }
+
+.dashboard_page .follow_up_reminder_box ul {
+  display: block;
+  list-style: none;
+  margin: 0;
+  padding: 0; }
+  .dashboard_page .follow_up_reminder_box ul li {
+    margin: 0;
+    padding: 0;
+    overflow: hidden; }
+  .dashboard_page .follow_up_reminder_box ul a {
+    display: block;
+    text-decoration: none;
+    color: #111827;
+    transition: all .1s; }
+  .dashboard_page .follow_up_reminder_box ul a:hover {
+    color: #EA973E; }
+  .dashboard_page .follow_up_reminder_box ul li + li {
+    border-top: 1px solid #ccc;
+    margin: 10px 0 0 0;
+    padding-top: 10px; }
+  .dashboard_page .follow_up_reminder_box ul .details {
+    display: block;
+    font-size: 14px; }
+  .dashboard_page .follow_up_reminder_box ul .date {
+    display: block;
+    font-size: 16px;
+    text-align: right; }
+
+#ag_section_br_tr_grid .pg_header {
+  background-color: #EA973E; }
+
+.deal_pipeline_page .dp_page_header {
+  display: flex;
+  gap: 30px;
+  justify-content: space-between;
+  align-items: center; }
+  .deal_pipeline_page .dp_page_header .btn_actions {
+    display: block;
+    overflow: hidden;
+    background: #062C3E;
+    color: #fff;
+    padding: 5px;
+    border-radius: 4px; }
+    .deal_pipeline_page .dp_page_header .btn_actions span {
+      display: block;
+      float: left;
+      font-size: 14px;
+      text-transform: uppercase;
+      padding: 3px 15px;
+      border-radius: 4px;
+      cursor: pointer; }
+    .deal_pipeline_page .dp_page_header .btn_actions .active {
+      background-color: #fff;
+      color: #111827; }
+
+.deal_pipeline_grid {
+  overflow: auto;
+  margin: 20px auto; }
+  .deal_pipeline_grid .table thead th {
+    background-color: #E5E7EB;
+    padding: 10px 30px; }
+  .deal_pipeline_grid .table thead th + th {
+    border-left: 2px solid #D1D5DB; }
+  .deal_pipeline_grid .table tbody td {
+    padding: 30px;
+    border-bottom: 0; }
+  .deal_pipeline_grid .table tbody td + td {
+    border-left: 2px solid #D1D5DB; }
+  .deal_pipeline_grid .dpg_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 300px; }
+    .deal_pipeline_grid .dpg_header .name {
+      display: block;
+      background-color: #062C3E;
+      color: #fff;
+      padding: 4px 7px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 400; }
+    .deal_pipeline_grid .dpg_header .count {
+      font-size: 14px;
+      font-weight: 400;
+      color: #111827; }
+
+.deal_pipeline_grid.style_2 .dpg_header .name {
+  background-color: #EA973E;
+  color: #fff; }
+.deal_pipeline_grid.style_2 .dp_widget .dpw_footer .btn {
+  background-color: #EA973E; }
+
+.dp_widget {
+  display: block;
+  padding: 15px;
+  border: 1px solid #D1D5DB;
+  border-radius: 4px; }
+  .dp_widget .dpw_title {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+    margin-bottom: 0px;
+    padding: 0;
+    padding-bottom: 0px;
+    border-bottom: 1px solid #D1D5DB;
+    padding-bottom: 10px;
+    margin-bottom: 10px; }
+  .dp_widget .dpw_contents {
+    display: block;
+    font-size: 14px;
+    font-weight: 400; }
+  .dp_widget .dpw_footer {
+    display: flex;
+    gap: 5px;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px; }
+    .dp_widget .dpw_footer .repo_name {
+      flex: auto;
+      text-align: center; }
+      .dp_widget .dpw_footer .repo_name span {
+        display: block;
+        border: 1px solid #062C3E;
+        padding: 5px 8px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 500; }
+    .dp_widget .dpw_footer .btn {
+      display: block;
+      background: #062C3E;
+      padding: 0;
+      margin: 0;
+      width: 47px;
+      text-align: center;
+      height: 33px;
+      border-radius: 4px; }
+    .dp_widget .dpw_footer .btn img {
+      display: block;
+      margin: 0 auto;
+      margin-top: 0px;
+      width: 18px;
+      height: auto;
+      margin-top: 11px; }
 
 /*# sourceMappingURL=globals.css.map */
