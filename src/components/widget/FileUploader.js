@@ -1,5 +1,5 @@
 "use client"
-import { Component } from "react";
+import React, { Component } from 'react';
 import $ from 'jquery';
 import dmUploader from 'dm-file-uploader';
 import Settings from "@/inc/Settings";
