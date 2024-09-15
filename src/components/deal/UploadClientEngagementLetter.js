@@ -1,3 +1,4 @@
+"use client"
 import React, { Component } from 'react';
 import FileUploader from '@/components/widget/FileUploader';
 import BorderBox from '@/components/widget/borderbox';
