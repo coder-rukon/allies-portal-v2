@@ -24,7 +24,7 @@ class DealPipelines extends Component {
                             <div className='btn_actions'><span onClick={() => { this.actionBtnHandler('tr_br')}} className={activePipeline == 'tr_br' ? 'active' : '' }>TR | BR</span><span onClick={() => { this.actionBtnHandler('sr_lr')}} className={activePipeline == 'sr_lr' ? 'active' : '' }>SR | LR</span></div>
                         </div>
                         <div>
-                            <Button href="/deal/create" label="+ New Deal"/>
+                            <Button href="/deals/create" label="+ New Deal"/>
                         </div>
                     </div>
                     {activePipeline == 'tr_br' ? <DealPipelineGrid className="style_2"/> : <DealPipelineGrid/> }

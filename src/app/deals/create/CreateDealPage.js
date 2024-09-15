@@ -2,8 +2,8 @@
 import React, { Component } from 'react';
 import Panel from "@/components/widget/panel";
 import Helper from "@/inc/Helper";
-import DealType from '../../../components/deal/create/DealType';
 import UploadClientEngagementLetter from '@/components/deal/UploadClientEngagementLetter';
+import CreateDealInit from '../../../components/deal/create/CreateDealInit';
 class CreateDealPage extends Component {
     constructor(props){
         super(props);
@@ -26,7 +26,7 @@ class CreateDealPage extends Component {
         return (
             <div>
                 <Panel>
-                    {this.state.step == 'deal_n_property_type' ? <DealType onTypeSelect = { this.onDealTypeSelect.bind(this)}/> : ''}
+                    {this.state.step == 'deal_n_property_type' ? <CreateDealInit onTypeSelect = { this.onDealTypeSelect.bind(this)}/> : ''}
                     {this.state.step == 'upload_client_agl' ? <UploadClientEngagementLetter/> : ''}
                     
                 </Panel>

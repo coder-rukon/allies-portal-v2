@@ -36,11 +36,15 @@ class DealPipelineGrid extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            <tr >
                                 {
                                         this.getHeader().map( (item,key) => {
                                         return(
                                             <td key={key}>
+                                                <DealPLWidget/>
+                                                <DealPLWidget/>
+                                                <DealPLWidget/>
+                                                <DealPLWidget/>
                                                 <DealPLWidget/>
                                             </td>
                                         )

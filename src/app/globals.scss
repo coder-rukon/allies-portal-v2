@@ -1098,7 +1098,7 @@ a.rs_btn{
             margin: 0;
             width: calc(25% - 10px);
             text-align: center;
-            padding: 30px 15px;
+            padding: 25px 15px;
             border-radius: 4px;
             font-weight: 500;
             cursor: pointer;
@@ -1541,7 +1541,7 @@ a.rs_btn{
         thead{
             th{
                 background-color: #E5E7EB;
-                padding: 10px 30px;
+                padding: 10px 20px;
                 
             }
             th+th {
@@ -1550,8 +1550,9 @@ a.rs_btn{
         }
 
         tbody{
+            height: calc(100vh - 300px);
             td{
-                padding: 30px;
+                padding: 20px;
                 border-bottom: 0;
             }
             td+td {
@@ -1598,6 +1599,7 @@ a.rs_btn{
     padding: 15px;
     border: 1px solid #D1D5DB;
     border-radius: 4px;
+    margin-bottom: 20px;
     .dpw_title{
     font-size: 16px;
     font-weight: 500;

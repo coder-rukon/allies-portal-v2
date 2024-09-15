@@ -1,8 +1,9 @@
+"use client"
 import BorderBox from '@/components/widget/borderbox';
 import Settings from '@/inc/Settings';
 import React, { Component } from 'react';
 
-class DealType extends Component {
+class CreateDealInit extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -47,4 +48,4 @@ class DealType extends Component {
     }
 }
 
-export default DealType;
+export default CreateDealInit;
