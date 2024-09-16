@@ -1,5 +1,6 @@
 "use client"
 import React, { Component } from 'react';
+import FileUploader from '@/components/widget/FileUploader';
 import BorderBox from '@/components/widget/borderbox';
 class UploadClientEngagementLetter extends Component {
     render() {
@@ -10,6 +11,7 @@ class UploadClientEngagementLetter extends Component {
                     <p>Please upload a copy of the client engagement letter to continue.</p>
                 </div>
                 <BorderBox>
+                    <FileUploader/>
                 </BorderBox>
                 
             </div>

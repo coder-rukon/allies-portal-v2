@@ -1107,7 +1107,9 @@ a.rs_btn{
             color: $textColor;
         }
         li.active{
-            background-color: $borderLight;
+            background-color: #062C3E;
+            color: #fff;
+            border-color: #062C3E;
         }
     }
 }
@@ -1656,5 +1658,26 @@ a.rs_btn{
             margin-top: 11px;
         }
         
+    }
+}
+
+.create_deal_address{
+    .row{
+        .rs_ads_line_2,
+        .rs_ads_line_1{
+            width: 25%;
+        }
+        .rs_ads_line_2{
+            
+        }
+        .rs_ads_zipcode,
+        .rs_ads_city,
+        .rs_ads_state,
+        .rs_ads_country{
+            width: 12.5%;
+        }
+        .rs_ads_state{}
+        .rs_ads_city{}
+        .rs_ads_zipcode{}
     }
 }

@@ -904,7 +904,9 @@ a.rs_btn {
     border: 1px solid #D1D5DB;
     color: #111827; }
   .deal_types_box .deal_type_list li.active {
-    background-color: #D1D5DB; }
+    background-color: #062C3E;
+    color: #fff;
+    border-color: #062C3E; }
 
 .upload_client_agl_section {
   width: 500px;
@@ -1329,5 +1331,14 @@ a.rs_btn {
       width: 18px;
       height: auto;
       margin-top: 11px; }
+
+.create_deal_address .row .rs_ads_line_2,
+.create_deal_address .row .rs_ads_line_1 {
+  width: 25%; }
+.create_deal_address .row .rs_ads_zipcode,
+.create_deal_address .row .rs_ads_city,
+.create_deal_address .row .rs_ads_state,
+.create_deal_address .row .rs_ads_country {
+  width: 12.5%; }
 
 /*# sourceMappingURL=globals.css.map */

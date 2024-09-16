@@ -23,7 +23,7 @@ class CreateDealInit extends Component {
     onItemClick(dealType){
         this.setState({active:dealType.id})
         if( this.props.onTypeSelect){
-            this.props.onTypeSelect();
+            this.props.onTypeSelect(dealType);
         }
     }
     render() {
