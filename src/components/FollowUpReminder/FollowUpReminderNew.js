@@ -59,7 +59,7 @@ class FollowUpReminderNew extends Component {
                 <div className='follow_up_remainder_form'>
                     <div className='row'>
                         <div className='col-xs-12 col-sm-6'>
-                            <Input value={remainder.reminder_date}  className="datepicker" id="datepicker" name="reminder_date" label="Listing Expiration Reminder" placeholder="Select Date" />
+                            <Input value={remainder.reminder_date}  className="datepicker" id="datepicker" name="reminder_date" label="Reminder Date" placeholder="Select Date" />
                             <ErrorMessage error={this.props.error_date}/>
                         </div>
                     </div>

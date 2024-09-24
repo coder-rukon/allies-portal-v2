@@ -11,10 +11,13 @@ import { Component } from "react";
 import { connect } from "react-redux";
 import StarIcons from '@/components/company/StarIcons'
 import Helper from "@/inc/Helper";
+import Popup from "@/components/widget/Popup";
+import ImportCompany from '@/components/company/ImportCompany'
 class CompanyListPage  extends Component {
     constructor(props){
         super(props);
         this.state = {
+            showImportForm:false,
             filter:{
                 color:null,
             },
@@ -119,6 +122,22 @@ class CompanyListPage  extends Component {
             this.loadCompany()
         })
     }
+    onImportCompleted(event){
+        this.loadCompany()
+        this.setState({
+            showImportForm:false
+        })
+    }
+    showCompanyImportForm(event){
+        this.setState({
+            showImportForm:true
+        })
+    }
+    onImportSuccess(event){
+        this.setState({
+            showImportForm:false
+        })
+    }
     render(){
         let gridheaders = this.getHeaders();
         let gridheader = [
@@ -143,6 +162,9 @@ class CompanyListPage  extends Component {
         let hideHeaderItems = this.state.hideHeaderItems;
         return(
             <div className="company_list_page">
+                {
+                    this.state.showImportForm ? <Popup onClose={ this.onImportSuccess.bind(this)}> <ImportCompany onImportCompleted={ this.onImportCompleted.bind(this)}/> </Popup> : ''
+                }
                 <Panel>
                     <div className="filter_and_search">
                         <div className="left_side">
@@ -166,7 +188,11 @@ class CompanyListPage  extends Component {
     
                         </div>
                         <div className="right_side">
+                            <div className="d-flex gap-3">
                             <Button label="+ Add company" href="/company/new-company"/>
+                            <Button label="+ Import" onClick={this.showCompanyImportForm.bind(this)}/>
+                            </div>
+                            
                         </div>
                     </div>
                     <RsGrid header={gridheader} data={gridData}/>

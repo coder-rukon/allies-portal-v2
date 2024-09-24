@@ -7,7 +7,7 @@ class CreateDealInit extends Component {
     constructor(props){
         super(props);
         this.state = {
-            active:null
+            active:[]
         }
     }
     componentDidMount(){
@@ -21,7 +21,23 @@ class CreateDealInit extends Component {
         }
     }
     onItemClick(dealType){
-        this.setState({active:dealType.id})
+        let activeMenu = this.state.active;
+        if(dealType.id == '5' || dealType.id == '6'){
+            activeMenu = [dealType.id]
+        }else{
+            if(activeMenu.includes(dealType.id)){
+                activeMenu = activeMenu.filter(menuId => menuId != dealType.id);
+                activeMenu = activeMenu.filter(menuId => menuId != 5);
+                activeMenu = activeMenu.filter(menuId => menuId != 6);
+
+            }else{
+                activeMenu = activeMenu.filter(menuId => menuId != 5);
+                activeMenu = activeMenu.filter(menuId => menuId != 6);
+                activeMenu.push(dealType.id)
+            }
+        }
+        
+        this.setState({active:activeMenu})
         if( this.props.onTypeSelect){
             this.props.onTypeSelect(dealType);
         }
@@ -35,7 +51,7 @@ class CreateDealInit extends Component {
                         {
                             dealTypes.map( (dealType,key) => {
                                 return(
-                                    <li key={key} className={ this.state.active == dealType.id ? 'active' : ''} onClick={ e => this.onItemClick(dealType) }>
+                                    <li key={key} className={ this.state.active.includes(dealType.id) ? 'active' : ''} onClick={ e => this.onItemClick(dealType) }>
                                         {dealType.name}
                                     </li>
                                 )

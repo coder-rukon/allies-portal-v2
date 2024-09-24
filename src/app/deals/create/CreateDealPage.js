@@ -22,14 +22,20 @@ class CreateDealPage extends Component {
         })
     }
     onDealTypeSelect(data){
-        console.log(data);
-        this.setState({
-            selected_deal_type:data,
-            //step:'upload_client_agl'
-        })
+        if(this.state.selected_deal_type && this.state.selected_deal_type.id == data.id){
+            this.setState({
+                selected_deal_type:null
+            })
+        }else{
+            this.setState({
+                selected_deal_type:data,
+                //step:'upload_client_agl'
+            })
+        }
+        
     }
     displayAddressStep(){
-        if(!this.state.selected_deal_type){
+        if(!this.state.selected_deal_type || this.state.selected_deal_type?.id == 5 || this.state.selected_deal_type?.id  == 6){
             return;
         }
         return(
@@ -47,7 +53,7 @@ class CreateDealPage extends Component {
             <div>
                 <Panel>
                     {this.state.step == 'deal_n_property_type' ? <CreateDealInit onTypeSelect = { this.onDealTypeSelect.bind(this)}/> : ''}
-                    {this.state.step == 'upload_client_agl' ? <UploadClientEngagementLetter/> : ''}
+                    { this.state.selected_deal_type?.id == 5 || this.state.selected_deal_type?.id == 6 ? <UploadClientEngagementLetter/> : ''}
                     {this.displayAddressStep()}
                 </Panel>
             </div>

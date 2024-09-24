@@ -21,7 +21,7 @@ let Button = (props) =>{
         )
     }else{
         return(
-            <button onClick={ onClickHanlder } className={className} >
+            <button type="button" onClick={ onClickHanlder } className={className} >
                 {props.beforeIcon ? <span className="material-symbols-outlined btn_icon">{props.beforeIcon}</span> : ''}
                 {props.label}
                 {props.icon ? <span className="material-symbols-outlined btn_icon">{props.icon}</span> : ''}
