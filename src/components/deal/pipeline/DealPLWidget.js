@@ -1,9 +1,10 @@
+import Link from 'next/link';
 import React, { Component } from 'react';
 
 const DealPLWidget = (props) => {
     return (
         <div className='dp_widget'>
-            <h2 className='dpw_title'>7568 S Washington St</h2>
+            <Link href="/deals/edit/1" className='dpw_title'>7568 S Washington St</Link>
             <div className='dpw_contents'>
                 Asking Rate - $7.25 PSF NNN <br/>
                 Building SF - 10,000 SF<br/>

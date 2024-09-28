@@ -43,7 +43,9 @@ class CreateDealPage extends Component {
                 <BorderBox title="Property Address" className="mt-4">
                     <Address/>
                 </BorderBox>
-                <Button  label="Continue" className="mt-4"/>
+                <div className="mt-4">
+                    <Button href="/deals/edit/6" label="Continue" />
+                </div>
             </div>
             
         )

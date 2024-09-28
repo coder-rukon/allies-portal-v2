@@ -18,6 +18,7 @@ import NewCompanyLinkProperty from '@/components/company/new/property/NewCompany
 import TeamAccessExportable from '@/components/company/teamaccess/exportable/TeamAccessExportable';
 import FollowUpReminderNew from "@/components/FollowUpReminder/FollowUpReminderNew";
 import ErrorMessage from "@/components/widget/errormessage";
+import VoiceRecorder from '@/components/voicerecoder/VoiceRecorder';
 import $ from 'jquery';
 class NewCompanyMainForm extends Component {
     constructor(props){
@@ -172,7 +173,7 @@ class NewCompanyMainForm extends Component {
             <Panel>
                 <div className="row">
                     <div className="col-xs-12 col-sm-6">
-                        <BorderBox title="Details">
+                        <BorderBox title={<>Details <VoiceRecorder/></>}>
                             <div className="row">
                                 <div className="col-xs-12 col-sm-6">
                                     <Input name="name" errors={this.state.errors} value={company.name} onChange={this.onCompanyChangeHandler.bind(this)} label="Company Name  *"/>

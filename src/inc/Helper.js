@@ -166,6 +166,17 @@ let Helper = {
             {value:'None',label:'None'},
         ]
         return options;
+    },
+    getDealStage(){
+        let stage = [
+                {id:'initial_meeting',name:'Initial Meeting'},
+                {id:'initial_meeting',name:'Client Engagement'},
+                {id:'initial_meeting',name:'Marketing in Progress'},
+                {id:'initial_meeting',name:'Proposal/LOI'},
+                {id:'initial_meeting',name:'Purchase & Lease Agreement'},
+                {id:'initial_meeting',name:'Completed'},
+        ]
+        return stage;
     }
 }
 export default Helper;
