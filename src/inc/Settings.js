@@ -11,7 +11,6 @@ let Settings = {
     secondUserTokenKey:'allies_token_super',
     apiUrl:'http://127.0.0.1:8000/api',
     apiAppUrl:'http://127.0.0.1:8000',
-    oky:'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',
     listingStatus:[
         {label:'Active',value:'active'},
         {label:'Inactive',value:'inactive'}
