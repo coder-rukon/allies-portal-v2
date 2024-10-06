@@ -19,6 +19,7 @@ let Sidebar = (props) => {
                     <li><Link href="/dashboard" className={pathName === '/dashboard' ? 'active' : ''}><img src='/images/icons/deshboard.png' />Dashboard</Link></li>
                     <li><Link href="/deal-pipeline" className={pathName === '/deal-pipeline' ? 'active' : ''}><img src='/images/icons/deal-pipeline.png' />Deal Pipeline</Link></li>
                         
+                    <li><Link href="/prospects" className={pathName === '/prospects' ? 'active' : ''}><img src='/images/icons/company.png' />Prospects</Link></li>
                     <li><Link href="/company" className={pathName === '/company' ? 'active' : ''}><img src='/images/icons/company.png' />Companies</Link></li>
                     <li><Link href="/property" className={pathName === '/property' ? 'active' : ''}><img src='/images/icons/property.png' />Properties</Link></li>
                     <li><Link href="/active-deals" className={pathName === '/active-deals' ? 'active' : ''}><img src='/images/icons/active-deals.png' />Active Deals</Link></li>

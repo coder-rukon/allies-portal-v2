@@ -46,6 +46,19 @@ class ImportCompany extends Component {
             })
         }
     }
+    getTeamAccessSection(){
+        if(this.props.HideTeamacces){
+            return <></>
+        }
+        return(
+            <div className='col-xs-12 col-sm-7'>
+                <BorderBox title="Team access">
+                    <TeamAccessExportable onReady={ obj => { this.teamAccessComponent = obj }}/>
+                </BorderBox>
+                
+            </div>
+        )
+    }
     render() {
         if(this.state.isLoading){
             return(
@@ -65,14 +78,9 @@ class ImportCompany extends Component {
                             </form>
                         </BorderBox>
                     </div>
-                    <div className='col-xs-12 col-sm-7'>
-                        <BorderBox title="Team access">
-                            <TeamAccessExportable onReady={ obj => { this.teamAccessComponent = obj }}/>
-                        </BorderBox>
-                        
-                    </div>
+                    {this.getTeamAccessSection()}
                 </div>
-                <Button label="Submit for import" onClick={this.uploadFile.bind(this)} />
+                <Button label="Submit for import" className="mt-3" onClick={this.uploadFile.bind(this)} />
                 
                 
             </div>

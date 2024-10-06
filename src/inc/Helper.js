@@ -177,6 +177,18 @@ let Helper = {
                 {id:'initial_meeting',name:'Completed'},
         ]
         return stage;
+    },    
+    prospectSource(){
+        let soures = Settings.getCompanySource()
+        return soures;
+    },
+    prospectType(){
+        let types = [
+                {value:'sr_lr_prospecting',label:'SR | LR Prospecting'},
+                {value:'br_tr_prospecting',label:'BR | TR Prospecting'},
+                {value:'list_of_all_listings',label:'List of all Listings'}
+        ]
+        return types;
     }
 }
 export default Helper;

@@ -149,9 +149,14 @@ class FileUploader extends Component {
         })
 
     }
+    
     render() { 
+        let wraperClass = 'rs_file_uploader';
+        if(this.props.border === true){
+            wraperClass+=' uploadsection_border'
+        }
         return (
-            <div className="rs_file_uploader">
+            <div className={wraperClass}>
                 <div className="rs_file_upload" id={this.id}>
                     <label>
                         <span className="material-symbols-outlined">cloud_upload</span>

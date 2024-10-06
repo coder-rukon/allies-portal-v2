@@ -695,6 +695,11 @@ a.rs_btn {
   font-size: 60px;
   font-weight: 400; }
 
+.rs_file_uploader.rs_file_uploader .rs_file_upload {
+  border: 2px dashed #D1D5DB9C;
+  border-radius: 8px;
+  margin-bottom: 20px; }
+
 .grid_status_star {
   display: block;
   position: relative; }
@@ -771,6 +776,20 @@ a.rs_btn {
       .rs_popup_section .popup_container .popup_close span {
         display: block;
         font-size: 20px; }
+    .rs_popup_section .popup_container .popup_title {
+      display: block;
+      font-size: 18px;
+      font-weight: 500;
+      margin: 0 0 20px 0; }
+    .rs_popup_section .popup_container .popup_footer {
+      border-top: 1px solid #D1D5DB;
+      padding-top: 20px;
+      margin-top: 20px; }
+
+.center_popup.rs_popup_section {
+  display: flex;
+  align-items: center;
+  justify-content: center; }
 
 .linked_property .property_links {
   display: block; }
@@ -1420,5 +1439,13 @@ a.rs_btn {
     content: "";
     display: block;
     overflow: hidden; }
+
+.prospects_archive .prospect_list_footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin: 30px 0; }
+.prospects_archive .rs_grid {
+  min-height: 500px; }
 
 /*# sourceMappingURL=globals.css.map */
