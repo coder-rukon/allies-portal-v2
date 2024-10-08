@@ -44,7 +44,6 @@ class RsGrid extends Component {
         }
     }
     onRowClickHandler(itemData,hItem,key,hKey,event){
-        console.log(event)
         if(this.props.onRowClick){
             this.props.onRowClick(itemData,hItem,key,hKey)
         }

@@ -13,6 +13,7 @@ class FileUploader extends Component {
             exportableFiles:[],
         }
         this.id = this.props.id ? this.props.id : 'rs_media_upload';
+        this.fileSize1Mb = 1000000;
     }
   
     componentDidMount(){
@@ -26,17 +27,28 @@ class FileUploader extends Component {
         if(!this.props.exportable ){
             return;
         }
-        $("#"+this.id).dmUploader({
+        let options = {
             
             onDragEnter:()=>{
                 $("#"+this.id).addClass('file_drag');
             },
             onNewFile:(id, file)=>{
                 let exportableFiles = this.state.exportableFiles;
-                exportableFiles.push({
-                    file_id: id,
-                    file:file
-                })
+                if(this.props.isSingle){
+                    exportableFiles = [
+                        {
+                            file_id: id,
+                            file:file
+                        }
+                    ]
+                }else{
+                    exportableFiles.push({
+                        file_id: id,
+                        file:file
+                    })
+                }
+                
+                
                 this.setState({
                     exportableFiles:exportableFiles
                 })
@@ -49,10 +61,23 @@ class FileUploader extends Component {
             },
             onUploadProgress: (id,percentage) => {
                 //console.log(id)
-            }
+            },
+            onFileSizeError:() =>{
+                alert("Maximum file size "+ this.props.maxFileSize+"MB")
+            },
+            onFileExtError:() =>{
+                alert("We accept file types are  : "+ this.props.extFilter.toString())
+            },
 
             // ... More callbacks
-        });
+        };
+        if(this.props.maxFileSize){
+            options.maxFileSize = this.fileSize1Mb * this.props.maxFileSize;
+        }
+        if(this.props.extFilter){
+            options.extFilter = this.props.extFilter;
+        }
+        $("#"+this.id).dmUploader(options);
     }
     initForSourceAndIntegrator(){
         if(this.props.exportable ){
@@ -85,6 +110,9 @@ class FileUploader extends Component {
             },
             onUploadProgress: (id,percentage) => {
                 console.log(id)
+            },
+            onNewFile(id,file){
+                console.log(file);
             }
 
             // ... More callbacks
@@ -164,6 +192,13 @@ class FileUploader extends Component {
                         <input style={{display:'none'}} type="file" title="Click to add Files"/>
                     </label>
                 </div>
+                {
+                    this.props.extFilter || this.props.maxFileSize ? <div className='file_size_and_type'>
+                    {this.props.extFilter ? <span>Supported formats: {this.props.extFilter.toString()}</span> : ''}
+                    {this.props.maxFileSize ? <span>Maximum size: {this.props.maxFileSize}MB</span> : ''}
+                </div> : ''
+                }
+                
                 <div className="media_list">
                     {
                         this.state.exportableFiles.map( (file_item, fileKey) => {
@@ -174,7 +209,9 @@ class FileUploader extends Component {
                                     {thumbnail} 
                                     <div className="media_item_text">{file_item.file.name}</div> 
                                     <div className="media_item_action">
-                                        <span  onClick={ () => { this.deleteExportItem(file_item) } }>Delete</span>
+                                        <span  onClick={ () => { this.deleteExportItem(file_item) } }>
+                                            <span className="material-symbols-outlined">close</span>
+                                        </span>
                                     </div>
                                 </div>
                             )

@@ -75,9 +75,10 @@ let Helper = {
             //{id:'3',label:'Triple'}
         ]
     },
-    formateDateFromDb(dateDateString){
-        const d = new Date(dateDateString)
-        return d.getDate()+'-'+d.getMonth()+'-'+d.getFullYear();
+    formateDateFromDb(dateDateString,formate = null){
+        const d = new Date(dateDateString);
+        d.toLocaleDateString('en-US')
+        return (d.getMonth() + 1 )  + '/' + d.getDate()+ '/'+d.getFullYear();
     },
     getNullableValue(data){
         if(data == '' || typeof data ==='undefined'){
@@ -89,8 +90,11 @@ let Helper = {
         return 'Y-m-d';
     },
     formateDate(dateString){
-        const d = new Date(dateString)
-        return d.getDate()+'-'+d.getMonth()+'-'+d.getFullYear();
+        const d = new Date(dateString);
+        d.toLocaleDateString('en-US');
+        const options = { hour: 'numeric', minute: 'numeric', hour12: true };
+        const timeWithAmPm = d.toLocaleTimeString('en-US', options);
+        return (d.getMonth() + 1 )  + '/' + d.getDate()+ '/'+d.getFullYear() + ' ' +timeWithAmPm;
     },
     getAdditionalType(){
         /*

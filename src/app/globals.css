@@ -643,21 +643,23 @@ a.rs_btn {
 .rs_file_uploader .media_list .media_item {
   position: relative;
   width: 100%;
-  display: flex;
-  overflow: hidden;
-  border: 1px solid #ccc;
   text-align: center;
-  padding: 2px;
   margin: 2px 0;
-  align-items: center;
-  gap: 10px;
-  justify-content: space-between; }
+  overflow: hidden;
+  background: #F3F4F6;
+  border: 0;
+  padding: 8px;
+  border-radius: 4px;
+  display: block; }
   .rs_file_uploader .media_list .media_item .media_item_text {
     color: #9CA3AF;
     font-size: 14px;
-    font-weight: 400; }
+    font-weight: 400;
+    float: left; }
   .rs_file_uploader .media_list .media_item .media_item_action {
-    padding-right: 10px; }
+    padding-right: 0;
+    float: right;
+    margin-left: 15px; }
     .rs_file_uploader .media_list .media_item .media_item_action a {
       display: block;
       text-decoration: none;
@@ -666,11 +668,21 @@ a.rs_btn {
       text-transform: uppercase;
       padding: 3px 10px;
       border-radius: 4px; }
+    .rs_file_uploader .media_list .media_item .media_item_action .material-symbols-outlined {
+      font-size: 18px; }
 .rs_file_uploader .media_list .media_item .media_item_thumbnail {
-  width: 120px;
+  width: 50px;
   text-align: center;
   display: block;
-  position: relative; }
+  position: relative;
+  float: left;
+  background: #fff;
+  border-radius: 5px;
+  text-align: center;
+  margin-right: 10px;
+  height: 50px;
+  padding-top: 10px;
+  color: #F3F4F6; }
 .rs_file_uploader .media_list .media_item img {
   max-width: 100%;
   display: block;
@@ -691,9 +703,17 @@ a.rs_btn {
   cursor: pointer; }
 .rs_file_uploader .media_list .media_item .file_icon {
   display: block;
-  color: #ccc;
-  font-size: 60px;
+  color: #3BBCA1;
+  font-size: 30px;
   font-weight: 400; }
+.rs_file_uploader .file_size_and_type {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  color: #D1D5DB;
+  font-size: 14px;
+  padding: 0;
+  margin: 10px 0; }
 
 .rs_file_uploader.rs_file_uploader .rs_file_upload {
   border: 2px dashed #D1D5DB9C;
@@ -1447,5 +1467,12 @@ a.rs_btn {
   margin: 30px 0; }
 .prospects_archive .rs_grid {
   min-height: 500px; }
+
+.prospects_import_popup_inner .rs_file_uploader {
+  margin-bottom: 15px; }
+.prospects_import_popup_inner .rs_form_group label {
+  padding-left: 0; }
+.prospects_import_popup_inner .popup_footer {
+  margin-top: 0; }
 
 /*# sourceMappingURL=globals.css.map */

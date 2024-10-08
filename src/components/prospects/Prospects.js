@@ -6,33 +6,54 @@ import Popup from '../widget/Popup';
 import PopupImporter from './PopupImporter';
 import Button from '../forms/button';
 import Helper from '@/inc/Helper';
+import Api from '@/inc/Api';
+import Settings from '@/inc/Settings';
+import Loading from '../widget/Loading';
+import StarIcons from '../company/StarIcons';
 
 class Prospects extends Component {
     constructor(props){
         super(props);
         this.state = {
+            selectedProspect:null,
+            filter:{
+                color:null
+            },
             isLoading:false,
+            isArchive:false,
             hideHeaderItems:[],
             showImportForm:false,
             prospects:[]
         }
+        this.s = null;
     }
     componentDidMount(){
         Helper.setPageData({
             title:'Prospects',
             pageTitle:'Prospects'
         })
-        this.setState({
-            prospects:[
-                {contact_name:'Jamie Doe',company_name:'First Holdings'},
-                {contact_name:'Bill Smith',company_name:'2 Towers Inc.'},
-                {contact_name:'John Smith',company_name:'Tech Corp Ltd.'},
-                {contact_name:'Emily Johnson',company_name:'Global Solutions Inc.'},
-                {contact_name:'Michael Brown',company_name:'InnovateX Industries'},
-                {contact_name:'Sarah Wilson',company_name:'Elite Services Group'},
-                {contact_name:'David Lee',company_name:'OmniTech Solutions'}
-            ]
-        })
+        this.loadProspects();
+    }
+    loadProspects(){
+        let that = this, api = Api;
+        if(api.setUserToken()){
+            this.setState({
+                isLoading:true
+            })
+            let data = {
+                ...this.state.filter,
+                s:this.s,
+                status: this.state.isArchive ? "archive" : null
+            }
+
+            api.axios().post(Settings.apiUrl+'/prospects/all',data).then(res => {
+                that.setState({
+                    isLoading:false,
+                    prospects:res.data.data.data
+                })
+            })
+        }
+        
     }
     onFilterHeaderClickHandler(hItem,event){
         let hideHeaderItemsNew  =  this.state.hideHeaderItems;
@@ -56,37 +77,69 @@ class Prospects extends Component {
             {id:'title',title:'TITLE',width:'100px',hide:hideHeaderItems.includes('title')},
             {id:'phone',title:'PHONE',width:'100px',hide:hideHeaderItems.includes('phone')},
             {id:'email',title:'EMAIL',width:'100px',hide:hideHeaderItems.includes('email')},
-            {id:'created_at',title:'Imported Date',width:'100px',hide:hideHeaderItems.includes('created_at')},
+            {id:'created_at',title:'Imported Date',width:'100px',hide:hideHeaderItems.includes('created_at'),cellRender:(data) => { return <div className='item_data'>{Helper.formateDate(data.created_at)}</div>  }},
         ];
         return headers;
     }
     onSearchChangeHandler(){
 
     }
-    onImportCompleted(event){
-        this.loadCompany()
-        this.setState({
-            showImportForm:false
-        })
-    }
+    
     onImportSuccess(){
         this.setState({
             showImportForm:false
         })
+        this.loadProspects()
     }
     showCompanyImportForm(event){
         this.setState({
             showImportForm:true
         })
     }
+    loadItemsByStatus(status){
+        this.setState({isArchive:status == 'archive' ? true : false},e => {
+            this.loadProspects();
+        })
+    }
+    onGridItemClickHandler(itemData){
+        this.setState({
+            selectedProspect:itemData
+        })
+    }
+    onStarFilterItemClick(color){
+        let filter = this.state.filter;
+        
+        if(filter.color == color.id){
+            filter.color = null;
+        }else{
+            filter.color = color.id;
+        }
+        this.setState({
+            filter:filter
+        },()=>{
+            this.loadProspects()
+        })
+    }
+
     render() {
-        let gridheaders = this.getHeaders();
+        let gridheaders = [
+            {
+                id:'star',style:{width:'50px'},
+                headerCelRender: (hItem,key) => { return <StarIcons onItemClick={ this.onStarFilterItemClick.bind(this)} company={{}}/>; },
+                cellRender: (cellData) => {
+                    return <StarIcons apiUrl= {Settings.apiUrl + '/prospects/update-color'} company={cellData}/>
+                }
+            },
+            ...this.getHeaders()
+        ];
+
+        
         let gridData = this.state.prospects;
         let hideHeaderItems = this.state.hideHeaderItems;
         return (
             <div className='prospects_archive'>
                  {
-                    this.state.showImportForm ? <Popup isCenter={true} width={"500px"} onClose={ this.onImportSuccess.bind(this)}> <PopupImporter onImportCompleted={ this.onImportCompleted.bind(this)}/> </Popup> : ''
+                    this.state.showImportForm ? <Popup isCenter={true} width={"500px"} onClose={ this.onImportSuccess.bind(this)}> <PopupImporter onCancleClick={this.onImportSuccess.bind(this)} onImportSuccess={this.onImportSuccess.bind(this)}  /> </Popup> : ''
                 }
                 <Panel title="Prospects">
                     <div className="filter_and_search">
@@ -112,19 +165,22 @@ class Prospects extends Component {
                         </div>
                         <div className="right_side">
                             <div className="d-flex gap-3">
+                                { !this.state.isArchive ? <Button label="Archive" onClick={ this.loadItemsByStatus.bind(this,'archive') }/> : <Button label="Back" onClick={  this.loadItemsByStatus.bind(this,'active') }/>}
                                 <Button label="+ Import" onClick={this.showCompanyImportForm.bind(this)}/>
                             </div>
                             
                         </div>
                     </div>
-                    <RsGrid header={gridheaders} data={gridData}/>
+                    <RsGrid onRowClick = { this.onGridItemClickHandler.bind(this)} header={gridheaders} data={gridData}/>
                     <div className='prospect_list_footer'>
                         <div>
-                            <Button label="Interested" className="bordered mr-3"/>
-                            <Button label="Not Interested" className="bordered"/>
+                            <Button label="Interested" disable={this.state.selectedProspect == null ? true : false} className="bordered mr-3"/>
+                            <Button label="No Answer" disable={this.state.selectedProspect == null ? true : false} className="bordered mr-3"/>
+                            
+                            <Button label="Not Interested" disable={this.state.selectedProspect == null ? true : false} className="bordered"/>
                         </div>
                         <div>
-                            <Button label="Next" disable={true}/>
+                            <Button label="Next" disable={this.state.selectedProspect == null ? true : false}/>
                         </div>
                     </div>
                     <div className="mt-2 mb-2 text-center">

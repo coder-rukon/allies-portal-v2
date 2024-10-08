@@ -52,7 +52,7 @@ class StarIcons extends Component {
             company_id: this.state.company?.company_id,
             color_status: color.id,
         }
-        api.axios().post('/company/update-color-status',data).then(res => {
+        api.axios().post(this.props.apiUrl ? this.props.apiUrl : Settings.apiUrl + '/company/update-color-status',data).then(res => {
             that.setState({
                 company:{
                     ...res.data.data.company
