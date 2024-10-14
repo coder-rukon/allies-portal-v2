@@ -193,6 +193,16 @@ let Helper = {
                 {value:'list_of_all_listings',label:'List of all Listings'}
         ]
         return types;
-    }
+    },
+    getActivityTypes(typeId){
+        let options = [
+            {value:'1',label:'Call'},
+            {value:'2',label:'In-Person Meeting'},
+            {value:'3',label:'Message'},
+            {value:'4',label:'Email'},
+            {value:'5',label:'Visit'},
+        ]
+        return options;
+    },
 }
 export default Helper;

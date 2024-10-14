@@ -19,6 +19,7 @@ import TeamAccessExportable from '@/components/company/teamaccess/exportable/Tea
 import FollowUpReminderNew from "@/components/FollowUpReminder/FollowUpReminderNew";
 import ErrorMessage from "@/components/widget/errormessage";
 import VoiceRecorder from '@/components/voicerecoder/VoiceRecorder';
+import ActivityList from '@/components/activity/ActivityList';
 import $ from 'jquery';
 class NewCompanyMainForm extends Component {
     constructor(props){
@@ -173,7 +174,7 @@ class NewCompanyMainForm extends Component {
             <Panel>
                 <div className="row">
                     <div className="col-xs-12 col-sm-6">
-                        <BorderBox title={<>Details <VoiceRecorder/></>}>
+                        <BorderBox title={<>Details</>}>
                             <div className="row">
                                 <div className="col-xs-12 col-sm-6">
                                     <Input name="name" errors={this.state.errors} value={company.name} onChange={this.onCompanyChangeHandler.bind(this)} label="Company Name  *"/>
@@ -208,7 +209,7 @@ class NewCompanyMainForm extends Component {
                         
                     </div>
                     <div className="col-xs-12 col-sm-6">
-                        
+                        <ActivityList/>
                         <BorderBox title="Follow Up Reminder">
                             <FollowUpReminderNew error_date={this.state.errors['follow_up_reminder.reminder_date']} onReady={ obj => { this.followUpRemainderObj = obj }}/>
                         </BorderBox>
