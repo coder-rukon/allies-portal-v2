@@ -1,7 +1,9 @@
 "use client"
 import Dashboard from '@/components/dashboard/Dashboard'
-import Helper from '@/inc/Helper'
+import Helper from '@/inc/Helper';
+import ActivityDashboard from '@/components/activity/dashboard/ActivityDashboard'
 import { useEffect } from 'react'
+import Panel from '@/components/widget/panel';
 let Index = (props) => {
     useEffect(function(){
         Helper.setPageData({
@@ -11,7 +13,9 @@ let Index = (props) => {
     },[])
     return(
         <div className="dashboard_page">
-            <Dashboard/>
+            <Panel>
+                <ActivityDashboard/>
+            </Panel>
         </div>
     )
 }

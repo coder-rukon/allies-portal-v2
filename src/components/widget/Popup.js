@@ -18,6 +18,9 @@ class Popup extends Component {
         if(this.props.isCenter === true){
             popupClass += ' center_popup';
         }
+        if(this.props.isInner){
+            popupClass += '  inner_popup';
+        }
         return (
             <div className={popupClass}>
                 <div className='popup_container' style={containerStyle}>

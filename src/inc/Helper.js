@@ -87,7 +87,7 @@ let Helper = {
         return data;
     },
     getDatePickerFormate(){
-        return 'Y-m-d';
+        return 'm/d/Y';
     },
     formateDate(dateString){
         const d = new Date(dateString);
@@ -197,11 +197,13 @@ let Helper = {
     getActivityTypes(typeId){
         let options = [
             {value:'1',label:'Call'},
-            {value:'2',label:'In-Person Meeting'},
-            {value:'3',label:'Message'},
-            {value:'4',label:'Email'},
-            {value:'5',label:'Visit'},
+            {value:'2',label:'Email'},
+            {value:'3',label:'In-Person Meeting'},
+            {value:'4',label:'Task'}
         ]
+        if(typeId){
+            return options.find( item => typeId == item.value)
+        }
         return options;
     },
 }

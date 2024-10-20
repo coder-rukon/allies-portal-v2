@@ -19,6 +19,7 @@ import Helper from "@/inc/Helper";
 import { connect } from "react-redux";
 import CompanySecurityRoles from '@/inc/CompanySecurityRoles';
 import FollowUpReminder from '@/components/FollowUpReminder/FollowUpReminder';
+import ActivityList from "@/components/activity/ActivityList";
 class CompanyDetails  extends Component{
     constructor(props){
         super(props);
@@ -247,10 +248,7 @@ class CompanyDetails  extends Component{
                             {isDisable ? '' : <Button label="Save Company" onClick={ this.onSaveClick.bind(this) } /> }
                         </div>
                         <div className="col-xs-12 col-sm-6">
-                            <BorderBox title="Follow Up Reminder">
-                                <FollowUpReminder disable={isDisable} onReady={ obj => { this.followUpRemainderObj = obj }} source="company" integrator={company.company_id}/>
-                                
-                            </BorderBox>
+                            {company.company_id ? <ActivityList disable={isDisable} integrator={company.company_id} source="company"/> : '' }
                             <BorderBox title="Current Deals">
                                 <CompanyDeals disable={isDisable} />
                                 
