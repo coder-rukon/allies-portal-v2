@@ -16,19 +16,21 @@ class ActivitySidebarWidget extends Component {
         this.state = {
             isClickedDelete:false,
             isClickedCancel:false,
-            activity:'',
+            activity:this.props.activity,
             isFollowUp:'no'
         }
+        this.datePicker = null;
     }
     componentDidMount(){
         if(this.props.onReady){
             this.props.onReady(this)
         }
         let that = this;
-        flatpickr("#datepicker_activity",
+        this.datePicker = flatpickr("#datepicker_activity",
             {
                 //enableTime: true,
-                dateFormat: "d/m/Y",
+                defaultDate: this.props.activity.activity_date_time_datpicker,
+                dateFormat: Helper.getDatePickerFormate(),
                 onChange:(selectedDates, dateStr, instance)=>{
                     let activity = that.state.activity;
                     that.setState({
@@ -42,8 +44,35 @@ class ActivitySidebarWidget extends Component {
         );
         
     }
-    onChangeHandler(){
-
+    setActivity(activity){
+        if(this.datePicker){
+            this.datePicker.setDate(activity.activity_date_time_datpicker ? activity.activity_date_time_datpicker : '')
+        }
+        this.setState({
+            activity:{
+                ...activity,
+                activity_contact_name: activity.activity_contact_name ? activity.activity_contact_name : '',
+                activity_date_time: activity.activity_date_time_datpicker ? activity.activity_date_time_datpicker : ''
+            }
+        })
+    }
+    onChangeHandler(event){
+        let activity = this.state.activity;
+        this.setState({
+            activity:{
+                ...activity,
+                [event.target.name]:event.target.value
+            }
+        })
+    }
+    onCompleteNotCompleteClick(){
+        let activity = this.state.activity;
+        this.setState({
+            activity:{
+                ...activity,
+                is_completed: activity.is_completed ? (activity.is_completed == 'yes' ? 'no' : 'yes') : 'no' 
+            }
+        })
     }
     onCancleClickHandler(){
         
@@ -62,21 +91,23 @@ class ActivitySidebarWidget extends Component {
             return <></>
         }
         let activityType = Helper.getActivityTypes();
+        
+
+
+
+
+
+
+
         let activity_due = [
-            {label:'Tomorrow', value : '1'},
-            {label:'Day After Tomorrow', value : '2'},
-            {label:'Two Days Later', value : '3'},
-            {label:'Three Days Later', value : '4'},
-            {label:'Four Days Later', value : '5'},
-            {label:'Five Days Later', value : '6'},
-            {label:'Six Days Later', value : '7'},
-            {label:'Next Week', value : '7'},
-            {label:'Two Week Later', value : '14'},
-            {label:'Three Week Later', value : '21'},
-            {label:'Four Week Later', value : '28'},
-            {label:'Next Month', value : '30'},
-            {label:'Two Month Later', value : '60'},
-            {label:'Three Month Later', value : '90'},
+            {label:'In 1 Business Day ([Month Day])', value : '1'},
+            {label:'In 2 Business Days ([Month Day])', value : '2'},
+            {label:'In 1 Week ([Month Day])', value : '3'},
+            {label:'In 2 Weeks ([Month Day])', value : '4'},
+            {label:'In 1 Month ([Month Day])', value : '5'},
+            {label:'In 3 Months ([Month Day])', value : '6'},
+            {label:'In 6 Months ([Month Day, Year])', value : '7'},
+            {label:'In 1 Year ([Month Day, Year])', value : '7'}
         ]
         return(
             <div className='row'>
@@ -102,9 +133,12 @@ class ActivitySidebarWidget extends Component {
             </Popup>
         )
     }
+    
     render() {
         let titleWithBtn = <>Complete Activity <Button icon="close" onClick={this.onCancleClickHandler.bind(this)} /></>
         let activityType = Helper.getActivityTypes();
+        let activity = this.state.activity;
+        console.log(activity)
         return (
             <div className='activity_sidebar_widget'>
                 {
@@ -113,12 +147,12 @@ class ActivitySidebarWidget extends Component {
                 
                 <BorderBox title={titleWithBtn}>
                     <div className='row'>
-                        <Input name="contact_name" label="Contact name *" onChange={this.onChangeHandler.bind(this)} className="col-xs-12 col-sm-6"/>
-                        <Dropdown options={activityType} label="Activity Type *" name="activity_type" onChange={this.onChangeHandler.bind(this)} className="col-xs-12 col-sm-6"/>
-                        <Input name="activity_subject" label="Subject *" onChange={this.onChangeHandler.bind(this)} className="col-xs-12"/>
-                        <Input  id="datepicker_activity" label="Date  *" onChange={this.onChangeHandler.bind(this)} className="datepicker col-xs-12 col-sm-6"/>
-                        <div className='col-xs-12 col-sm-6'><Button className="mt-4 block" label="Complete"/></div>
-                        <Input type="textarea"  label="Note *" name="activity_note" onChange={this.onChangeHandler.bind(this)}/>
+                        <Input name="activity_contact_name" value={activity.activity_contact_name}  label="Contact name *" onChange={this.onChangeHandler.bind(this)} className="col-xs-12 col-sm-6"/>
+                        <Dropdown options={activityType} label="Activity Type *" name="activity_type" value={activity.activity_type} onChange={this.onChangeHandler.bind(this)} className="col-xs-12 col-sm-6"/>
+                        <Input name="activity_subject" value={activity.activity_subject} label="Subject *" onChange={this.onChangeHandler.bind(this)} className="col-xs-12"/>
+                        <Input  id="datepicker_activity" label="Date  *" name="activity_date_time" className="datepicker col-xs-12 col-sm-6"/>
+                        <div className='col-xs-12 col-sm-6'><Button className= {activity.is_completed == 'yes' ? "mt-4 block " : "mt-4 block bordered"} label={activity.is_completed == 'yes' ? "Complete" : "Incomplete"} onClick={ this.onCompleteNotCompleteClick.bind(this)}/></div>
+                        <Input type="textarea"  label="Note *" name="activity_note"   value={activity.activity_note}  onChange={this.onChangeHandler.bind(this)}/>
                     </div>
                 </BorderBox>
                 <BorderBox>

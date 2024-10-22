@@ -2,11 +2,38 @@
 import React, { Component } from 'react';
 import ActivityWidget from './ActivityWidget';
 import ActivitySidebarWidget from './ActivitySidebarWidget';
+import Api from '@/inc/Api';
+import Loading from '@/components/widget/Loading';
+import Button from '@/components/forms/button';
 class ActivityDashboard extends Component {
     constructor(props){
         super(props);
         this.state = {
-            editActivity:null
+            editActivity:null,
+            activityList:[],
+            filters:{
+                days:null,
+                is_completed:'no',
+            },
+            loading:false
+        }
+        this.activitySidebar = null;
+    }
+    componentDidMount(){
+        this.loadActivity()
+    }
+    loadActivity(){
+        let api = Api, that = this;
+        if(api.setUserToken()){
+            that.setState({
+                loading:true
+            })
+            api.axios().get('/activity/dashboard-activity').then(res => {
+                that.setState({
+                    loading:false,
+                    activityList:res.data.data
+                })
+            })
         }
     }
     onSidebarCancle(){
@@ -14,15 +41,38 @@ class ActivityDashboard extends Component {
             editActivity:null
         })
     }
-    onActivityClick(){
+    onActivityClick(activity){
         this.setState({
-            editActivity:{}
+            editActivity:activity
         })
+        if(this.activitySidebar){
+            this.activitySidebar.setActivity(activity)
+        }
+    }
+    onFilterButtonClick(event,day){
+        //let filter = 
     }
     render() {
-        let widgetData = [{},{},{}];
+        let widgetData = this.state.activityList;
+        if(this.state.loading){
+            return(
+                <div className='activity_dashboard text-center'>
+                    <p>Loading Activity</p>
+                    <Loading/>
+                </div>
+            )
+        }
         return (
             <div className='activity_dashboard'>
+                <div className='av_dashboard_top_btns'>
+                    <div className='rs_btn_borders_box'>
+                        <Button label="Past Due (2)" onClick={this.onFilterButtonClick.bind(this,'past')} />
+                        <Button className="active" label="Today"  onClick={this.onFilterButtonClick.bind(this,'today')} />
+                        <Button label="Next 7 Days"  onClick={this.onFilterButtonClick.bind(this,7)}/>
+                        <Button label="Next 30 Days"  onClick={this.onFilterButtonClick.bind(this,30)} />
+                    </div>
+                    <p>Show Completed</p>
+                </div>
                 <div className='activity_widgets'>
                     <div className='row'>
                         
@@ -34,7 +84,7 @@ class ActivityDashboard extends Component {
                         
                     </div>
                 </div>
-                {this.state.editActivity ? <ActivitySidebarWidget onCancleClick={this.onSidebarCancle.bind(this)} activity={this.state.editActivity }/> : '' }
+                {this.state.editActivity ? <ActivitySidebarWidget onReady={ objSidebar => { this.activitySidebar = objSidebar }} onCancleClick={this.onSidebarCancle.bind(this)} activity={this.state.editActivity }/> : '' }
             </div>
         );
     }

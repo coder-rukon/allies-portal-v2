@@ -10,9 +10,9 @@ class ActivityWidget extends Component {
         }
     }
     render() {
-        let activity = {...this.props.activity,title:'Email'}
+        let activity = {...this.props.activity}
         let title = <>{activity.title} <Button label="+ Add"/></>
-        let items = activity.data ? activity.data : [{},{},{}];
+        let items = activity.activity ? activity.activity : [];
         return (
             <div className='activity_widget'>
                 <BorderBox title={title}>
