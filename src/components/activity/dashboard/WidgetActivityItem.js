@@ -16,9 +16,8 @@ class WidgetActivityItem extends Component {
                 <h2><span>{activity.activity_contact_name}</span><span>{ ( activity.activity_type == 1 || activity.activity_type == 2 ) ? activity.activity_contact_by : Helper.getActivityTypes(activity.activity_type)?.label}</span></h2>
                 <div className='deails_with_date'>
                     <div className='details'>
-                        <p className='address'>{activity?.address}</p>
+                        <p className='company_name'>{activity?.activity_company_name}</p>
                         <p className='subject'>{activity.activity_subject}</p>
-                        <p className='note'>{activity.activity_note}</p>
                     </div>
                     <span className='date'>{activity.activity_date}</span>
                 </div>
