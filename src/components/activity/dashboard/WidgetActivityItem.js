@@ -19,7 +19,7 @@ class WidgetActivityItem extends Component {
                         <p className='company_name'>{activity?.activity_company_name}</p>
                         <p className='subject'>{activity.activity_subject}</p>
                     </div>
-                    <span className='date'>{activity.activity_date}</span>
+                    <span className='date'>{activity.activity_date_display}</span>
                 </div>
             </div>
         );

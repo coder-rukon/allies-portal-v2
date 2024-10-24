@@ -1654,7 +1654,10 @@ a.rs_btn {
   margin-bottom: 30px; }
   .av_dashboard_top_btns p {
     margin: 0;
-    cursor: pointer; }
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px; }
 
 .rs_btn_borders_box {
   border: 1px solid #000000;
@@ -1671,5 +1674,29 @@ a.rs_btn {
   .rs_btn_borders_box .rs_btn.active {
     color: #fff;
     background-color: #eb984b; }
+
+.contact_name_search_group {
+  position: relative; }
+  .contact_name_search_group .s_output {
+    display: block;
+    position: absolute;
+    top: calc(100% - 15px);
+    background: #fff;
+    box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
+    padding: 15px;
+    border-radius: 4px; }
+    .contact_name_search_group .s_output p {
+      margin: 0;
+      padding: 8px 0;
+      font-size: 14px;
+      font-weight: 300;
+      display: flex;
+      gap: 10px;
+      cursor: pointer; }
+      .contact_name_search_group .s_output p span {
+        color: #9CA3AF; }
+    .contact_name_search_group .s_output p + p {
+      border-top: 1px solid #E5E7EB; }
 
 /*# sourceMappingURL=globals.css.map */

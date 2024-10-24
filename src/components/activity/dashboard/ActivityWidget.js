@@ -9,9 +9,14 @@ class ActivityWidget extends Component {
             this.props.onActivityClick(activity)
         }
     }
+    onAddBtnClick(){
+        if(this.props.onAddClick){
+            this.props.onAddClick()
+        }
+    }
     render() {
         let activity = {...this.props.activity}
-        let title = <>{activity.title} <Button label="+ Add"/></>
+        let title = <>{activity.title} <Button onClick={this.onAddBtnClick.bind(this)} label="+ Add"/></>
         let items = activity.activity ? activity.activity : [];
         return (
             <div className='activity_widget'>
