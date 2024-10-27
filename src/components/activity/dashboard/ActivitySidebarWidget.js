@@ -221,6 +221,7 @@ class ActivitySidebarWidget extends Component {
         let titleWithBtn = <>Complete Activity <Button icon="close" onClick={this.onCancleClickHandler.bind(this)} /></>
         let activityType = Helper.getActivityTypes();
         let activity = this.state.activity;
+        let activityCompanyLink = activity.activity_source == 'company' ? '/company/details/'+activity.activity_integrator : '';
         return (
             <div className='activity_sidebar_widget'>
                 {
@@ -245,6 +246,9 @@ class ActivitySidebarWidget extends Component {
                     {this.getFollowUpForm()}
                     
                 </BorderBox>
+                <div className='mt-4 mb-4'>
+                    <Button className="bordered block" href={activityCompanyLink} label={'Open Profile ( ' +activity?.activity_company_name + ' )'}/>
+                </div>
                 {
                     this.state.message ? <AlertMessage message={this.state.message} type={this.state.messageType == true ? 'alert alert-success mt-3' : 'alert alert-danger mt-3'}/> : ''
                 }

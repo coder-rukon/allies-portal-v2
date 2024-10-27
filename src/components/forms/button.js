@@ -15,7 +15,7 @@ let Button = (props) =>{
     }
     if(props.href){
         return (
-            <Link href={props.href} className="rs_btn " target={props.target ? props.target : '_self'}>
+            <Link href={props.href} className={className} target={props.target ? props.target : '_self'}>
                 {props.label}
             </Link>
         )
