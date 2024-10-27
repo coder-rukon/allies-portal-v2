@@ -61,6 +61,16 @@ class NewActivityForm extends Component {
             this.props.onCancle()
         }
     }
+    getData(){
+        let activity = this.state.activity;
+            let data = {
+            activity_subject: activity.activity_subject,
+            activity_note: activity.activity_note,
+            activity_date: activity.activity_date,
+            activity_type: activity.activity_type
+        }
+        return data;
+    }
     onCreateClickHandler(){
         let api = Api, that = this;
         if(api.setUserToken()){
@@ -169,11 +179,28 @@ class NewActivityForm extends Component {
             
         )
     }
+    displayActionsButton(){
+        if(this.props.exportable){
+            return <></>
+        }
+        return(
+            <div className='af_right'>
+                <Button label="Cancel" className="frm_cancel" onClick = { this.onCancleClickHandler.bind(this)}/>
+                {
+                    this.state.loading ? <Loading/> : <Button label="Add Activity" onClick={this.onCreateClickHandler.bind(this)} />
+                }
+                
+            </div>
+        )
+    }
     render() {
         let activityType = Helper.getActivityTypes();
         let errors = this.state.errorMessage;
         let activityDateTypeCol = this.props.dateTypeCol ? this.props.dateTypeCol : 'col-sm-3';
         let activity = this.state.activity;
+        let activitySubjectLabel = this.props.subject_label ? this.props.subject_label  : "Subject *";
+        let ActivityTypeLabel = this.props.type_label ? this.props.type_label  : "Activity Type *";
+        let activityDateLabel = this.props.date_label ? this.props.date_label  : "Due  *";
         return (
             <div className='activity_form'>
                
@@ -181,9 +208,9 @@ class NewActivityForm extends Component {
                     {
                         this.contactNameSearch()
                     }
-                    <Input errors={errors} name="activity_subject" label="Subject *" onChange={this.onChangeHandler.bind(this)} className="col-xs-12"/>
-                    <Dropdown errors={errors} options={activityType} label="Activity Type *" value={activity.activity_type} name="activity_type" onChange={this.onChangeHandler.bind(this)} className={"col-xs-12 " + activityDateTypeCol}/>
-                    <Input errors={errors}  id="datepicker_activity" name="activity_date"  label="Due  *" onChange={this.onChangeHandler.bind(this)} className={"datepicker col-xs-12 " + activityDateTypeCol}/>
+                    <Input errors={errors} name="activity_subject" label={activitySubjectLabel} onChange={this.onChangeHandler.bind(this)} className="col-xs-12"/>
+                    <Dropdown errors={errors} options={activityType} label={ActivityTypeLabel} value={activity.activity_type} name="activity_type" onChange={this.onChangeHandler.bind(this)} className={"col-xs-12 " + activityDateTypeCol}/>
+                    <Input errors={errors}  id="datepicker_activity" name={'activity_date'}  label={activityDateLabel} onChange={this.onChangeHandler.bind(this)} className={"datepicker col-xs-12 " + activityDateTypeCol}/>
                     <Input errors={errors} type="textarea"  label="Note" name="activity_note" onChange={this.onChangeHandler.bind(this)} className="col-xs-12"/>
                 </div>
                 <div className='activity_form_footer'>
@@ -195,13 +222,12 @@ class NewActivityForm extends Component {
                         }
                         
                     </div>
-                    <div className='af_right'>
-                        <Button label="Cancel" className="frm_cancel" onClick = { this.onCancleClickHandler.bind(this)}/>
-                        {
-                            this.state.loading ? <Loading/> : <Button label="Add Activity" onClick={this.onCreateClickHandler.bind(this)} />
-                        }
-                        
-                    </div>
+                    {this.displayActionsButton()}
+
+
+
+
+
                 </div>
             </div>
         );

@@ -8,7 +8,6 @@ import Button from "@/components/forms/button";
 import Contacts from "@/components/company/new/contacts";
 import { Component } from "react";
 import Api from "../../../inc/Api";
-import Helper from "../../../inc/Helper";
 import { connect } from "react-redux";
 import ActionsTypes from "@/inc/ActionTypes";
 import { redirect } from 'next/navigation';
@@ -16,11 +15,9 @@ import Address from "@/components/address/Address";
 import Settings from "@/inc/Settings";
 import NewCompanyLinkProperty from '@/components/company/new/property/NewCompanyLinkProperty';
 import TeamAccessExportable from '@/components/company/teamaccess/exportable/TeamAccessExportable';
-import FollowUpReminderNew from "@/components/FollowUpReminder/FollowUpReminderNew";
-import ErrorMessage from "@/components/widget/errormessage";
-import VoiceRecorder from '@/components/voicerecoder/VoiceRecorder';
-import ActivityList from '@/components/activity/ActivityList';
+import DisplayErrors from '@/components/widget/DisplayErrors';
 import $ from 'jquery';
+import NewActivityForm from "@/components/activity/NewActivityForm";
 class NewCompanyMainForm extends Component {
     constructor(props){
         super(props);
@@ -38,8 +35,9 @@ class NewCompanyMainForm extends Component {
         this.contactComponent = null;
         this.addressComponent = null;
         this.propertyLinkComponent = null;
-        this.followUpRemainderObj = null;
+        //this.followUpRemainderObj = null;
         this.teamAccessComponent = null;
+        this.activyFormObj = null;
     }
     componentDidMount(){
         this.props.setOptions({title:'Create Company'})
@@ -92,7 +90,8 @@ class NewCompanyMainForm extends Component {
             contacts: this.contactComponent ? this.contactComponent.getContacts() : null,
             properties:  this.propertyLinkComponent ? this.propertyLinkComponent.getData().map( item => { return {property_id:item.property_id,link_type:item.rs_property_link_type} }) : null,
             team_access: this.teamAccessComponent.getData(),
-            follow_up_reminder: this.followUpRemainderObj.getData(),
+            activity_data: this.activyFormObj ? this.activyFormObj.getData() : {}
+            //follow_up_reminder: this.followUpRemainderObj.getData(),
         }
         that.setState({
             isSaving:true
@@ -203,16 +202,24 @@ class NewCompanyMainForm extends Component {
                             <Input name="company_note" label="Notes" value={company.company_note} onChange={this.onCompanyChangeHandler.bind(this)}  type="textarea"/>
                         </BorderBox>
                         <div className="mt-3 mb-1">{isSaving ? <Loading/> : ''}</div>
-                        
+                        <DisplayErrors errors={this.state.errors} />
                         <Button label="Create Company" onClick={this.onCreateButtonClick.bind(this)}/>
 
                         
                     </div>
                     <div className="col-xs-12 col-sm-6">
-                        <ActivityList/>
-                        <BorderBox title="Follow Up Reminder">
+                        <BorderBox title="Activity">
+                            <NewActivityForm exportable={true} onReady={ comObj => { this.activyFormObj = comObj}} subject_label="Subject" type_label="Activity Type" date_label="Due"/>
+                        </BorderBox>
+                        {
+                            /**
+                             * <BorderBox title="Follow Up Reminder">
                             <FollowUpReminderNew error_date={this.state.errors['follow_up_reminder.reminder_date']} onReady={ obj => { this.followUpRemainderObj = obj }}/>
                         </BorderBox>
+                             * 
+                             */
+                        }
+                        
                         <BorderBox title="Team Access">
                             <TeamAccessExportable onReady={ obj => { this.teamAccessComponent = obj }}/>
                         </BorderBox>
