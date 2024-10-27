@@ -1570,6 +1570,22 @@ a.rs_btn {
     font-weight: 300; }
 .activity_lists .activity_item + .activity_item {
   border-top: 1px solid #D1D5DB; }
+.activity_lists .items_completed {
+  border-top: 1px solid #D1D5DB; }
+.activity_lists .comp_display_past_activity {
+  text-align: center;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  padding-top: 0px;
+  gap: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  border-top: 1px solid #D1D5DB;
+  padding-top: 15px;
+  font-weight: 400; }
 
 .activity_widget .widget_activity_list {
   display: block; }

@@ -12,6 +12,7 @@ class ActivityList extends Component {
         super(props);
         this.state = {
             visibleForm: false,
+            displayCompletedActivity:false,
             items:[]
         }
     }
@@ -55,23 +56,50 @@ class ActivityList extends Component {
             visibleForm:false,
         })
     }
+    displayPrevActivity(){
+        let items = this.state.items;
+        let cmpletedActivity = items.filter( item => item.is_completed == "yes");
+        if(cmpletedActivity.length <=0){
+            return <></>
+        }
+        if(!this.state.displayCompletedActivity){
+            return(
+                <div className='comp_display_past_activity' onClick={e=> { this.setState({displayCompletedActivity:true})}}>
+                    <img src="/images/icons/past-icon.png" />
+                    <span>See Previous</span>
+                </div>
+            )
+        }
+        return(
+            <div className='activity_items items_completed'>
+                    {
+                    cmpletedActivity.map( (item,key) => {
+                        return <ActivityItem key={key} activity={item} />
+                    })
+                }
+            </div>
+        )
+    }
     render() {
         let items = this.state.items;
         let titleText = <>Activity</>;
         if(!this.props.disable){
             titleText = <>Activity<Button onClick={this.addItem.bind(this)}  label="+ Add"/></>
         }
+        let notCompletedActivity = items.filter( item => item.is_completed == "no")
+        
         return (
             <BorderBox className="activity_lists" title={titleText}>
                 {this.state.loading ? <Loading/> : ''}
                 {this.state.visibleForm ? <NewActivityForm source={this.props.source} integrator={this.props.integrator} onCreate={this.onCreateHanlder.bind(this)} onCancle={this.onCancleFormHandler.bind(this)}/> : ''}
                 <div className='activity_items'>
                     {
-                        items.map( (item,key) => {
+                        notCompletedActivity.map( (item,key) => {
                             return <ActivityItem key={key} activity={item} />
                         })
                     }
                 </div>
+                {this.displayPrevActivity()}
             </BorderBox>
         );
     }
