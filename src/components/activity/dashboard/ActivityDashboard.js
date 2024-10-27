@@ -14,6 +14,8 @@ class ActivityDashboard extends Component {
             editActivity:null,
             visibleNewActivityPopup:false,
             activityList:[],
+            new_activity_type:'',
+            pastActivityCount:0,
             filters:{
                 days:'today',
                 is_completed:'no',
@@ -23,7 +25,18 @@ class ActivityDashboard extends Component {
         this.activitySidebar = null;
     }
     componentDidMount(){
+        this.loadPastActivity();
         this.loadActivity()
+    }
+    loadPastActivity(){
+        let that = this, api = Api;
+        if(api.setUserToken()){
+            api.axios().get('/activity/dashboard-past-activity-count').then(res => {
+                that.setState({
+                    pastActivityCount:res.data.data.total_past_activity
+                })
+            })
+        }
     }
     loadActivity(){
         let api = Api, that = this;
@@ -100,7 +113,7 @@ class ActivityDashboard extends Component {
         }
        return(
             <Popup isCenter={true} width={"500px"} onClose={this.onNewActivityCloseHanlder.bind(this)}>
-                <NewActivityForm onCreate={this.onActivitySave.bind(this)} dateTypeCol="col-sm-6" onCancle={this.onNewActivityCloseHanlder.bind(this)} enableSearchCompany={true}/>
+                <NewActivityForm activity_type={this.state.new_activity_type} onCreate={this.onActivitySave.bind(this)} dateTypeCol="col-sm-6" onCancle={this.onNewActivityCloseHanlder.bind(this)} enableSearchCompany={true}/>
             </Popup>
        )
     }
@@ -108,6 +121,7 @@ class ActivityDashboard extends Component {
     render() {
         let widgetData = this.state.activityList;
         let filters = this.state.filters;
+        let pastDueTitle = this.state.pastActivityCount >= 1 ? <span style={{color:"red"}}>Past Due ( {this.state.pastActivityCount})</span> : 'Past Due ( 0 )';
         return (
             <div className='activity_dashboard'>
                  {
@@ -115,8 +129,7 @@ class ActivityDashboard extends Component {
                 }
                 <div className='av_dashboard_top_btns'>
                     <div className='rs_btn_borders_box'>
-                        
-                        <Button label="Past Due (2)" className={filters.days == 'past' ? "active" : ''}  onClick={this.onFilterButtonClick.bind(this,'past')} />
+                        <Button label={ pastDueTitle } className={filters.days == 'past' ? "active" : ''}  onClick={this.onFilterButtonClick.bind(this,'past')} />
                         <Button className={filters.days == 'today' ? "active" : ''} label="Today"  onClick={this.onFilterButtonClick.bind(this,'today')} />
                         <Button label="Next 7 Days" className={filters.days == 7 ? "active" : ''}  onClick={this.onFilterButtonClick.bind(this,7)}/>
                         <Button label="Next 30 Days" className={filters.days == 30 ? "active" : ''}  onClick={this.onFilterButtonClick.bind(this,30)} />
@@ -131,7 +144,7 @@ class ActivityDashboard extends Component {
                         
                             {
                                 widgetData.map( (data,key) => {
-                                    return <div className='col-xs-12 col-sm-4' key={key}><ActivityWidget onAddClick={ e=> { this.setState({visibleNewActivityPopup:true})}} onActivityClick={this.onActivityClick.bind(this)} activity={data} /></div>
+                                    return <div className='col-xs-12 col-sm-4' key={key}><ActivityWidget disableAddNew={filters.days == 'past' ? true : false } onAddClick={ activity_widget=> { this.setState({visibleNewActivityPopup:true,new_activity_type:activity_widget.activity_type})}} onActivityClick={this.onActivityClick.bind(this)} activity={data} /></div>
                                 })
                             }
                         

@@ -18,7 +18,9 @@ class NewActivityForm extends Component {
             errorMessage:[],
             contactSearchResults:[],
             contact_name_search:'',
-            activity:{}
+            activity:{
+                activity_type: this.props.activity_type ? this.props.activity_type  :  null
+            }
         }
         this.contactSearchTimeout = null;
     }
@@ -30,6 +32,7 @@ class NewActivityForm extends Component {
         flatpickr("#datepicker_activity",
             {
                 //enableTime: true,
+                minDate: new Date(),
                 dateFormat: Helper.getDatePickerFormate(),
                 onChange:(selectedDates, dateStr, instance)=>{
                     let activity = that.state.activity;
@@ -170,6 +173,7 @@ class NewActivityForm extends Component {
         let activityType = Helper.getActivityTypes();
         let errors = this.state.errorMessage;
         let activityDateTypeCol = this.props.dateTypeCol ? this.props.dateTypeCol : 'col-sm-3';
+        let activity = this.state.activity;
         return (
             <div className='activity_form'>
                
@@ -178,7 +182,7 @@ class NewActivityForm extends Component {
                         this.contactNameSearch()
                     }
                     <Input errors={errors} name="activity_subject" label="Subject *" onChange={this.onChangeHandler.bind(this)} className="col-xs-12"/>
-                    <Dropdown errors={errors} options={activityType} label="Activity Type *" name="activity_type" onChange={this.onChangeHandler.bind(this)} className={"col-xs-12 " + activityDateTypeCol}/>
+                    <Dropdown errors={errors} options={activityType} label="Activity Type *" value={activity.activity_type} name="activity_type" onChange={this.onChangeHandler.bind(this)} className={"col-xs-12 " + activityDateTypeCol}/>
                     <Input errors={errors}  id="datepicker_activity" name="activity_date"  label="Due  *" onChange={this.onChangeHandler.bind(this)} className={"datepicker col-xs-12 " + activityDateTypeCol}/>
                     <Input errors={errors} type="textarea"  label="Note" name="activity_note" onChange={this.onChangeHandler.bind(this)} className="col-xs-12"/>
                 </div>

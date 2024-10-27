@@ -39,6 +39,7 @@ class ActivitySidebarWidget extends Component {
         this.datePicker = flatpickr("#datepicker_activity",
             {
                 //enableTime: true,
+                minDate: new Date(),
                 defaultDate: this.props.activity.activity_date_time_datpicker,
                 dateFormat: Helper.getDatePickerFormate(),
                 onChange:(selectedDates, dateStr, instance)=>{
