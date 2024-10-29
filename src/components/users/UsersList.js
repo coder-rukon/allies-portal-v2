@@ -41,6 +41,16 @@ class UsersList extends Component {
             })
         }
     }
+    actionsCellData(rowData){
+        return(
+            <div className='d-flex gap-3'>
+                
+                <Button href={"/users/edit/" + rowData.id} label="edit" />
+                <Button label="Access" />
+            </div>
+            
+        )
+    }
     render() {
         let gridheader = [
             {
@@ -69,7 +79,7 @@ class UsersList extends Component {
                 id:'actions',
                 hide:false,
                 title:'Actions',
-                cellRender:(rowData,HeaderItem,CellKey,HeaderKey) => { return <Link href={"/users/edit/" + rowData.id}>Edit</Link> }
+                cellRender:(rowData,HeaderItem,CellKey,HeaderKey) => { return this.actionsCellData(rowData) }
             },
         ]
         let serverData = this.state.serverData;
