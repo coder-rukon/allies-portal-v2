@@ -206,5 +206,19 @@ let Helper = {
         }
         return options;
     },
+    prospectsNoInterestedReason(typeId){
+        let options = [
+            {value:'1',label:'Satisfied with current situation'},
+            {value:'2',label:'Already have a broker'},
+            {value:'3',label:'Just signed a lease'},
+            {value:'4',label:"Don’t work with brokers"},
+            {value:'5',label:"Handles CRE themselves"},
+            {value:'9999',label:"Other"},
+        ]
+        if(typeId){
+            return options.find( item => typeId == item.value)
+        }
+        return options;
+    },
 }
 export default Helper;

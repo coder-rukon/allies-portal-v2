@@ -10,6 +10,7 @@ import Api from '@/inc/Api';
 import Settings from '@/inc/Settings';
 import Loading from '../widget/Loading';
 import StarIcons from '../company/StarIcons';
+import Dropdown from '../forms/Dropdown';
 
 class Prospects extends Component {
     constructor(props){
@@ -23,6 +24,7 @@ class Prospects extends Component {
             isArchive:false,
             hideHeaderItems:[],
             showImportForm:false,
+            nextActionType:null,
             prospects:[]
         }
         this.s = null;
@@ -120,7 +122,21 @@ class Prospects extends Component {
             this.loadProspects()
         })
     }
-
+    isDisbaleCommonBtns(){
+        let disable = this.state.selectedProspect == null ? true : false;
+        if(this.state.nextActionType == 'not_interested'){
+            disable = true;
+        }
+        return disable;
+    }
+    onCommonActionBtnClickHandler(value){
+        let currentActionType = this.state.nextActionType;
+        if(currentActionType == value){
+            this.setState({nextActionType:null})
+        }else{
+            this.setState({nextActionType:value})
+        }
+    }
     render() {
         let gridheaders = [
             {
@@ -132,10 +148,10 @@ class Prospects extends Component {
             },
             ...this.getHeaders()
         ];
-
-        
+        let notInterestedReason = Helper.prospectsNoInterestedReason();
         let gridData = this.state.prospects;
         let hideHeaderItems = this.state.hideHeaderItems;
+        let isDisbaleCommonBtns = this.isDisbaleCommonBtns();
         return (
             <div className='prospects_archive'>
                  {
@@ -173,14 +189,34 @@ class Prospects extends Component {
                     </div>
                     <RsGrid onRowClick = { this.onGridItemClickHandler.bind(this)} header={gridheaders} data={gridData}/>
                     <div className='prospect_list_footer'>
-                        <div>
-                            <Button label="Interested" disable={this.state.selectedProspect == null ? true : false} className="bordered mr-3"/>
-                            <Button label="No Answer" disable={this.state.selectedProspect == null ? true : false} className="bordered mr-3"/>
-                            
-                            <Button label="Not Interested" disable={this.state.selectedProspect == null ? true : false} className="bordered"/>
+                        <div className='left_items'>
+                            <Button 
+                                label="Interested" 
+                                disable={isDisbaleCommonBtns} 
+                                className={this.state.nextActionType == 'interested' ? '' : "bordered"} // active status
+                                isActive={true}
+                                onClick= { e => { this.onCommonActionBtnClickHandler('interested')}}
+                            />
+                            <Button 
+                                label="No Answer" 
+                                disable={isDisbaleCommonBtns}
+                                className={this.state.nextActionType == 'no_answer' ? '' : "bordered"} // active status
+                                onClick= { e => { this.onCommonActionBtnClickHandler('no_answer')}}
+                            />
+                            <Button 
+                                label="Not Interested" 
+                                disable={this.state.selectedProspect == null ? true : false} 
+                                className={this.state.nextActionType == 'not_interested' ? '' : "bordered"} // active status
+                                onClick= { e => { this.onCommonActionBtnClickHandler('not_interested')}}
+                            />
+                            <Dropdown 
+                                options={notInterestedReason} 
+                                disable={this.state.nextActionType == 'not_interested' ? false : true} 
+                                className="bordered"
+                            />
                         </div>
                         <div>
-                            <Button label="Next" disable={this.state.selectedProspect == null ? true : false}/>
+                            <Button label="Next" disable={this.state.nextActionType == null ? true : false}/>
                         </div>
                     </div>
                     <div className="mt-2 mb-2 text-center">
