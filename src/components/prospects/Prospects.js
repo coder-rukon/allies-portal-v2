@@ -187,7 +187,7 @@ class Prospects extends Component {
                             
                         </div>
                     </div>
-                    <RsGrid onRowClick = { this.onGridItemClickHandler.bind(this)} header={gridheaders} data={gridData}/>
+                    <RsGrid enableRowSelect="single" onRowClick = { this.onGridItemClickHandler.bind(this)} header={gridheaders} data={gridData}/>
                     <div className='prospect_list_footer'>
                         <div className='left_items'>
                             <Button 

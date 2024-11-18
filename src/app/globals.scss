@@ -506,9 +506,13 @@ a.rs_btn{
         tr+tr{
             border-top: 1px solid $borderLight;
         }
+        tr.selected_row{
+            background-color: #F3F4F6;
+        }
         td{
             padding: 15px 10px;
             border-color: $lightGray;
+            background-color: transparent;
         }
         .item_data{
             font-size: 14px;

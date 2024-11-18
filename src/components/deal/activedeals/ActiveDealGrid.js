@@ -103,7 +103,7 @@ class ActiveDealGrid extends Component {
                 </div>
                 {this.state.isLoading ? <div className="text-center"><Loading color={"red"}/></div> : ''}
                 
-                <RsGrid id={this.props.gridId} onRowClick={this.onGridRowClick.bind(this)} onGridReady={ gridObj => this.gridObj = gridObj } header={gridheader} data={gridData}/>
+                <RsGrid id={this.props.gridId} onCellClick={this.onGridRowClick.bind(this)} onGridReady={ gridObj => this.gridObj = gridObj } header={gridheader} data={gridData}/>
             </div>
          );
     }

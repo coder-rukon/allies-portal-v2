@@ -11,16 +11,21 @@ import { Component } from "react";
         },
         {id:'company_name',title:'COMPANY NAME',style:{width:'100px'}},
     ]
-    onGridReady: method
+    onRowClick:
+    orCellClick:
+    onGridReady: method,
+    enableRowSelect:false, // single, multiple
+    is
  */
 class RsGrid extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data:[]
+            data:[],
+            selected_rows:[]
         }
         this.id = this.props.id ? this.props.id : 'grid';
-
+        this.enableRowSelect = this.props.enableRowSelect ? this.props.enableRowSelect : false;// single, multiple
         this.grid = null;
         
     }
@@ -43,10 +48,50 @@ class RsGrid extends Component {
             hItem.onClick(hItem,hKey);
         }
     }
-    onRowClickHandler(itemData,hItem,key,hKey,event){
-        if(this.props.onRowClick){
-            this.props.onRowClick(itemData,hItem,key,hKey)
+    onCellClickHandler(itemData,hItem,key,hKey,event){
+        if(this.props.onCellClick){
+            this.props.onCellClick(itemData,hItem,key,hKey)
         }
+    } 
+    onRowClickHanlder(itemData,rowKey,event){
+        if(this.enableRowSelect){
+            let selected_rows = this.state.selected_rows;
+            
+            if(selected_rows.includes(rowKey)){
+                if(this.enableRowSelect == 'single'){
+                    selected_rows = [];
+                }else{
+                    selected_rows = selected_rows.filter( keyItem => { return keyItem != rowKey})
+                }
+
+            }else{
+                if(this.enableRowSelect == 'single'){
+                    selected_rows = [rowKey]
+                }else{
+                    selected_rows.push(rowKey)
+                }
+                
+            }
+            
+            this.setState({
+                selected_rows:selected_rows
+            })
+        }
+        
+        if(this.props.onRowClick){
+            this.props.onRowClick(itemData,rowKey,event)
+        }
+    }
+    getRowActiveClass(rowKey){
+        if(!this.enableRowSelect){
+            return ""
+        }
+        if(rowKey){
+            if(this.state.selected_rows.includes(rowKey)){
+                return 'selected_row';
+            }
+        }
+        return '';
     }
     render() {
         let data = this.props.data;
@@ -79,14 +124,14 @@ class RsGrid extends Component {
                         {
                             data.map((itemData,key) => {
                                     return(
-                                        <tr key={key}>
+                                        <tr key={key} className={ this.getRowActiveClass(key + 1 ,itemData) } onClick={ this.onRowClickHanlder.bind(this,itemData,key + 1)}>
                                             {
                                                 header.map( (hItem,hKey) => {
                                                     if(hItem.hide){
                                                         return <></>
                                                     }
                                                     return(
-                                                        <td key={hKey} onClick={this.onRowClickHandler.bind(this,itemData,hItem,key,hKey)}>
+                                                        <td key={hKey} onClick={this.onCellClickHandler.bind(this,itemData,hItem,key,hKey)}>
                                                             {
                                                                 hItem.cellRender ? hItem.cellRender(itemData,hItem,key,hKey) : <div className="item_data">{itemData[hItem.id]}</div>
                                                             }
