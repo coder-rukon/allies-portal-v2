@@ -1,7 +1,8 @@
 "use client"
 import Axios from "axios"
 import Settings from './Settings';
-
+import '../plugins/notify.min.js';
+import $ from 'jquery';
 let Helper = {
     getUniqueId:(prefix='id') => {
         return prefix + Math.random().toString(16).slice(2)
@@ -11,7 +12,7 @@ let Helper = {
         document.getElementById('h_title').innerHTML = newData?.pageTitle;
     },
     alert(message,options,selector = null){
-        /*
+        
         let defaultOptions = {
             elementPosition: 'top right',
             globalPosition: 'top right',
@@ -24,7 +25,7 @@ let Helper = {
         }else{
             $.notify(message, defaultOptions);
         }
-        */
+        
     },
     confirmMe(confirmFunction,bodyMessage,cancelFunction='',title){
         /*

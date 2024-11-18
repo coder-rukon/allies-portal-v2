@@ -25,6 +25,7 @@ class Prospects extends Component {
             hideHeaderItems:[],
             showImportForm:false,
             nextActionType:null,
+            nextActionDoing:false,
             prospects:[]
         }
         this.s = null;
@@ -56,6 +57,32 @@ class Prospects extends Component {
             })
         }
         
+    }
+    resetActions(){
+        this.setState({
+
+        })
+    }
+    onNextClickHandler(){
+        console.log(this.state.nextActionType)
+        Helper.alert("Test notify")
+        if(this.state.nextActionType){
+            //return;
+        }
+        let nextActionType = this.state.nextActionType;
+        let selected_prospect = this.state.selectedProspect;
+        if(nextActionType == 'not_interested'){
+            let data = {
+                prospect_id: selected_prospect.id,
+                not_interested_reason: document.getElementById('not_interested_reason').value,
+            }
+            console.log(data)
+        }
+        
+        return;
+        this.setState({
+            nextActionDoing:true
+        })
     }
     onFilterHeaderClickHandler(hItem,event){
         let hideHeaderItemsNew  =  this.state.hideHeaderItems;
@@ -104,9 +131,17 @@ class Prospects extends Component {
         })
     }
     onGridItemClickHandler(itemData){
-        this.setState({
-            selectedProspect:itemData
-        })
+        let selectedProspect = this.state.selectedProspect;
+        if(selectedProspect && selectedProspect.id == itemData.id){
+            this.setState({
+                selectedProspect:null
+            })
+        }else{
+            this.setState({
+                selectedProspect:itemData
+            })
+        }
+        
     }
     onStarFilterItemClick(color){
         let filter = this.state.filter;
@@ -137,6 +172,7 @@ class Prospects extends Component {
             this.setState({nextActionType:value})
         }
     }
+    
     render() {
         let gridheaders = [
             {
@@ -211,12 +247,13 @@ class Prospects extends Component {
                             />
                             <Dropdown 
                                 options={notInterestedReason} 
-                                disable={this.state.nextActionType == 'not_interested' ? false : true} 
+                                disable={this.state.nextActionType == 'not_interested' ? false : true}
+                                id="not_interested_reason"
                                 className="bordered"
                             />
                         </div>
                         <div>
-                            <Button label="Next" disable={this.state.nextActionType == null ? true : false}/>
+                            {this.state.nextActionDoing ? <Loading/> : <Button label="Next" onClick={this.onNextClickHandler.bind(this)} disable={this.state.nextActionType == null ? true : false}/>}
                         </div>
                     </div>
                     <div className="mt-2 mb-2 text-center">
