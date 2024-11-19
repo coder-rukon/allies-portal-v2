@@ -35,13 +35,20 @@ class RsGrid extends Component {
     }
     updateData(data){
         this.setState({
-            data:data
+            data:data,
+            selected_rows:[]
         })
     }
+
     initGrid(){
         if(this.props.onGridReady){
             this.props.onGridReady(this)
         }
+    }
+    refresh(){
+        this.setState({
+            selected_rows:[]
+        })
     }
     onHeaderItemClick(hItem,hKey){
         if(hItem.onClick && typeof hItem.onClick == 'function'){

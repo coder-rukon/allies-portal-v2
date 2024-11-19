@@ -11,7 +11,7 @@ import Settings from '@/inc/Settings';
 import Loading from '../widget/Loading';
 import StarIcons from '../company/StarIcons';
 import Dropdown from '../forms/Dropdown';
-
+import ConfirmPopup from '@/components/widget/ConfirmPopup'
 class Prospects extends Component {
     constructor(props){
         super(props);
@@ -26,9 +26,12 @@ class Prospects extends Component {
             showImportForm:false,
             nextActionType:null,
             nextActionDoing:false,
+            showDeletePopup:false,
+            isDeleting:false,
             prospects:[]
         }
         this.s = null;
+        this.grid  = null;
     }
     componentDidMount(){
         Helper.setPageData({
@@ -58,31 +61,92 @@ class Prospects extends Component {
         }
         
     }
-    resetActions(){
+    resetSelections(){
+        let that = this;
         this.setState({
-
+            selectedProspect:null,
+            nextActionType:null,
+            nextActionDoing:false,
+        },function(){
+            if(that.grid){
+                that.grid.refresh()
+            }
+        })
+        
+    }
+    onDeleteBtnClick(){
+        this.setState({
+            showDeletePopup:true
         })
     }
+    onDeleteHanlder(){
+        let selected_prospect = this.state.selectedProspect;
+        let api = Api, that = this;
+        if(!api.setUserToken()){
+            return;
+        }
+        this.setState({
+            isDeleting:true
+        })
+        let data = {
+            prospect_id: selected_prospect.id,
+        }
+        api.axios().post('/prospects/delete',data).then(res=>{
+            that.setState({
+                isDeleting:false,
+                showDeletePopup:false
+            })
+            if(!res.data.type){
+                Helper.alert(res.data.message,{
+                    className:'error'
+                })
+            }else{
+                that.resetSelections();
+                that.loadProspects();
+                Helper.alert(res.data.message)
+            }
+        })
+
+    }
     onNextClickHandler(){
-        console.log(this.state.nextActionType)
-        Helper.alert("Test notify")
         if(this.state.nextActionType){
             //return;
         }
+        this.setState({
+            nextActionDoing:true
+        })
         let nextActionType = this.state.nextActionType;
         let selected_prospect = this.state.selectedProspect;
+        let api = Api, that = this;
+        if(!api.setUserToken()){
+            return;
+        }
         if(nextActionType == 'not_interested'){
             let data = {
                 prospect_id: selected_prospect.id,
                 not_interested_reason: document.getElementById('not_interested_reason').value,
+                not_interested_reason_text:  Helper.prospectsNoInterestedReason(document.getElementById('not_interested_reason').value)?.label,
             }
-            console.log(data)
+            api.axios().post('/prospects/send-archive',data).then(res=>{
+                that.setState({
+                    nextActionDoing:false
+                })
+                if(!res.data.type){
+                    let errors = Object.values(res.data.errors);
+                    errors.forEach( message => {
+                        Helper.alert(message[0],{
+                            className:'error'
+                        })
+                    })
+                    
+                }else{
+                    that.resetSelections();
+                    that.loadProspects();
+                    Helper.alert(res.data.message)
+                }
+            })
+            
         }
-        
-        return;
-        this.setState({
-            nextActionDoing:true
-        })
     }
     onFilterHeaderClickHandler(hItem,event){
         let hideHeaderItemsNew  =  this.state.hideHeaderItems;
@@ -108,6 +172,10 @@ class Prospects extends Component {
             {id:'email',title:'EMAIL',width:'100px',hide:hideHeaderItems.includes('email')},
             {id:'created_at',title:'Imported Date',width:'100px',hide:hideHeaderItems.includes('created_at'),cellRender:(data) => { return <div className='item_data'>{Helper.formateDate(data.created_at)}</div>  }},
         ];
+        if(this.state.isArchive){
+            headers.push(
+                {id:'archive_reason',title:'Archive reason',hide:hideHeaderItems.includes('archive_reason'),cellRender:(data) => { return <div className='item_data'>{ JSON.parse(data.data)?.archive_reason_text }</div>  }});
+        }
         return headers;
     }
     onSearchChangeHandler(){
@@ -172,7 +240,11 @@ class Prospects extends Component {
             this.setState({nextActionType:value})
         }
     }
-    
+    onDeleteClose(){
+        this.setState({
+            showDeletePopup:false
+        })
+    }
     render() {
         let gridheaders = [
             {
@@ -193,6 +265,10 @@ class Prospects extends Component {
                  {
                     this.state.showImportForm ? <Popup isCenter={true} width={"500px"} onClose={ this.onImportSuccess.bind(this)}> <PopupImporter onCancleClick={this.onImportSuccess.bind(this)} onImportSuccess={this.onImportSuccess.bind(this)}  /> </Popup> : ''
                 }
+                {
+                    this.state.showDeletePopup ? <ConfirmPopup isLoading={this.state.isDeleting} onYes={this.onDeleteHanlder.bind(this)} confirm_title={"Do you want to delete?"} onClose={ this.onDeleteClose.bind(this)}/>: ''
+                }
+
                 <Panel title="Prospects">
                     <div className="filter_and_search">
                         <div className="left_side">
@@ -223,7 +299,7 @@ class Prospects extends Component {
                             
                         </div>
                     </div>
-                    <RsGrid enableRowSelect="single" onRowClick = { this.onGridItemClickHandler.bind(this)} header={gridheaders} data={gridData}/>
+                    <RsGrid onGridReady={ grid => { this.grid = grid}} enableRowSelect="single" onRowClick = { this.onGridItemClickHandler.bind(this)} header={gridheaders} data={gridData}/>
                     <div className='prospect_list_footer'>
                         <div className='left_items'>
                             <Button 
@@ -251,6 +327,13 @@ class Prospects extends Component {
                                 id="not_interested_reason"
                                 className="bordered"
                             />
+                             <Button 
+                                disable={this.state.selectedProspect == null ? true : false}
+                                className={ "btn_danger"} // active status
+                                onClick= { this.onDeleteBtnClick.bind(this) }
+                                beforeIcon="delete"
+                            />
+                            
                         </div>
                         <div>
                             {this.state.nextActionDoing ? <Loading/> : <Button label="Next" onClick={this.onNextClickHandler.bind(this)} disable={this.state.nextActionType == null ? true : false}/>}

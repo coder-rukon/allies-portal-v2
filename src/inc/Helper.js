@@ -2,7 +2,7 @@
 import Axios from "axios"
 import Settings from './Settings';
 import '../plugins/notify.min.js';
-import $ from 'jquery';
+import $ from 'jquery'
 let Helper = {
     getUniqueId:(prefix='id') => {
         return prefix + Math.random().toString(16).slice(2)

@@ -1,14 +1,7 @@
 import { Component } from "react";
 import './login.css';
-import Button from "@/components/forms/button";
-import Input from "@/components/forms/Input";
-import Api from "@/inc/Api";
-import Helper from "@/inc/Helper";
-import Settings from "@/inc/Settings";
-import Router from 'next/router';
 import Header from "../components/loginregister/Header";
 import Footer from "../components/loginregister/Footer";
-import LoginForm from "../components/loginregister/LoginForm";
 import RegisterForm from "../components/loginregister/RegisterForm";
 class Login extends Component {
     constructor(props) {

@@ -360,14 +360,20 @@ a.rs_btn {
   display: inline-flex;
   text-decoration: none; }
 
-.rs_btn.danger {
-  background-color: #dc3545;
-  border-color: #dc3545; }
-
 .rs_btn.bordered {
   background-color: transparent;
   border: 1px solid #6B7280;
   color: #000; }
+
+.rs_btn.danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  color: #fff; }
+
+.rs_btn.btn_danger {
+  border-color: #dc3545;
+  color: #dc3545;
+  background-color: transparent; }
 
 .rs_btn.block {
   width: 100%;
@@ -1734,5 +1740,14 @@ a.rs_btn {
         color: #9CA3AF; }
     .contact_name_search_group .s_output p + p {
       border-top: 1px solid #E5E7EB; }
+
+.confirm_box_popup h2 {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 10px;
+  display: block; }
+
+.notifyjs-corner {
+  margin-top: 70px !important; }
 
 /*# sourceMappingURL=globals.css.map */
