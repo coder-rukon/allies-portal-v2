@@ -16,6 +16,18 @@ class Contacts extends Component {
     getContacts(){
         return this.state.contacts;
     }
+    setData(data){
+        let contacts = data.map( ctItem => {
+            return{
+                ...this.getNewBlankObj(),
+                ...ctItem
+            }
+        })
+        console.log("Contact set",contacts)
+        this.setState({
+            contacts:contacts
+        })
+    }
     getNewBlankObj(){
         return({
             contact_name:'',

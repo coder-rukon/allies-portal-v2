@@ -31,6 +31,7 @@ class Prospects extends Component {
             prospects:[]
         }
         this.s = null;
+        this.serchQueTimeout = null;
         this.grid  = null;
     }
     componentDidMount(){
@@ -147,6 +148,26 @@ class Prospects extends Component {
             })
             
         }
+        if(nextActionType == 'no_answer'){
+            let data = {
+                prospect_id: selected_prospect.id
+            }
+            api.axios().post('/prospects/noanswer-send-email',data).then(res=>{
+                that.setState({
+                    nextActionDoing:false
+                })
+                if(!res.data.type){
+                    Helper.alert(res.data.message,{
+                        className:'error'
+                    })
+                }else{
+                    //that.resetSelections();
+                    //that.loadProspects();
+                    Helper.alert(res.data.message)
+                }
+            })
+            
+        }
     }
     onFilterHeaderClickHandler(hItem,event){
         let hideHeaderItemsNew  =  this.state.hideHeaderItems;
@@ -170,7 +191,7 @@ class Prospects extends Component {
             {id:'title',title:'TITLE',width:'100px',hide:hideHeaderItems.includes('title')},
             {id:'phone',title:'PHONE',width:'100px',hide:hideHeaderItems.includes('phone')},
             {id:'email',title:'EMAIL',width:'100px',hide:hideHeaderItems.includes('email')},
-            {id:'created_at',title:'Imported Date',width:'100px',hide:hideHeaderItems.includes('created_at'),cellRender:(data) => { return <div className='item_data'>{Helper.formateDate(data.created_at)}</div>  }},
+            {id:'formated_date',title:'Imported Date',width:'100px',hide:hideHeaderItems.includes('formated_date')},
         ];
         if(this.state.isArchive){
             headers.push(
@@ -178,8 +199,14 @@ class Prospects extends Component {
         }
         return headers;
     }
-    onSearchChangeHandler(){
-
+    onSearchChangeHandler(e){
+        this.s = e.target.value;
+        let that = this;
+        clearTimeout(this.serchQueTimeout);
+        this.serchQueTimeout = setTimeout(function(){
+            that.loadProspects();
+        },300)
+        //console.log(e.)
     }
     
     onImportSuccess(){
@@ -244,6 +271,17 @@ class Prospects extends Component {
         this.setState({
             showDeletePopup:false
         })
+    }
+    getNextActionButton(){
+        if(this.state.nextActionDoing){
+            return <Loading/>
+        } 
+        if(this.state.nextActionType == 'interested'){
+            let selectedProspect = this.state.selectedProspect;
+            return <Button href={'/prospects/create-company/'+selectedProspect.id} label="Next" onClick={this.onNextClickHandler.bind(this)} disable={this.state.nextActionType == null ? true : false}/>
+        }
+
+        return <Button label="Next" onClick={this.onNextClickHandler.bind(this)} disable={this.state.nextActionType == null ? true : false}/>
     }
     render() {
         let gridheaders = [
@@ -336,7 +374,7 @@ class Prospects extends Component {
                             
                         </div>
                         <div>
-                            {this.state.nextActionDoing ? <Loading/> : <Button label="Next" onClick={this.onNextClickHandler.bind(this)} disable={this.state.nextActionType == null ? true : false}/>}
+                            { this.getNextActionButton() }
                         </div>
                     </div>
                     <div className="mt-2 mb-2 text-center">

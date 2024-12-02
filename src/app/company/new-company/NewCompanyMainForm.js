@@ -28,7 +28,7 @@ class NewCompanyMainForm extends Component {
             industryList:[],
             subindustryList:[],
             errors:{},
-            company:{
+            company: {
                 name:''
             }
         }
@@ -41,6 +41,18 @@ class NewCompanyMainForm extends Component {
     }
     componentDidMount(){
         this.props.setOptions({title:'Create Company'})
+        if(this.props.defaultData){
+            this.setState({
+                company:this.props.defaultData
+            })
+            if(this.props.defaultData.contacts && this.contactComponent){
+                this.contactComponent.setData(this.props.defaultData.contacts);
+            }
+            if(this.props.defaultData.address && this.addressComponent){
+                this.addressComponent.setAddress(this.props.defaultData.address);
+            }
+            console.log('this.props.defaultData',this.props.defaultData)
+        }
         this.loadIndustry();
     }
     loadIndustry(){

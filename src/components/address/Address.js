@@ -115,6 +115,11 @@ class Address extends Component {
     getAddress(){
         return this.state.address;
     }
+    setAddress(data){
+        this.setState({
+            address:data
+        })
+    }
     render() {
         let address = this.state.address;
         if(this.state.loading){
