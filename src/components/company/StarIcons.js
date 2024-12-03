@@ -49,6 +49,7 @@ class StarIcons extends Component {
         let api = Api, that = this;
         api.setUserToken();
         let data = {
+            model_type: this.props.model_type ? this.props.model_type : null,
             company_id: this.state.company?.company_id,
             color_status: color.id,
         }

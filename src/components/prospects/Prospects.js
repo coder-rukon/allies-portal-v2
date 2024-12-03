@@ -289,7 +289,11 @@ class Prospects extends Component {
                 id:'star',style:{width:'50px'},
                 headerCelRender: (hItem,key) => { return <StarIcons onItemClick={ this.onStarFilterItemClick.bind(this)} company={{}}/>; },
                 cellRender: (cellData) => {
-                    return <StarIcons apiUrl= {Settings.apiUrl + '/prospects/update-color'} company={cellData}/>
+                    cellData = {
+                        ...cellData,
+                        company_id:cellData.id
+                    }
+                    return <StarIcons model_type="prospect" company={cellData}/>
                 }
             },
             ...this.getHeaders()
