@@ -333,6 +333,12 @@ color: #6B7280;
     textarea.form-control{
         height: 100px;
     }
+    p{
+        margin: 0;
+        font-size: 14px;
+        font-weight: 300;
+        color: #111827;
+    }
 }
 .with_options{
     .rs_options_box_wraper{
@@ -411,10 +417,14 @@ a.rs_btn{
     text-decoration:none;
 }
 
+.rs_btn.inactive,
 .rs_btn.bordered{
     background-color: transparent;
     border: 1px solid $lightGray2;
     color: #000;
+}
+.rs_btn.inactive{
+    opacity: .3;
 }
 .rs_btn.danger{
     background-color: #dc3545;
@@ -2183,4 +2193,40 @@ a.rs_btn{
 }
 .notifyjs-corner {
     margin-top: 70px !important;
+}
+.dropdown_wraper{
+    position: relative;
+    
+}
+.rs_address_search_col{
+    position: relative;
+    z-index: 1;
+    .address_search_result{
+        display: block;
+        box-sizing: border-box;
+        box-shadow: 0 0 7px rgba(0,0,0,.2);
+        position: absolute;
+        z-index: 100;
+        background: #fff;
+        left: 0;
+        top: 100%;
+        margin-top: 0;
+        border-radius: 4px;
+        max-width: 100%;
+        .search_result_dp{
+            display: block;
+            padding: 10px 15px;
+            border-bottom: 1px solid rgba(0,0,0,.1);
+            cursor: pointer;
+            color: #848484;
+        }
+        .search_result_dp:hover{
+            background-color: #000;
+            color: #fff;
+        }
+        .search_result_dp:last-child{
+            border-bottom: 0;
+        }
+    }
+
 }

@@ -1,4 +1,4 @@
-/* HTML: <div class="loader"></div> */
+/* HTML: */
 .loader {
     width: calc(140px / cos(45deg));
     height: 14px;

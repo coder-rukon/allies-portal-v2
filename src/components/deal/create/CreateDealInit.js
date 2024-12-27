@@ -22,24 +22,23 @@ class CreateDealInit extends Component {
     }
     onItemClick(dealType){
         let activeMenu = this.state.active;
-        if(dealType.id == '5' || dealType.id == '6'){
-            activeMenu = [dealType.id]
+        if(activeMenu.includes(dealType.id)){
+            activeMenu = activeMenu.filter(menuId => menuId != dealType.id);
         }else{
-            if(activeMenu.includes(dealType.id)){
-                activeMenu = activeMenu.filter(menuId => menuId != dealType.id);
-                activeMenu = activeMenu.filter(menuId => menuId != 5);
-                activeMenu = activeMenu.filter(menuId => menuId != 6);
-
-            }else{
-                activeMenu = activeMenu.filter(menuId => menuId != 5);
-                activeMenu = activeMenu.filter(menuId => menuId != 6);
-                activeMenu.push(dealType.id)
-            }
+            activeMenu.push(dealType.id)
+        }
+        if(dealType.id == '5' || dealType.id == '6'){
+            activeMenu = activeMenu.filter(menuId => menuId != 7);
+            activeMenu = activeMenu.filter(menuId => menuId != 8);
+        }else{
+            activeMenu = activeMenu.filter(menuId => menuId != 5);
+            activeMenu = activeMenu.filter(menuId => menuId != 6);
+            
         }
         
         this.setState({active:activeMenu})
         if( this.props.onTypeSelect){
-            this.props.onTypeSelect(dealType);
+            this.props.onTypeSelect(activeMenu);
         }
     }
     render() {

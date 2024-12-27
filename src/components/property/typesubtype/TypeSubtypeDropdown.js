@@ -113,7 +113,7 @@ class TypeSubtypeDropdown extends Component {
                                 let gorupSubtypes = this.props.allSubtypes.filter( typeItem => typeItem.property_type_id == pType.pt_id )
                                 return (
                                     <div key={key} className={ "type_subtype_group_wraper "} >
-                                        <h4 onClick={ this.onGroupControllerClick.bind(this)}><div><span class="material-symbols-outlined arrow_drop_down">arrow_drop_down</span><span class="material-symbols-outlined arrow_right">arrow_right</span></div><span>{pType.label}</span></h4>
+                                        <h4 onClick={ this.onGroupControllerClick.bind(this)}><div><span className="material-symbols-outlined arrow_drop_down">arrow_drop_down</span><span className="material-symbols-outlined arrow_right">arrow_right</span></div><span>{pType.label}</span></h4>
                                         <div className="pgroup_subtypes">
                                         {
                                             !this.state.isRerendering ? gorupSubtypes.map( ( subtype , keyInner) => {

@@ -17,7 +17,7 @@ class DealPipelineGrid extends Component {
         return (
             <div className={this.props.className  ? 'deal_pipeline_grid '+ this.props.className : 'deal_pipeline_grid'}>
                 <div className='table-responsive'>
-                    <table class="table">
+                    <table className="table">
                         <thead>
                             <tr>
                                 {

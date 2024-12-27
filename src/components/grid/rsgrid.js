@@ -5,7 +5,7 @@ import { Component } from "react";
         {
             id:'star',
             hide:false,
-            title:'<span class="material-symbols-outlined">star_rate</span>',
+            title:'<span className="material-symbols-outlined">star_rate</span>',
             style:{width:'50px'},
             cellRender:(rowData,HeaderItem,CellKey,HeaderKey) => { }
         },

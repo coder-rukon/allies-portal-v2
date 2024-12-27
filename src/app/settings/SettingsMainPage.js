@@ -38,17 +38,17 @@ class SettingsMainPage extends Component {
         let page = this.state.page;
         return (
             <div className='settings_page_wraper'>
-                <ul class="nav nav-tabs">
-                    <li class="nav-item">
+                <ul className="nav nav-tabs">
+                    <li className="nav-item">
                         <span className={ page == 'industry' ? 'nav-link active' : 'nav-link'} onClick={ e => {this.changePage('industry')} } style={{cursor:'pointer'}}>Industry</span>
                     </li>
-                    <li class="nav-item">
+                    <li className="nav-item">
                         <span className={ page == 'subindustry' ? 'nav-link active' : 'nav-link'} onClick={ e => {this.changePage('subindustry')} } style={{cursor:'pointer'}}>Subindustry</span>
                     </li>
-                    <li class="nav-item">
+                    <li className="nav-item">
                         <span className={ page == 'company_acess_role' ? 'nav-link active' : 'nav-link'} onClick={ e => {this.changePage('company_acess_role')} } style={{cursor:'pointer'}}>Company User Role</span>
                     </li> 
-                    <li class="nav-item">
+                    <li className="nav-item">
                         <span className={ page == 'subtypes' ? 'nav-link active' : 'nav-link'} onClick={ e => {this.changePage('subtypes')} } style={{cursor:'pointer'}}>Property Subtype</span>
                     </li>
                 </ul>

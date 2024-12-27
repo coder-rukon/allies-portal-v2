@@ -71,6 +71,7 @@ class Input extends Component {
                 { this.props.label ? <label className="rs_form_label">{this.props.label}</label> : ''}
                 { hasOptions ? <div className="rs_options_box_wraper">{this.getInputBox() } {this.getOptions()} </div> : this.getInputBox()  }
                 <ErrorMessage errors={this.props.errors} field={this.props.errorName ? this.props.errorName : this.props.name} />
+                {this.props.afterInput ? this.props.afterInput() : ''}
             </div>
          );
     }

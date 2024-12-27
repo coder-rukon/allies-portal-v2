@@ -12,8 +12,11 @@ class Address extends Component {
         this.integrator = this.props.integrator;
         this.addressChanged = false;
         this.state = {
+            searching:false,
+            searchResult:[],
             address:{}
         }
+        this.searchAddressTimeout = null
     }
     componentDidMount(){
         this.loadCountry();
@@ -54,6 +57,32 @@ class Address extends Component {
             })
         }
     }
+    searchAddressFromDb(searchKey, searchValue){
+        let api = Api;
+        let that = this;
+        that.setState({
+            searchResult:[],
+            searching:true
+        })
+        if(api.setUserToken()){
+            let data = {
+                search_key:searchKey,
+                s:searchValue,
+                source:this.source
+            }
+            api.axios().post('/address/search',data).then(res =>{
+                console.log(res)
+                that.setState({
+                    searching:false,
+                    searchResult:res.data.type ? res.data.data.data : []
+                })
+            }).catch(error => {
+                that.setState({
+                    searching:false
+                })
+            })
+        }
+    }
     loadCountry(){
         if(this.props.locations.countryLoaded){
             return true;
@@ -90,6 +119,14 @@ class Address extends Component {
                 [event.target.name]:event.target.value
             }
         })
+        if(this.props.isSearchable && event.target.name == 'address_line_1'){
+            clearTimeout(this.searchAddressTimeout);
+            let that = this;
+            this.searchAddressTimeout = setTimeout(function(){
+                that.searchAddressFromDb(event.target.name,event.target.value);
+            },200)
+            
+        }
     }
     getCountryState(){
         let address = this.state.address;
@@ -120,6 +157,30 @@ class Address extends Component {
             address:data
         })
     }
+    searchResult(){
+        if(this.props.isSearchable != true){
+            return <></>
+        }
+        if(this.state.searchResult.length <=0){
+            return <></>
+        }
+        if(this.state.searching){
+            return <Loading/>
+        }
+        return(
+            <div className='address_search_result'>
+                {
+                    this.state.searchResult.map( (ads,key) => {
+                        return (
+                            <div className='search_result_dp' key={key} onClick={ e => {this.setAddress(ads); this.setState({searchResult:[]})}}>
+                                <strong>{ads.address_line_1}</strong>, {ads.address_city}, {ads.address_state}, {ads.address_country}, {ads.address_zipcode}
+                            </div>
+                        )
+                    })
+                }
+            </div>
+        )
+    }
     render() {
         let address = this.state.address;
         if(this.state.loading){
@@ -136,8 +197,11 @@ class Address extends Component {
         let errors = this.props.errors ? this.props.errors : [];
         return (
             <div className='row'>
-                <div className="col-xs-12 col-sm-6 rs_ads_line_1">
+                <div className="col-xs-12 col-sm-6 rs_ads_line_1 ">
+                    <div className='rs_address_search_col'>
                     <Input disable = {disable} errors ={errors} onChange={this.onAddressChangeHandler.bind(this)}  name="address_line_1" label="Address Line 1" value={address.address_line_1}/>
+                    {this.searchResult()}
+                    </div>
                 </div>
                 <div className="col-xs-12 col-sm-6 rs_ads_line_2">
                     <Input  disable = {disable}  errors ={errors} onChange={this.onAddressChangeHandler.bind(this)}  name="address_line_2" label="Address Line 2" value={address.address_line_2}/>
