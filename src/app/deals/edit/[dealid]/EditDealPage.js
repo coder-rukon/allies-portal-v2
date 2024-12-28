@@ -11,20 +11,76 @@ import Notes from '@/components/notes/Notes';
 import FileUploader from '@/components/widget/FileUploader';
 import AdditionalFields from '@/components/property/AdditionalFields';
 import ActivityList from "@/components/activity/ActivityList";
+import Api from '@/inc/Api';
+import ErrorMessage from '@/components/widget/errormessage';
+import Loading from '@/components/widget/Loading';
 class EditDealPage extends Component {
     constructor(props){
         super(props);
         this.additionalFieldsObj = null;
+        this.state = {
+            deal:null,
+            loadingDeal:false,
+            dealNotFoundMessage:null
+        }
     }
     componentDidMount(){
-        Helper.setPageData({
-            pageTitle:'LR 7583 E 59th St 01-23-24',
-            title:'Edit Deal | LR 7583 E 59th St 01-23-24'
+        
+        this.loadDeal()
+    }
+    loadDeal(){
+        let api = Api, that = this;
+        that.setState({
+            deal:null,
+            dealNotFoundMessage:null,
+            loadingDeal:true
+        })
+        api.axios().get('/deal/details/'+this.props.deal_id).then(res=>{
+            console.log(res)
+            if(!res.data.type){
+                that.setState({
+                    deal:null,
+                    dealNotFoundMessage:res.data.message,
+                    loadingDeal:false
+                })
+                Helper.setPageData({
+                    pageTitle:'404!',
+                    title:'404! Error'
+                })
+                
+            }else{
+                that.setState({
+                    deal:res.data.data.deal,
+                    dealNotFoundMessage:null,
+                    loadingDeal:false
+                })
+                Helper.setPageData({
+                    pageTitle:'LR 7583 E 59th St 01-23-24',
+                    title:'Edit Deal | LR 7583 E 59th St 01-23-24'
+                })
+            }
+            
         })
     }
+
     render() {
-        let deal = {deal_id:1525};
-        let property = {property_id:1};
+        if(this.state.loadingDeal){
+            return(
+                <div className='edit_deal_page text-center'>
+                    <Loading/>
+                </div>
+            )
+        }
+        if(!this.state.deal){
+            return(
+                <div className='edit_deal_page'>
+                    <ErrorMessage error={this.state.dealNotFoundMessage} />
+                </div>
+            )
+        }
+        let deal = this.state.deal;
+        let property = deal.property ? deal.property : {};
+        let company = deal.company ? deal.company : {};
         let isDisable = false;
         return (
             <div className='edit_deal_page'>
@@ -32,12 +88,12 @@ class EditDealPage extends Component {
                     <DealStageTopBar deal={deal}/>
                     <div className='row'>
                         <div className='col-xs-12 col-sm-6'>
-                            <DealCompanyDetails deal={deal}/>
+                            <DealCompanyDetails deal_id={deal.deal_id} company={company}/>
                             <BorderBox title="Property Details">
                                 <PropertyDetails />
                             </BorderBox>
                             <BorderBox title="Additional Property Details">
-                                {property.property_id ? <AdditionalFields disable={isDisable} property={property} onReady={obj => { this.additionalFieldsObj = obj }}/> : <Loading/>}
+                                <AdditionalFields disable={isDisable} property={property} onReady={obj => { this.additionalFieldsObj = obj }}/>
                             </BorderBox>
                             <BorderBox title="Lease Details">
                                 <LeaseDetails />
@@ -54,7 +110,7 @@ class EditDealPage extends Component {
                                 <Notes  disable={isDisable} source="deal" integrator={deal.deal_id}/> 
                             </BorderBox>
                             <BorderBox title="Files">
-                                <FileUploader source="deal_files" integrator={deal.deal_id} disable={isDisable} id="upload_files"/>
+                                <FileUploader source="deal" integrator={deal.deal_id} disable={isDisable} id="upload_files"/>
                             </BorderBox>
                             
                         </div>
