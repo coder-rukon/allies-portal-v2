@@ -9,6 +9,7 @@ class ActiveDeals extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            search:"",
             visiableActiveDeals:{
                 br_tr:true,
                 sr_lr:true 
@@ -20,7 +21,9 @@ class ActiveDeals extends Component {
         
     }
     onSearchChangeHandler(event){
-
+        this.setState({
+            search:event.target.value
+        })
     }
     onClickViewButton(pType,event){
         let visiableActiveDeals = this.state.visiableActiveDeals;
@@ -32,7 +35,7 @@ class ActiveDeals extends Component {
     getActiveGrid(gridId,pType,title){
         
         return(
-            <ActiveDealGrid onPropertyClick={ this.props?.onPropertyClick } gridId={gridId} propertyType={pType} title={title}/>
+            <ActiveDealGrid search={this.state.search} onPropertyClick={ this.props?.onPropertyClick } gridId={gridId} propertyType={pType} title={title}/>
         )
     }
     render() { 
@@ -44,7 +47,7 @@ class ActiveDeals extends Component {
                     <div className="topfilter_section">
                         <div className="left_items">
                             <div className="form_s">
-                                <Input name="search" placeholder="Search deals" onChange={ this.onSearchChangeHandler.bind(this) }/>
+                                <Input name="search" value={this.state.search} placeholder="Search deals" onChange={ this.onSearchChangeHandler.bind(this) }/>
                             </div>
                             <div>
                                 <Button label="BR | TR" onClick={this.onClickViewButton.bind(this,'br_tr')} className={!visiableActiveDeals.br_tr ? "bordered" : ''}/>
@@ -59,7 +62,7 @@ class ActiveDeals extends Component {
                     </div>
                     <div className='active_grids'>
                         {visiableActiveDeals.br_tr ? this.getActiveGrid('br_tr_grid','br_tr','BR | TR') : ''}
-                        {visiableActiveDeals.sr_lr ? this.getActiveGrid('sr_lr_grid','br_tr','SR | LR') : ''}
+                        {visiableActiveDeals.sr_lr ? this.getActiveGrid('sr_lr_grid','sr_lr','SR | LR') : ''}
                     </div>
                 </Panel>
             </div>

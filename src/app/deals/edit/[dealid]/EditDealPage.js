@@ -90,7 +90,7 @@ class EditDealPage extends Component {
                         <div className='col-xs-12 col-sm-6'>
                             <DealCompanyDetails deal_id={deal.deal_id} company={company}/>
                             <BorderBox title="Property Details">
-                                <PropertyDetails />
+                                <PropertyDetails property={property} />
                             </BorderBox>
                             <BorderBox title="Additional Property Details">
                                 <AdditionalFields disable={isDisable} property={property} onReady={obj => { this.additionalFieldsObj = obj }}/>

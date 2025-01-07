@@ -25,12 +25,24 @@ class ActiveDealGrid extends Component {
         this.setState({
             isLoading:true
         })
+        let propType = this.props.propertyType;
+
+        let data = {
+            landlord_rep: propType == 'sr_lr' ? 'yes' : 'no',
+            seller_rep: propType == 'sr_lr' ? 'yes' : 'no',
+            tenant_rep: propType == 'br_tr' ? 'yes' : 'no',
+            buyer_rep: propType == 'br_tr' ? 'yes' : 'no'
+        }
+        if(Helper.getNullableValue(this.props.search)){
+            data.search = this.props.search;
+        }
         api.setUserToken();
-        api.axios().get('/property/list?listing_type='+this.props.propertyType).then(res=>{
+        api.axios().post('/deal/active-deals',data).then(res=>{
+            console.log(res)
             that.setState({
                 isLoading:false,
                 apiData:res.data,
-                gridData:[{deal_id:1},{deal_id:2}]
+                gridData:res.data.data.deal.data
             })
         })
     }
@@ -52,7 +64,7 @@ class ActiveDealGrid extends Component {
     getHeaders(){
         let hideHeaderItems = this.state.hideHeaderItems;
         let headers = [
-            {id:'deal_id',title:'#',width:'30px',cellRender:(item) => {  return this.props.onPropertyClick ? <div>{"#"+item.deal_id}</div> : <Link href={'/deal/details/'+item.deal_id}>{"#"+item.deal_id}</Link>  }},
+            {id:'deal_id',title:'#',width:'30px',cellRender:(item) => {  return this.props.onPropertyClick ? <div>{"#"+item.deal_id}</div> : <Link href={'/deals/edit/'+item.deal_id}>{"#"+item.deal_id}</Link>  }},
             //{id:'deal_name',title:'DEAL NAME',width:'100px',cellRender:(item) => {  return this.getAddress(item)  },hide:hideHeaderItems.includes('property_address')},
             {id:'deal_name',title:'DEAL NAME',width:'100px',hide:hideHeaderItems.includes('deal_name')},
             {id:'deal_budget',title:'BUDGET',width:'100px',hide:hideHeaderItems.includes('deal_budget')},

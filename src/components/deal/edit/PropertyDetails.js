@@ -13,6 +13,24 @@ class PropertyDetails extends Component {
             property:{}
         }
     }
+    componentDidMount(){
+        if(this.props.property){
+            this.setState({
+                property:this.props.property
+            })
+        }
+        if(this.props.onReady){
+            this.props.onReady(this)
+        }
+    }
+    getData(){
+        return this.state.property;
+    }
+    setData(property){
+        this.setState({
+            property:property
+        })
+    }
     onPropertyChangeHanlder(event){
         let property = this.state.property;
         this.setState({
@@ -32,7 +50,7 @@ class PropertyDetails extends Component {
         })
     }
     render() {
-        let property = {};
+        let property = this.state.property;
         let isDisable = false;
         let listing_status_options = Settings.listingStatus;
         return (
