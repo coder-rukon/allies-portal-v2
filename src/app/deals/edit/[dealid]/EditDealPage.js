@@ -5,6 +5,8 @@ import BorderBox from '@/components/widget/borderbox';
 import DealCompanyDetails from '@/components/deal/edit/DealCompanyDetails';
 import DealDetails from '@/components/deal/edit/DealDetails';
 import LeaseDetails from '@/components/deal/edit/LeaseDetails';
+import DealPropertyRequirements from '@/components/deal/edit/DealPropertyRequirements';
+import DealTenantCritera from '@/components/deal/edit/DealTenantCritera';
 import PropertyDetails from '@/components/deal/edit/PropertyDetails';
 import Helper from '@/inc/Helper';
 import Notes from '@/components/notes/Notes';
@@ -89,18 +91,14 @@ class EditDealPage extends Component {
                     <div className='row'>
                         <div className='col-xs-12 col-sm-6'>
                             <DealCompanyDetails deal_id={deal.deal_id} company={company}/>
-                            <BorderBox title="Property Details">
-                                <PropertyDetails property={property} />
-                            </BorderBox>
+                            {(deal.is_landlord_rep == 'yes' || deal.is_seller_rep == 'yes'  ) ? <BorderBox title="Property Details"> <PropertyDetails property={property} /></BorderBox> : ''}
+                            {(deal.is_tenant_rep == 'yes' || deal.is_buyer_rep == 'yes'  ) ? <BorderBox title="Property Requirements"> <DealPropertyRequirements property={property} /></BorderBox> : ''}
+                            {(deal.is_tenant_rep == 'yes'  ) ? <BorderBox title="Tenant Critera"> <DealTenantCritera property={property} /></BorderBox> : ''}
                             <BorderBox title="Additional Property Details">
                                 <AdditionalFields disable={isDisable} property={property} onReady={obj => { this.additionalFieldsObj = obj }}/>
                             </BorderBox>
-                            <BorderBox title="Lease Details">
-                                <LeaseDetails />
-                            </BorderBox>
-                            <BorderBox title="Deal Details">
-                                <DealDetails />
-                            </BorderBox>
+                            {deal.is_landlord_rep == 'yes' ? <BorderBox title="Lease Details"> <LeaseDetails /> </BorderBox> : ''}
+                            {(deal.is_landlord_rep == 'yes' || deal.is_seller_rep == 'yes'  ) ? <BorderBox title="Deal Details"> <DealDetails /> </BorderBox> : ''}
                         </div>
                         <div className='col-xs-12 col-sm-6'>
                             <BorderBox title="Activity">

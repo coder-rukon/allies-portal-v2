@@ -1789,4 +1789,11 @@ a.rs_btn {
     .rs_address_search_col .address_search_result .search_result_dp:last-child {
       border-bottom: 0; }
 
+.range_devider span {
+  font-size: 30px;
+  display: block;
+  margin-bottom: 34px;
+  border-top: 2px solid #000;
+  width: 15px; }
+
 /*# sourceMappingURL=globals.css.map */
