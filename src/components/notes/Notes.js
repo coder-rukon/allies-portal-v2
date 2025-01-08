@@ -30,7 +30,6 @@ class Notes extends Component {
         let api = Api, that = this;
         if(api.setUserToken()){
             api.axios().get('/note/all/'+this.state.source+'/'+this.state.integrator+'/1').then(res=>{
-                console.log(res);
                 that.setState({
                     loading:false,
                     notes:res.data.data.notes.data

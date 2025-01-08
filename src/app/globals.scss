@@ -283,8 +283,8 @@ color: #6B7280;
     align-items: center;
     .rs_btn {
         display: block;
-        color: #9CA3AF;
-        background: transparent;
+        color: #9CA3AF !important;
+        background: transparent !important;
         padding: 0;
         cursor: pointer;
         border: 0 none;
@@ -1936,11 +1936,11 @@ a.rs_btn{
         .af_right{}
         .act_delete,
         .frm_cancel{
-            border: 0 none;
-            color: #062C3E;
+            border: 0 none !important;
+            color: #062C3E !important;
             border: 0 none;
             margin-right: 10px;
-            background-color: transparent;
+            background-color: transparent !important;
         }
         .act_delete{
             padding: 0;
@@ -2237,5 +2237,18 @@ a.rs_btn{
         margin-bottom: 34px;
         border-top: 2px solid #000;
         width: 15px;
+    }
+}
+.theme_2{
+    .rs_btn:not(.inactive){
+        background-color: $color2nd;
+        border-color: $color2nd;
+        color: #fff;
+    }
+    .deal_edit_top_bar li:hover,
+    .deal_edit_top_bar li.active{
+        background-color: $color2nd;
+        border-color: $color2nd;
+        color: #fff;
     }
 }

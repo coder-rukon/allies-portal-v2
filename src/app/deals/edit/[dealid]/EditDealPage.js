@@ -64,18 +64,24 @@ class EditDealPage extends Component {
             
         })
     }
-
+    isTrBr(){
+        let deal = this.state.deal;
+        if(deal.is_tenant_rep =='yes' || deal.is_buyer_rep == 'yes'){
+            return true;
+        }
+        return false;
+    }
     render() {
         if(this.state.loadingDeal){
             return(
-                <div className='edit_deal_page text-center'>
+                <div className='edit_deal_page edit_deal_page text-center'>
                     <Loading/>
                 </div>
             )
         }
         if(!this.state.deal){
             return(
-                <div className='edit_deal_page'>
+                <div className='edit_deal_page edit_deal_page'>
                     <ErrorMessage error={this.state.dealNotFoundMessage} />
                 </div>
             )
@@ -85,12 +91,12 @@ class EditDealPage extends Component {
         let company = deal.company ? deal.company : {};
         let isDisable = false;
         return (
-            <div className='edit_deal_page'>
+            <div className={ 'edit_deal_page edit_deal_page' + ( this.isTrBr() ? ' theme_2 ' : '')  }>
                 <Panel>
                     <DealStageTopBar deal={deal}/>
                     <div className='row'>
                         <div className='col-xs-12 col-sm-6'>
-                            <DealCompanyDetails deal_id={deal.deal_id} company={company}/>
+                            <DealCompanyDetails deal={deal} company={company}/>
                             {(deal.is_landlord_rep == 'yes' || deal.is_seller_rep == 'yes'  ) ? <BorderBox title="Property Details"> <PropertyDetails property={property} /></BorderBox> : ''}
                             {(deal.is_tenant_rep == 'yes' || deal.is_buyer_rep == 'yes'  ) ? <BorderBox title="Property Requirements"> <DealPropertyRequirements property={property} /></BorderBox> : ''}
                             {(deal.is_tenant_rep == 'yes'  ) ? <BorderBox title="Tenant Critera"> <DealTenantCritera property={property} /></BorderBox> : ''}

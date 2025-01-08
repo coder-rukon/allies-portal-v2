@@ -254,8 +254,8 @@ p {
   align-items: center; }
   .rs_border_box_wrapper .rbb_titile .rs_btn {
     display: block;
-    color: #9CA3AF;
-    background: transparent;
+    color: #9CA3AF !important;
+    background: transparent !important;
     padding: 0;
     cursor: pointer;
     border: 0 none;
@@ -1553,11 +1553,11 @@ a.rs_btn {
   align-items: center; }
   .activity_form .activity_form_footer .act_delete,
   .activity_form .activity_form_footer .frm_cancel {
-    border: 0 none;
-    color: #062C3E;
+    border: 0 none !important;
+    color: #062C3E !important;
     border: 0 none;
     margin-right: 10px;
-    background-color: transparent; }
+    background-color: transparent !important; }
   .activity_form .activity_form_footer .act_delete {
     padding: 0;
     font-size: 10px; }
@@ -1795,5 +1795,15 @@ a.rs_btn {
   margin-bottom: 34px;
   border-top: 2px solid #000;
   width: 15px; }
+
+.theme_2 .rs_btn:not(.inactive) {
+  background-color: #EA973E;
+  border-color: #EA973E;
+  color: #fff; }
+.theme_2 .deal_edit_top_bar li:hover,
+.theme_2 .deal_edit_top_bar li.active {
+  background-color: #EA973E;
+  border-color: #EA973E;
+  color: #fff; }
 
 /*# sourceMappingURL=globals.css.map */

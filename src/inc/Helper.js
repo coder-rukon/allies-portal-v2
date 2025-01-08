@@ -174,15 +174,18 @@ let Helper = {
     },
     getDealStage(){
         let stage = [
-                {id:'initial_meeting',name:'Initial Meeting'},
-                {id:'initial_meeting',name:'Client Engagement'},
-                {id:'initial_meeting',name:'Marketing in Progress'},
-                {id:'initial_meeting',name:'Proposal/LOI'},
-                {id:'initial_meeting',name:'Purchase & Lease Agreement'},
-                {id:'initial_meeting',name:'Completed'},
+                {sn:1,id:'initial_meeting',name:'Initial Meeting'},
+                {sn:2,id:'client_engagement',name:'Client Engagement'},
+                {sn:3,id:'marketing_in_progress',name:'Marketing in Progress'},
+                {sn:4,id:'proposal_loi',name:'Proposal/LOI'},
+                {sn:5,id:'purchase_lease_agreement',name:'Purchase & Lease Agreement'},
+                {sn:6,id:'completed',name:'Completed'},
         ]
-        return stage;
-    },    
+        return stage.sort((a, b) => a.sn - b.sn);;
+    },
+    getDealStageById(id){
+        return this.getDealStage().find(stageItem => stageItem.id === id);
+    },
     prospectSource(){
         let soures = Settings.getCompanySource()
         return soures;
