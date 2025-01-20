@@ -20,6 +20,8 @@ import { connect } from "react-redux";
 import CompanySecurityRoles from '@/inc/CompanySecurityRoles';
 import FollowUpReminder from '@/components/FollowUpReminder/FollowUpReminder';
 import ActivityList from "@/components/activity/ActivityList";
+import ConfirmPopup from "@/components/widget/ConfirmPopup";
+import { redirect } from 'next/navigation';
 class CompanyDetails  extends Component{
     constructor(props){
         super(props);
@@ -31,7 +33,10 @@ class CompanyDetails  extends Component{
             isSubindustryLoading:false,
             industryList:[],
             subindustryList:[],
-            errorMessage:null
+            errorMessage:null,
+            showDeletePopup:false,
+            isDeleting:false,
+            redirectTo:null,
         }
         this.addressComponent = null;
         this.contactComponent = null;
@@ -188,8 +193,57 @@ class CompanyDetails  extends Component{
         });
         return options;
     }
-    
+    canDeleteCompany(){
+        //let isDisable = !this.state.editMode;
+        let srObj = new CompanySecurityRoles(this.props.companyAccess);
+        let company = this.state.company;
+        if(!srObj.canEditCompany(company.company_id)){
+            return false;
+        }
+        return true;
+    }
+    onDeleteHanlder(){
+        
+        let company = this.state.company;
+        this.setState({
+            isDeleting:true
+        })
+        let api = Api, that = this;
+        if(api.setUserToken()){
+            api.axios().post('/company/delete',{company_id:company.company_id}).then(res => {
+                if(!res.data.type){
+                    Helper.alert(res.data.message,{
+                        className:'error'
+                    })
+                    that.setState({
+                        isDeleting:false,
+                        redirectTo:null,
+                        showDeletePopup:false
+                    }) 
+                }else{
+                    Helper.alert(res.data.message,{
+                        className:'success'
+                    })
+                    that.setState({
+                        isDeleting:false,
+                        redirectTo:'/company',
+                        showDeletePopup:false
+                    }) 
+                }
+               
+            })
+        }
+    }    
+    onDeleteClickHanlder(){
+        
+        this.setState({
+            showDeletePopup:true
+        })
+    }
     render() {
+        if(this.state.redirectTo){
+            redirect(this.state.redirectTo)
+        }
         let isDisable = !this.state.editMode;
         let editMode = this.state.editMode;
         if(this.state.isLoading){
@@ -203,9 +257,12 @@ class CompanyDetails  extends Component{
         return(
             <Panel className=" input_box_margin_fix">
                     <Meta title={company?.name}/>
+                    {
+                        this.state.showDeletePopup ? <ConfirmPopup isLoading={this.state.isDeleting} onYes={this.onDeleteHanlder.bind(this)} confirm_title={this.state.isDeleting ? 'Deleting the company. Please wait.' : "Do you want to delete?"} onClose={ () => { this.setState({showDeletePopup:false})} }/>: ''
+                    }
                     <div className="pannel_header">
                         <div></div>
-                        <div>
+                        <div className="d-flex gap-2">
                             {
                                 editMode ? 
                                 <Button onClick={ this.onSaveClick.bind(this) }  className="md" beforeIcon="save" label= {"Save"}/>
@@ -213,6 +270,9 @@ class CompanyDetails  extends Component{
                                 <Button disable={!srObj.canEditCompany(company.company_id)} onClick={ this.onEditIconClick.bind(this) } className="md" beforeIcon="border_color" label= {"Edit"}/>
 
                             }
+                            
+                            <Button className="md" onClick={this.onDeleteClickHanlder.bind(this)} beforeIcon="delete" label="Delete company" disable={!this.canDeleteCompany()} />
+                            
                         </div>
                     </div>
                     <div className="row">
@@ -245,7 +305,7 @@ class CompanyDetails  extends Component{
                                {company.company_id ? <Notes  disable={isDisable} source="company" integrator={company.company_id}/> : '' } 
                             </BorderBox>
                             <div className="mt-3"></div>
-                            {isDisable ? '' : <Button label="Save Company" onClick={ this.onSaveClick.bind(this) } /> }
+                            
                         </div>
                         <div className="col-xs-12 col-sm-6">
                             {company.company_id ? <ActivityList disable={isDisable} integrator={company.company_id} source="company"/> : '' }
@@ -270,6 +330,11 @@ class CompanyDetails  extends Component{
                                 </div>
                             </BorderBox>
                         </div>
+                    </div>
+
+                    <div className=" d-flex mt-3 gap-2 justify-content-between company_details_footer">
+                        {isDisable ? <div></div> : <Button label="Save Company" onClick={ this.onSaveClick.bind(this) } /> }
+                        
                     </div>
                     
                 </Panel>

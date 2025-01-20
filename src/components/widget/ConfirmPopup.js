@@ -27,9 +27,10 @@ class ConfirmPopup extends Component {
                     <h2>{this.props.confirm_title}</h2>
                     
                     <div className='d-flex mt-5 justify-content-between gap-2'>
-                        <Button  className="bordered" label="Yes" onClick = {this.onYesHanlder.bind(this)} />
-                        {this.props.isLoading ? <Loading/> : ''}
-                        <Button className="bordered" label="No" onClick = {this.onCancelHanlder.bind(this)} />
+                        {this.props.isLoading ? '' : <Button  className="bordered" label="Yes" onClick = {this.onYesHanlder.bind(this)} /> }
+                        {this.props.isLoading ? <div style={{width:'100%',textAlign:'center'}}><Loading/></div>  : ''}
+                        {this.props.isLoading ? '' : <Button className="bordered" label="No" onClick = {this.onCancelHanlder.bind(this)} /> }
+                        
                     </div>
                 </div>
             </Popup>
