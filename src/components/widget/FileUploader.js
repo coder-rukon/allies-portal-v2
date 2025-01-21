@@ -17,11 +17,14 @@ class FileUploader extends Component {
     }
   
     componentDidMount(){
-        this.initForSourceAndIntegrator();
-        this.initForExportable();
-        if(this.props.onReady){
-            this.props.onReady(this)
+        if (typeof document !== 'undefined') {
+            this.initForSourceAndIntegrator();
+            this.initForExportable();
+            if(this.props.onReady){
+                this.props.onReady(this)
+            }
         }
+        
     }
     initForExportable(){
         if(!this.props.exportable ){
