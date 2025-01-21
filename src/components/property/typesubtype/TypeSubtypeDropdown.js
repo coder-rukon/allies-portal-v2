@@ -1,5 +1,4 @@
 import Checkbox from '@/components/forms/checkbox';
-import InputRadio from '@/components/forms/inputradio';
 import Api from '@/inc/Api';
 import Helper from '@/inc/Helper';
 import React, { Component } from 'react';
@@ -16,12 +15,25 @@ class TypeSubtypeDropdown extends Component {
             allSubtypes:[],
             selectedSubtypes:[]
         }
+        this.id = "type_subtype_dp_section";
     }
     componentDidMount(){
         this.loadSubtypes();
         if(this.props.onReady){
             this.props.onReady(this)
         }
+        if(typeof document !== 'undefined'){
+            const tsSectionCanvas = document.getElementById(this.id);
+            let that = this;
+            document.addEventListener('click', (event) => {
+                if (!tsSectionCanvas.contains(event.target) && !$(event.target).hasClass('form-check-input') && !$(event.target).hasClass('form-check-label')) {
+                    that.setState({
+                        showDropdown: false
+                    })
+                }
+            });
+        }
+        
     }
     getData(){
         return this.state.selectedSubtypes;
@@ -157,7 +169,7 @@ class TypeSubtypeDropdown extends Component {
     render() {
         let selectedSubtypes = this.state.selectedSubtypes;
         return (
-            <div className={this.props.disable ? 'type_subtype_dropdown_section disable' : 'type_subtype_dropdown_section'}>
+            <div id={this.id} className={this.props.disable ? 'type_subtype_dropdown_section disable' : 'type_subtype_dropdown_section'}>
                 <label className='controller_title'>{this.props.label ? this.props.label : 'Property Type/Subtype'}</label>
                 <div className='selector_box' >
                     <div className='selector_input' onClick={ () => { this.onToggleControllerClickHandler() } }>
