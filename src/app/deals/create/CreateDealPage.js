@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import Panel from "@/components/widget/panel";
 import Helper from "@/inc/Helper";
-import UploadClientEngagementLetter from '@/components/deal/UploadClientEngagementLetter';
 import DealCreateCompayForm from '@/components/deal/create/DealCreateCompayForm';
 import CreateDealInit from '../../../components/deal/create/CreateDealInit';
 import Address from '@/components/address/Address';
