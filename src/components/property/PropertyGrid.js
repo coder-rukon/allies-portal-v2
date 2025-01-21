@@ -6,6 +6,8 @@ import Api from "@/inc/Api";
 import Loading from "../widget/Loading";
 import Helper from "@/inc/Helper";
 import Link from "next/link";
+import { connect } from 'react-redux';
+import ActionsTypes from "@/inc/ActionTypes";
 class PropertyGrid extends Component {
     constructor(props) {
         super(props);
@@ -19,6 +21,32 @@ class PropertyGrid extends Component {
     }
     componentDidMount(){
         this.loadData();
+        this.loadCountry();
+        this.loadState();
+    }
+    loadCountry(){
+        if(this.props.locations.countryLoaded){
+            return true;
+        }
+        let api = Api;
+        let that = this;
+        if(api.setUserToken()){
+            api.axios().get('/location/country').then(res =>{
+                that.props.setCountry(res.data)
+            })
+        }
+    }
+    loadState(){
+        if(this.props.locations.stateLoaded){
+            return true;
+        }
+        let api = Api;
+        let that = this;
+        if(api.setUserToken()){
+            api.axios().get('/location/state').then(res =>{
+                that.props.setState(res.data)
+            })
+        }
     }
     loadData(){
         let api = Api, that = this;
@@ -35,14 +63,21 @@ class PropertyGrid extends Component {
         })
     }
     getAddress(property){
+        
         let address = '';
         if(property.address){
+            let state = this.props.locations.state.find( (state) => {  return state.id == property.address.address_state });
+            let country = this.props.locations.country.find( (country) => {  return country.id == property.address.address_country });
             address += ( property.address.address_line_1 && Helper.getNullableValue(property.address.address_line_1) ) ? property.address.address_line_1 + ', ' : '';
             address += ( property.address.address_line_2 && Helper.getNullableValue(property.address.address_line_2) ) ? property.address.address_line_2 + ', ' : '';
             address += ( property.address.address_city && Helper.getNullableValue(property.address.address_city) ) ? property.address.address_city + ', ' : '';
-            address += ( property.address.address_state && Helper.getNullableValue(property.address.address_state) ) ? property.address.address_state + ', ' : '';
-            address += ( property.address.address_country && Helper.getNullableValue(property.address.address_country) ) ? property.address.address_country + ', ' : '';
+            address += (  Helper.getNullableValue(state?.name) ) ? state?.name + ', ' : '';
+            //address += (  Helper.getNullableValue(country?.name) ) ? country?.name + ', ' : '';
+            //address += ( property.address.address_country && Helper.getNullableValue(property.address.address_country) ) ? property.address.address_country + ', ' : '';
             address += ( property.address.address_zipcode && Helper.getNullableValue(property.address.address_zipcode) ) ? property.address.address_zipcode : '';
+        }
+        if(!Helper.getNullableValue(address)){
+            address = 'No Address';
         }
         if(this.props.onPropertyClick){
             return <div>{address}</div>
@@ -52,7 +87,8 @@ class PropertyGrid extends Component {
     getHeaders(){
         let hideHeaderItems = this.state.hideHeaderItems;
         let headers = [
-            {id:'property_id',title:'#',width:'30px',cellRender:(item) => {  return this.props.onPropertyClick ? <div>{"#"+item.property_id}</div> : <Link href={'/property/edit/'+item.property_id}>{"#"+item.property_id}</Link>  }},
+            //{id:'property_id',title:'#',width:'30px',cellRender:(item) => {  return this.props.onPropertyClick ? <div>{"#"+item.property_id}</div> : <Link href={'/property/edit/'+item.property_id}>{"#"+item.property_id}</Link>  }},
+            //{id:'type_subtype',title:'Type/Subtype',width:'30px',cellRender:(item) => {  return this.props.onPropertyClick ? <div>{"#"+item.property_id}</div> : <Link href={'/property/edit/'+item.property_id}>{"#"+item.property_id}</Link>  }},
             {id:'property_address',title:'PROPERTY ADDRESS',width:'100px',cellRender:(item) => {  return this.getAddress(item)  },hide:hideHeaderItems.includes('property_address')},
             {id:'property_size',title:'SIZE',width:'100px',hide:hideHeaderItems.includes('property_size')},
             {id:'property_acres',title:'ACRES',width:'100px',hide:hideHeaderItems.includes('property_acres')},
@@ -87,6 +123,7 @@ class PropertyGrid extends Component {
         let gridData = this.state.gridData;
         let gridheader = this.getHeaders();
         let hideHeaderItems = this.state.hideHeaderItems;
+        console.log(this.props.locations)
         return ( 
             <div className="property_grid_section">
                 <div className="pg_header">
@@ -111,5 +148,11 @@ class PropertyGrid extends Component {
          );
     }
 }
- 
-export default PropertyGrid;
+const mapStateToProps = (state) => ({
+    locations: state.locations,
+});
+const mapDispatchToProps = (dispatch) => ({
+    setCountry: (data) => dispatch({type: ActionsTypes.SET_LOCATION_COUNTRY,data:data}),
+    setState: (data) => dispatch({type:ActionsTypes.SET_LOCATION_STATE,data:data}),
+});
+export default connect(mapStateToProps,mapDispatchToProps) (PropertyGrid);

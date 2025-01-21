@@ -8,14 +8,14 @@ class AdditionalFields extends Component {
         super(props);
         this.state = {
             propertyDb:{},
-            activeAdditionalType:'industrial'
+            activeAdditionalType:[]
         }
     }
     componentDidMount(){
         if(this.props.property){
             this.setState({
                 propertyDb:this.props.property,
-                activeAdditionalType:this.props.property?.property_additional_type
+                activeAdditionalType: this.props.property.property_additional_type ? [this.props.property.property_additional_type] : []
             })
         }
         if(this.props.onReady){
@@ -26,7 +26,7 @@ class AdditionalFields extends Component {
         return Helper.getAdditionalType();
     }
     getData(){
-        let fields = this.getPropertyAdditionalFields(this.state.activeAdditionalType);
+        let fields = this.getPropertyAdditionalFields();
         const outputData = fields.reduce((acc, obj) => {
             acc[obj.name] =  typeof obj.value === 'undefined' ? null : obj.value;
             if(obj.options && obj.type == 'text'){
@@ -36,7 +36,7 @@ class AdditionalFields extends Component {
           }, {});
         return outputData;
     }
-    getPropertyAdditionalFields(additional_type_slug){
+    getPropertyAdditionalFields(additional_type_slug = null){
         let propertyObj = this.state.propertyDb;
         let fileds = {
             //property_acres:{type:'text',name:'property_acres',label:"Acres",value:propertyObj.property_acres},
@@ -64,6 +64,12 @@ class AdditionalFields extends Component {
             property_retail_type:{type:'text',name:'property_retail_type',label:"Retail Type",value:propertyObj.property_retail_type},
             property_available_utilities:{type:'text',name:'property_available_utilities',label:"Available Utilities",value:propertyObj.property_available_utilities},
             property_traffic_count:{type:'text',name:'property_traffic_count',label:"Traffic Count",value:propertyObj.property_traffic_count}
+        }
+        if(additional_type_slug == null){
+            let output = Object.keys(fileds).map( item => {
+                return fileds[item]
+            })
+            return output;
         }
         let needFields = [];
         if(additional_type_slug == 'industrial'){
@@ -137,16 +143,27 @@ class AdditionalFields extends Component {
             </div>
         )
     }
+    onTabHeaderClied(slug){
+        let activeAdditionalType = this.state.activeAdditionalType;
+        if(activeAdditionalType.includes(slug)){
+            activeAdditionalType = activeAdditionalType.filter( item => item != slug);
+        }else{
+            activeAdditionalType.push(slug);
+        }
+        this.setState({
+            activeAdditionalType:activeAdditionalType
+        })
+    }
     render(){
         let isDisable = this.props.disable == true ? true : false;
         return(
             <div className="property_accordian">
                 {
                     this.getAdditionalType().map( (propertyAdditionalType,key) => {
-                        let isActiveType = this.state.activeAdditionalType == propertyAdditionalType.slug ? true : false;
+                        let isActiveType = this.state.activeAdditionalType.includes(propertyAdditionalType.slug);
                         return(
                             <div className="property_accordian_item" key={key}>
-                                <div className="pa_header" onClick={ e => { this.setState({activeAdditionalType:propertyAdditionalType.slug})}}>
+                                <div className="pa_header" onClick={ e => { this.onTabHeaderClied(propertyAdditionalType.slug)}}>
                                     <div>{propertyAdditionalType.name}</div>
                                     <div>
                                         <img src={isActiveType ? "/images/icons/minus.svg" :  "/images/icons/plus.svg"} />

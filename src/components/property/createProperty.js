@@ -110,7 +110,6 @@ class CreatePropertyForm extends Component {
             addtionalFieldData = this.additionalFieldsObj.getData();
             data.property_additional_type = this.additionalFieldsObj.state.activeAdditionalType;
         }
-
         data = {
             ...data,
             ...addtionalFieldData,
