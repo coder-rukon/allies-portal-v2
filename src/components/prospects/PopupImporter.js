@@ -77,7 +77,7 @@ class PopupImporter extends Component {
         return (
             <div className='prospects_import_popup_inner'>
                 <h4 className='popup_title'>Import Prospects</h4>
-                {typeof document !== 'undefined' ? <FileUploader onReady = { obj => { this.fileUploader = obj } } id="prospects_upload" exportable={true} isSingle={true} maxFileSize={10} extFilter={['csv', 'xlsx', 'xls']} border={true}/> : '' }
+                <FileUploader onReady = { obj => { this.fileUploader = obj } } id="prospects_upload" exportable={true} isSingle={true} maxFileSize={10} extFilter={['csv', 'xlsx', 'xls']} border={true}/>
                 <div className='row'>
                     <div className='col-xs-12 col-sm-6'>
                         <Dropdown onChange={this.onDropdownChangeHandler.bind(this)} options={ProspectSource} label="Prospect Source *" name="prospect_source" />
