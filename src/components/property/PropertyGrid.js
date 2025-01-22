@@ -23,6 +23,14 @@ class PropertyGrid extends Component {
         this.loadData();
         this.loadCountry();
         this.loadState();
+        if(this.props.onReady){
+            this.props.onReady(this);
+        }
+    }
+    componentWillReceiveProps(nextProps){
+        if(nextProps.search != this.props.search){
+            this.loadData(nextProps.search);
+        }
     }
     loadCountry(){
         if(this.props.locations.countryLoaded){
@@ -48,13 +56,17 @@ class PropertyGrid extends Component {
             })
         }
     }
-    loadData(){
+    loadData(search=null){
         let api = Api, that = this;
         this.setState({
             isLoading:true
         })
         api.setUserToken();
-        api.axios().get('/property/list?listing_type='+this.props.propertyType).then(res=>{
+        let url = '/property/list?listing_type='+this.props.propertyType;
+        if(search){ 
+            url += '&search='+search 
+        }
+        api.axios().get(url).then(res=>{
             that.setState({
                 isLoading:false,
                 apiData:res.data,
@@ -123,7 +135,6 @@ class PropertyGrid extends Component {
         let gridData = this.state.gridData;
         let gridheader = this.getHeaders();
         let hideHeaderItems = this.state.hideHeaderItems;
-        console.log(this.props.locations)
         return ( 
             <div className="property_grid_section">
                 <div className="pg_header">

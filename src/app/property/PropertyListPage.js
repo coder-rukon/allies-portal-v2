@@ -10,6 +10,7 @@ class PropertyListPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            search:null,
             visiablePropertyType:{
                 office:true,
                 industrial:true,   
@@ -17,6 +18,7 @@ class PropertyListPage extends Component {
                 land:false,   
             }
         }
+        this.searchTimeOut = null;
     }
     componentDidMount(){
         if(!this.props.exportable){
@@ -25,7 +27,14 @@ class PropertyListPage extends Component {
         
     }
     onSearchChangeHandler(event){
-
+        clearTimeout(this.searchTimeOut);
+        let that = this;
+        this.searchTimeOut = setTimeout(()=>{
+            that.setState({
+                search:event.target.value
+            });
+        },500);
+        
     }
     propertyTypeButtonClickHandler(pType,event){
         let visiablePropertyType = this.state.visiablePropertyType;
@@ -37,7 +46,7 @@ class PropertyListPage extends Component {
     getPropertyGrid(gridId,pType,title){
         
         return(
-            <PropertyGrid onPropertyClick={ this.props?.onPropertyClick } gridId={gridId} propertyType={pType} title={title}/>
+            <PropertyGrid search={this.state.search} onPropertyClick={ this.props?.onPropertyClick } gridId={gridId} propertyType={pType} title={title}/>
         )
     }
     render() { 
