@@ -72,6 +72,9 @@ class PropertyListPage extends Component {
                             <div>
                                 <Button label="Land"  onClick={this.propertyTypeButtonClickHandler.bind(this,'land')} className={!visiablePropertyType.land ? "bordered" : ''}/>
                             </div>
+                            <div>
+                                <Button label="Others"  onClick={this.propertyTypeButtonClickHandler.bind(this,'others')} className={!visiablePropertyType.others ? "bordered" : ''}/>
+                            </div>
                         </div>
                         <div className="right_items">
                             {this.props.onPropertyClick ? "" : <Button href="/property/create" label="+ Add property"/> }
@@ -81,6 +84,7 @@ class PropertyListPage extends Component {
                     {visiablePropertyType.office ? this.getPropertyGrid('office_grid','office','Office') : ''}
                     {visiablePropertyType.retail ? this.getPropertyGrid('retail_grid','retail','Retail') : ''}
                     {visiablePropertyType.land ? this.getPropertyGrid('land_grid','land','Land') : ''}
+                    {visiablePropertyType.others ? this.getPropertyGrid('others_grid','others','Others') : ''}
                 </Panel>
             </div>
         );

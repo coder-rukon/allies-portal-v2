@@ -27,6 +27,7 @@ class AdditionalFields extends Component {
     }
     getData(){
         let fields = this.getPropertyAdditionalFields();
+        console.log('fields',fields)
         const outputData = fields.reduce((acc, obj) => {
             acc[obj.name] =  typeof obj.value === 'undefined' ? null : obj.value;
             if(obj.options && obj.type == 'text'){
@@ -44,7 +45,7 @@ class AdditionalFields extends Component {
             property_private_offices:{type:'text',name:'property_private_offices',label:"# of Private Offices",value:propertyObj.property_private_offices},
             property_bathrooms:{type:'text',name:'property_bathrooms',label:"# Of Bathrooms",value:propertyObj.property_bathrooms},
             property_parking_ratio:{type:'text',name:'property_parking_ratio',label:"Parking Ratio",value:propertyObj.property_parking_ratio},
-            property_of_suites:{type:'text',name:'property_of_suites',label:"# of Suites",value:propertyObj.property_of_suites},
+            property_suites:{type:'text',name:'property_suites',label:"# of Suites",value:propertyObj.property_suites},
             
             property_dock_doors:{type:'text',name:'property_dock_doors',label:"# of Dock Doors",value:propertyObj.property_dock_doors},
             property_drive_in_doors:{type:'text',name:'property_drive_in_doors',label:"# of Drive-In Doors",value:propertyObj.property_drive_in_doors},
@@ -52,7 +53,7 @@ class AdditionalFields extends Component {
             property_clear_height:{type:'text',name:'property_clear_height',label:"Clear Height",value:propertyObj.property_clear_height},
             property_year_built:{type:'text',name:'property_year_built',label:"Year Built",value:propertyObj.property_year_built},
             property_year_renovated:{type:'text',name:'property_year_renovated',label:"Year Renovated",value:propertyObj.property_year_renovated},
-            property_total_parking_spaces:{type:'text',name:'property_total_parking_spaces',label:"Total Parking Spaces",value:propertyObj.property_total_parking_spaces},
+            property_t_parking_spaces:{type:'text',name:'property_t_parking_spaces',label:"Total Parking Spaces",value:propertyObj.property_t_parking_spaces},
             property_power:{type:'text',name:'property_power',label:"Power",value:propertyObj.property_power},
             property_office_available:{type:'text',name:'property_office_available',label:"Office Available",value:propertyObj.property_office_available,dropdownValue:propertyObj.property_office_available_unit,options:[{label:'SF',value:'sf',name:'property_office_available_unit',onChange:this.onChangeHanlder.bind(this)},{label:'%',value:'%',name:'property_office_available_unit',onChange:this.onChangeHanlder.bind(this)}]},
             
@@ -73,7 +74,7 @@ class AdditionalFields extends Component {
         }
         let needFields = [];
         if(additional_type_slug == 'industrial'){
-            needFields = ['property_dock_doors','property_drive_in_doors','property_class','property_clear_height','property_year_built','property_year_renovated','property_total_parking_spaces','property_power','property_office_available'];
+            needFields = ['property_dock_doors','property_drive_in_doors','property_class','property_clear_height','property_year_built','property_year_renovated','property_t_parking_spaces','property_power','property_office_available'];
             if(fileds.property_submarket){
                 fileds.property_submarket.options = [
                     {value:'CBD',label:'CBD'},
@@ -89,7 +90,7 @@ class AdditionalFields extends Component {
             }
             
         }else if(additional_type_slug == 'office'){
-            needFields = ['property_private_offices','property_bathrooms','property_of_suites','property_class','property_min_space','property_max_contiguous_space','property_year_built','property_year_renovated'];
+            needFields = ['property_private_offices','property_bathrooms','property_suites','property_class','property_min_space','property_max_contiguous_space','property_year_built','property_year_renovated'];
             if(fileds.property_submarket){
                 fileds.property_submarket.options = [
                     {value:'CBD',label:'CBD'},
@@ -170,9 +171,7 @@ class AdditionalFields extends Component {
                                     </div>
                                     
                                 </div>
-                                {
-                                    isActiveType? <div className="pa_contents"> {this.displayAditionalFields(propertyAdditionalType.slug, isDisable)} </div> : ''
-                                }
+                                <div className="pa_contents" style={{display: isActiveType ? 'block' : "none"}} > {this.displayAditionalFields(propertyAdditionalType.slug, isDisable)} </div>
                                 
                             </div>
                         )
