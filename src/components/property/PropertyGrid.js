@@ -27,7 +27,7 @@ class PropertyGrid extends Component {
             this.props.onReady(this);
         }
     }
-    componentWillReceiveProps(nextProps){
+    UNSAFE_componentWillReceiveProps(nextProps){
         if(nextProps.search != this.props.search){
             this.loadData(nextProps.search);
         }
