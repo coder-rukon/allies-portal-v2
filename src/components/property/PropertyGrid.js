@@ -102,15 +102,13 @@ class PropertyGrid extends Component {
             //{id:'property_id',title:'#',width:'30px',cellRender:(item) => {  return this.props.onPropertyClick ? <div>{"#"+item.property_id}</div> : <Link href={'/property/edit/'+item.property_id}>{"#"+item.property_id}</Link>  }},
             //{id:'type_subtype',title:'Type/Subtype',width:'30px',cellRender:(item) => {  return this.props.onPropertyClick ? <div>{"#"+item.property_id}</div> : <Link href={'/property/edit/'+item.property_id}>{"#"+item.property_id}</Link>  }},
             {id:'property_address',title:'PROPERTY ADDRESS',width:'100px',cellRender:(item) => {  return this.getAddress(item)  },hide:hideHeaderItems.includes('property_address')},
-            {id:'property_size',title:'SIZE',width:'100px',hide:hideHeaderItems.includes('property_size')},
-            {id:'property_acres',title:'ACRES',width:'100px',hide:hideHeaderItems.includes('property_acres')},
-            {id:'property_dock_doors',title:'DOCK DOORS',width:'100px',hide:hideHeaderItems.includes('property_dock_doors')},
-            {id:'property_drive_in_doors',title:'DRIVE-IN',width:'100px',hide:hideHeaderItems.includes('property_drive_in')},
-            {id:'property_clear_height',title:'CLEAR HEIGHT',width:'100px',hide:hideHeaderItems.includes('property_clear_height')},
-            {id:'property_year_built',title:'YEAR BUILT',width:'100px',hide:hideHeaderItems.includes('property_year_built')},
-            {id:'property_price',title:'VALUE',width:'100px',hide:hideHeaderItems.includes('property_price')},
-            {id:'property_lease_rate',title:'LEASE RATE',width:'100px',hide:hideHeaderItems.includes('property_lease_rate')}
+            
         ];
+        headers = headers.concat(this.props.header);
+        headers = headers.map( item => {
+            item.hide = hideHeaderItems.includes(item.id);
+            return item;
+        })
         return headers;
     }
     onFilterHeaderClickHandler(hItem,event){
