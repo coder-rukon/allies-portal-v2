@@ -9,6 +9,7 @@ import React, { Component } from 'react';
 import BorderBox from '../widget/borderbox';
 import { connect } from 'react-redux';
 import { redirect } from 'next/navigation';
+import Helper from '@/inc/Helper';
 class EditBroker extends Component {
     constructor(props){
         super(props);
@@ -93,6 +94,7 @@ class EditBroker extends Component {
                         isDisable:true,
                         redirectTo:'/broker'
                     })
+                    Helper.alert(res.data.message,{className:'success'});
                 }else{
                     that.setState({
                         loading:false,
@@ -100,6 +102,7 @@ class EditBroker extends Component {
                         errors:res.data.errors,
                         message:res.data.message
                     })
+                    Helper.alert(res.data.message,{className:'error'});
                 }
                 
             }).catch(error=>{
@@ -139,12 +142,12 @@ class EditBroker extends Component {
                 <div className="pannel_header">
                     <div></div>
                     <div>
-                        <Button className="danger md mr-2"  disable={user.id != broker.broker_created_by} onClick={ this.deleteHandler.bind(this) } icon="delete"/>
+                        <Button className="danger md mr-2"  onClick={ this.deleteHandler.bind(this) } icon="delete"/>
                         {
                             !isDisable ? 
                             <Button onClick={ this.onSaveHandler.bind(this) }  className="md" beforeIcon="save" label= {"Save"}/>
                             :
-                            <Button disable={user.id != broker.broker_created_by} onClick={ this.onEditIconClick.bind(this) } className="md" beforeIcon="border_color" label= {"Edit"}/>
+                            <Button  onClick={ this.onEditIconClick.bind(this) } className="md" beforeIcon="border_color" label= {"Edit"}/>
 
                         }
                     </div>
