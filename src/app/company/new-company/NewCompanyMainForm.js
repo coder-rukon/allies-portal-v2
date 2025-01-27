@@ -18,6 +18,8 @@ import TeamAccessExportable from '@/components/company/teamaccess/exportable/Tea
 import DisplayErrors from '@/components/widget/DisplayErrors';
 import $ from 'jquery';
 import NewActivityForm from "@/components/activity/NewActivityForm";
+import FooterSticky from "@/components/widget/FooterSticky";
+import ShareAccessBtn from "@/components/ShareAccess/ShareAccessBtn";
 class NewCompanyMainForm extends Component {
     constructor(props){
         super(props);
@@ -213,9 +215,7 @@ class NewCompanyMainForm extends Component {
                         <BorderBox title="Notes">
                             <Input name="company_note" label="Notes" value={company.company_note} onChange={this.onCompanyChangeHandler.bind(this)}  type="textarea"/>
                         </BorderBox>
-                        <div className="mt-3 mb-1">{isSaving ? <Loading/> : ''}</div>
-                        <DisplayErrors errors={this.state.errors} />
-                        <Button label="Create Company" onClick={this.onCreateButtonClick.bind(this)}/>
+                        
 
                         
                     </div>
@@ -245,7 +245,22 @@ class NewCompanyMainForm extends Component {
                         </BorderBox>
                     </div>
                 </div>
-                
+                <FooterSticky>
+                    <div className="">{isSaving ? <Loading/> : ''}</div>
+                    <DisplayErrors errors={this.state.errors} />
+                    <div className="d-flex justify-content-between gap-3">
+                        <div>
+                            <ShareAccessBtn/>
+                        </div>
+                        <div>
+                            <Button className="no_bg" label="Cancel" href="/company" />
+                            <Button label="Create Company" onClick={this.onCreateButtonClick.bind(this)}/>
+                        </div>
+
+                    </div>
+                    
+                    
+                </FooterSticky>
             </Panel>
         );
     }
