@@ -1840,5 +1840,47 @@ a.rs_btn {
   border-radius: 4px;
   gap: 20px;
   justify-content: space-between; }
+  .share_access_wrapper .share_access_sidebar .search_results .sr_item {
+    gap: 10px; }
+    .share_access_wrapper .share_access_sidebar .search_results .sr_item .sr_image {
+      display: block;
+      width: 40px;
+      height: 40px;
+      background-position: center center;
+      border: 1px solid #cccccc3b;
+      border-radius: 50%;
+      margin-right: 10px; }
+    .share_access_wrapper .share_access_sidebar .search_results .sr_item .sr_name {
+      display: block;
+      font-size: 14px;
+      font-weight: 400; }
+    .share_access_wrapper .share_access_sidebar .search_results .sr_item .pls_icon {
+      background: #D1D5DB;
+      color: #fff;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all .5s; }
+    .share_access_wrapper .share_access_sidebar .search_results .sr_item .pls_icon:hover {
+      background-color: #000; }
+  .share_access_wrapper .share_access_sidebar .search_results .sr_item + .sr_item {
+    border-top: 1px solid #F3F4F6;
+    margin-top: 10px;
+    padding-top: 10px; }
+  .share_access_wrapper .share_access_sidebar .access_list_area .rs_form_group,
+  .share_access_wrapper .share_access_sidebar .access_list_area .form-check {
+    margin: 0; }
+  .share_access_wrapper .share_access_sidebar .access_list_area .actions {
+    width: 120px; }
+.share_access_wrapper .remove_items {
+  font-weight: 400;
+  font-size: 14px;
+  color: #000;
+  cursor: pointer;
+  overflow: hidden; }
+  .share_access_wrapper .remove_items span {
+    font-size: 17px;
+    float: left;
+    margin-right: 5px; }
 
 /*# sourceMappingURL=globals.css.map */

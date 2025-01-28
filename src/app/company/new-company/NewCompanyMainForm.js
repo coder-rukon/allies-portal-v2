@@ -14,12 +14,12 @@ import { redirect } from 'next/navigation';
 import Address from "@/components/address/Address";
 import Settings from "@/inc/Settings";
 import NewCompanyLinkProperty from '@/components/company/new/property/NewCompanyLinkProperty';
-import TeamAccessExportable from '@/components/company/teamaccess/exportable/TeamAccessExportable';
 import DisplayErrors from '@/components/widget/DisplayErrors';
 import $ from 'jquery';
 import NewActivityForm from "@/components/activity/NewActivityForm";
 import FooterSticky from "@/components/widget/FooterSticky";
 import ShareAccessBtn from "@/components/ShareAccess/ShareAccessBtn";
+import Helper from "@/inc/Helper";
 class NewCompanyMainForm extends Component {
     constructor(props){
         super(props);
@@ -87,12 +87,27 @@ class NewCompanyMainForm extends Component {
         if(this.state.isSaving){
             return;
         }
+        let teamAccessData = this.teamAccessComponent.getData();
+        if(teamAccessData.length >= 1){
+            let isError = false;
+            teamAccessData.forEach(item => {
+                if((!item.role_id)){
+                    Helper.alert('Please select role for all team members',{className:'error'});
+                    isError = true;
+                }
+            })
+            if(isError){
+                this.teamAccessComponent.sidebarObj.showSidebar();
+                return;
+            }
+        }
         let api = Api,that = this;
         //Helper.setCookie('allies_token','7|ed3Ldx7aV8DO85IsdEp7c3mgDnGLafk9tMZ1sBz060b488a1',300)
         if(!api.setUserToken()){
              location.reload();
         }
         let address = this.addressComponent.getAddress();
+
         let data = {
             ...this.state.company,
             address_line_1: address?.address_line_1,
@@ -103,7 +118,7 @@ class NewCompanyMainForm extends Component {
             address_zipcode: address?.address_zipcode,
             contacts: this.contactComponent ? this.contactComponent.getContacts() : null,
             properties:  this.propertyLinkComponent ? this.propertyLinkComponent.getData().map( item => { return {property_id:item.property_id,link_type:item.rs_property_link_type} }) : null,
-            team_access: this.teamAccessComponent.getData(),
+            team_access: teamAccessData,
             activity_data: this.activyFormObj ? this.activyFormObj.getData() : {}
             //follow_up_reminder: this.followUpRemainderObj.getData(),
         }
@@ -232,9 +247,6 @@ class NewCompanyMainForm extends Component {
                              */
                         }
                         
-                        <BorderBox title="Team Access">
-                            <TeamAccessExportable onReady={ obj => { this.teamAccessComponent = obj }}/>
-                        </BorderBox>
                         <BorderBox title="Linked Properties">
                             <NewCompanyLinkProperty onReady={ objCmp => { this.propertyLinkComponent = objCmp }}/>
                         </BorderBox>
@@ -250,7 +262,7 @@ class NewCompanyMainForm extends Component {
                     <DisplayErrors errors={this.state.errors} />
                     <div className="d-flex justify-content-between gap-3">
                         <div>
-                            <ShareAccessBtn/>
+                            <ShareAccessBtn onReady={ obj => { this.teamAccessComponent = obj }}/>
                         </div>
                         <div>
                             <Button className="no_bg" label="Cancel" href="/company" />
@@ -258,8 +270,6 @@ class NewCompanyMainForm extends Component {
                         </div>
 
                     </div>
-                    
-                    
                 </FooterSticky>
             </Panel>
         );
