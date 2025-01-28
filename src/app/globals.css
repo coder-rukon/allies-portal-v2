@@ -131,7 +131,9 @@ p {
       white-space: nowrap; }
 
 .main_header .profile_dropdown_section .profile_controler img {
-  width: 40px; }
+  width: auto;
+  height: 30px;
+  border-radius: 50%; }
 
 .main_header .profile_dropdown_section .dp_icon {
   font-size: 30px;
@@ -1839,7 +1841,8 @@ a.rs_btn {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   border-radius: 4px;
   gap: 20px;
-  justify-content: space-between; }
+  justify-content: space-between;
+  z-index: 100; }
   .share_access_wrapper .share_access_sidebar .search_results .sr_item {
     gap: 10px; }
     .share_access_wrapper .share_access_sidebar .search_results .sr_item .sr_image {
@@ -1849,7 +1852,8 @@ a.rs_btn {
       background-position: center center;
       border: 1px solid #cccccc3b;
       border-radius: 50%;
-      margin-right: 10px; }
+      margin-right: 10px;
+      background-size: cover; }
     .share_access_wrapper .share_access_sidebar .search_results .sr_item .sr_name {
       display: block;
       font-size: 14px;

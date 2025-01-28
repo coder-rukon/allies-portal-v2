@@ -22,6 +22,8 @@ import FollowUpReminder from '@/components/FollowUpReminder/FollowUpReminder';
 import ActivityList from "@/components/activity/ActivityList";
 import ConfirmPopup from "@/components/widget/ConfirmPopup";
 import { redirect } from 'next/navigation';
+import FooterSticky from "@/components/widget/FooterSticky";
+import ShareAccessBtn from "@/components/ShareAccess/ShareAccessBtn";
 class CompanyDetails  extends Component{
     constructor(props){
         super(props);
@@ -40,6 +42,7 @@ class CompanyDetails  extends Component{
         }
         this.addressComponent = null;
         this.contactComponent = null;
+        this.teamAccessComponent = null;
     }
     componentDidMount(){
         let companyId = this.props.company_id;
@@ -331,11 +334,18 @@ class CompanyDetails  extends Component{
                             </BorderBox>
                         </div>
                     </div>
+                    <FooterSticky>
+                        <div className="">{this.state.isLoading ? <Loading/> : ''}</div>
+                        <div className="d-flex justify-content-between gap-3">
+                            <div>
+                                <ShareAccessBtn onReady={ obj => { this.teamAccessComponent = obj }}/>
+                            </div>
+                            <div>
+                                {editMode ? <Button label="Save Company" disable={isDisable} onClick={ this.onSaveClick.bind(this) } /> : <Button disable={!srObj.canEditCompany(company.company_id)} onClick={ this.onEditIconClick.bind(this) }  beforeIcon="border_color" label= {"Edit"}/> }
+                            </div>
 
-                    <div className=" d-flex mt-3 gap-2 justify-content-between company_details_footer">
-                        {isDisable ? <div></div> : <Button label="Save Company" onClick={ this.onSaveClick.bind(this) } /> }
-                        
-                    </div>
+                        </div>
+                    </FooterSticky>
                     
                 </Panel>
         )
