@@ -338,7 +338,7 @@ class CompanyDetails  extends Component{
                         <div className="">{this.state.isLoading ? <Loading/> : ''}</div>
                         <div className="d-flex justify-content-between gap-3">
                             <div>
-                                <ShareAccessBtn onReady={ obj => { this.teamAccessComponent = obj }}/>
+                                <ShareAccessBtn onReady={ obj => { this.teamAccessComponent = obj }} integrator={company.company_id} source="company"/>
                             </div>
                             <div>
                                 {editMode ? <Button label="Save Company" disable={isDisable} onClick={ this.onSaveClick.bind(this) } /> : <Button disable={!srObj.canEditCompany(company.company_id)} onClick={ this.onEditIconClick.bind(this) }  beforeIcon="border_color" label= {"Edit"}/> }

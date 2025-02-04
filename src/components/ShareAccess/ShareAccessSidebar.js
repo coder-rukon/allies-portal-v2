@@ -7,6 +7,8 @@ import Checkbox from '../forms/checkbox';
 import Dropdown from '../forms/Dropdown';
 import Helper from '@/inc/Helper';
 import Loading from '../widget/Loading';
+import { connect } from 'react-redux';
+import Settings from '@/inc/Settings';
 class ShareAccessSidebar extends Component {
     constructor(props){
         super(props);
@@ -32,6 +34,37 @@ class ShareAccessSidebar extends Component {
         if(this.props.onReady){
             this.props.onReady(this);
         }
+
+    }
+    isCreateFrom(){
+        return !this.props.integrator ? true : false;
+    }
+    laodAccess(){
+        if(this.isCreateFrom()){
+            return;
+        }
+        let api = Api, that = this;
+        api.setUserToken();
+        api.axios().get(Settings.apiUrl+'/company-access/members/'+this.props.integrator).then((response) => {
+            if(response.data.type){
+                let accessList = response.data.data.map(item => {
+                    return {
+                        user:{
+                            id:item.ma_user_id,
+                            first_name:item.first_name,
+                            last_name:item.last_name,
+                            thumbnail:item.thumbnail || '/images/profile.png'
+                        },
+                        role_id:item.ma_role_id,
+                        ma_id:item.ma_id,
+                        source:item.ma_source,
+                    }
+                });
+                that.setState({accessList:accessList});
+            }
+        }).catch(error => {
+            console.log(error);
+        })
     }
     getData(){
         return this.state.accessList
@@ -84,6 +117,14 @@ class ShareAccessSidebar extends Component {
     }
     onDeleteHandler(){
         let selectedItem = this.state.selectedItem;
+        let selectedItemFullData = this.state.accessList.filter(item => {
+            return selectedItem.includes(String(item.user.id) );
+        });
+        selectedItemFullData.forEach( item => {
+            if(item.ma_id){
+                // Delete here api call
+            }
+        })
         let accessList = this.state.accessList.filter(item => {
             return !selectedItem.includes(String(item.user.id) );
         });
@@ -95,7 +136,39 @@ class ShareAccessSidebar extends Component {
     }
     onSaveHanlder(){
         //Helper.alert('Cancel saved.');
-        this.setState({isHide:true});
+        if(this.isCreateFrom()){
+            this.setState({isHide:true});
+            return;
+        }
+        let allAccess = this.getData();
+        let isErrorFound = false;
+        let data = allAccess.map( item => {
+            if(!Helper.getNullableValue(item.role_id)){
+                isErrorFound =true;
+                Helper.alert("Please select role",{className:'error'})
+            }
+            return {
+                ma_id: item.ma_id ? item.ma_id : null,
+                source: item.source ? item.source : (this.props.source ? this.props.source : null),
+                role_id: item.role_id ? item.role_id : null,
+                user_id: item.user && item.user.id ? item.user.id : null,
+            }
+        })
+        if(isErrorFound){
+            return;
+        }
+        let api = Api, that = this;
+        api.setUserToken();
+        api.axios().post('/company-access/update-create',{access:data}).then(res=>{
+            if(res.data.type){
+                Helper.alert(res.data.message)
+                that.setState({isHide:true});
+            }else{
+                Helper.alert(res.data.message,{className:'error'})
+            }
+        }).catch(error => {
+            console.log(error);
+        })
     }
     onCheckboxClickedHanlder(event,value){
         let selectedItem = this.state.selectedItem;
@@ -132,6 +205,7 @@ class ShareAccessSidebar extends Component {
         if(this.state.loadingRoles){
             return <div className='share_access_sidebar text-center'><Loading/></div>
         }
+        let user = this.props.auth.user;
         return (
             <div className='share_access_sidebar'>
                 <div className='top_section'>
@@ -140,10 +214,13 @@ class ShareAccessSidebar extends Component {
                         <div className='search_results mt-3'>
                             {
                                 searchResult.data.data.map((item, key) => {
+                                    if(item.id == user.id){
+                                        return <div key={key}></div>;
+                                    }
                                     return(
                                         <div className='d-flex justify-content-between align-items-center sr_item' key={key}>
                                             <div className='d-flex align-items-center'>
-                                                <div><div className='sr_image' style={{backgroundImage:'url(http://localhost:3000/images/profile.png)'}}></div></div>
+                                                <div><div className='sr_image' style={{backgroundImage:'url(/images/profile.png)'}}></div></div>
                                                 <div className='sr_name'>{item.first_name} {item.last_name}</div>
                                             </div>
                                             <span className="material-symbols-outlined pls_icon" onClick={ this.onAddClickHandler.bind(this, item)}>add</span>
@@ -185,5 +262,9 @@ class ShareAccessSidebar extends Component {
         );
     }
 }
-
-export default ShareAccessSidebar;
+const mpanStateToProps = state => {
+    return {
+        auth: state.auth
+    }
+}
+export default connect(mpanStateToProps) (ShareAccessSidebar);

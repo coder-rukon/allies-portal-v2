@@ -15,6 +15,7 @@ class ShareAccessBtn extends Component {
         }
     }
     toggleSidebar(){
+        this.sidebarObj.laodAccess();
         if(this.sidebarObj){
             this.sidebarObj.showSidebar();
         }
@@ -35,7 +36,7 @@ class ShareAccessBtn extends Component {
     render() {
         return (
             <div className='share_access_wrapper'>
-                <ShareAccessSidebar onReady={ sideObj => { this.sidebarObj = sideObj }}/>
+                <ShareAccessSidebar onReady={ sideObj => { this.sidebarObj = sideObj }} integrator={this.props.integrator} source={this.props.source}/>
                 <div className='share_access_btn' onClick={this.toggleSidebar.bind(this)}>
                     <span className="material-symbols-outlined">share</span>
                     <span className='txt'>Share/Manage Access</span>
