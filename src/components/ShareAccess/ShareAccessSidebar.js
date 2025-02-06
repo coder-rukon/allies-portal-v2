@@ -111,7 +111,8 @@ class ShareAccessSidebar extends Component {
         }
         accessList.push({
             user:item,
-            role_id:null
+            role_id:null,
+            integrator: Helper.getNullableValue(this.props?.integrator)
         });
         this.setState({accessList:accessList});
     }
@@ -120,15 +121,37 @@ class ShareAccessSidebar extends Component {
         let selectedItemFullData = this.state.accessList.filter(item => {
             return selectedItem.includes(String(item.user.id) );
         });
+        let apiItems = [];
         selectedItemFullData.forEach( item => {
             if(item.ma_id){
-                // Delete here api call
+                apiItems.push({
+                    ma_id:item.ma_id
+                })
             }
         })
         let accessList = this.state.accessList.filter(item => {
             return !selectedItem.includes(String(item.user.id) );
         });
         this.setState({accessList:accessList,selectedItem:[]});
+        if(apiItems.length >=1){
+            let api = Api, that = this;
+            api.setUserToken();
+            
+            api.axios().post('/company-access/delete-listed',{ma_ids:apiItems}).then(res =>{
+                let hasAnyError = false;
+                res.data.data.forEach( resData => {
+                    if(!resData.type ){
+                        hasAnyError = true;
+                    }
+                    Helper.alert(resData.message,{
+                        className:resData.type ? 'success' : 'error'
+                    });
+                })
+                if(hasAnyError){
+                    that.laodAccess()
+                }
+            })
+        }
     }
     onCancelClickHandler(){
         //Helper.alert('Cancel successful. No updates were made.',{className:'error'});
@@ -150,6 +173,7 @@ class ShareAccessSidebar extends Component {
             return {
                 ma_id: item.ma_id ? item.ma_id : null,
                 source: item.source ? item.source : (this.props.source ? this.props.source : null),
+                integrator: item.integrator ? item.integrator : (this.props.integrator ? this.props.integrator : null),
                 role_id: item.role_id ? item.role_id : null,
                 user_id: item.user && item.user.id ? item.user.id : null,
             }
@@ -161,7 +185,12 @@ class ShareAccessSidebar extends Component {
         api.setUserToken();
         api.axios().post('/company-access/update-create',{access:data}).then(res=>{
             if(res.data.type){
-                Helper.alert(res.data.message)
+                
+                res.data.data.forEach( resData => {
+                    Helper.alert(resData.message,{
+                        className:resData.type ? 'success' : 'error'
+                    });
+                })
                 that.setState({isHide:true});
             }else{
                 Helper.alert(res.data.message,{className:'error'})

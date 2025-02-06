@@ -321,9 +321,6 @@ class CompanyDetails  extends Component{
                                     <p>No Previous Deals</p>
                                 </div>
                             </BorderBox>
-                            <BorderBox title="Team Access">
-                                <CompanyTeamAccess  disable={isDisable}  company={company}/>
-                            </BorderBox>
                             <BorderBox title="Linked Properties">
                                 <LinkedProperty  disable={isDisable} company={company} />
                             </BorderBox>
@@ -338,7 +335,7 @@ class CompanyDetails  extends Component{
                         <div className="">{this.state.isLoading ? <Loading/> : ''}</div>
                         <div className="d-flex justify-content-between gap-3">
                             <div>
-                                <ShareAccessBtn onReady={ obj => { this.teamAccessComponent = obj }} integrator={company.company_id} source="company"/>
+                                <ShareAccessBtn disable={isDisable} onReady={ obj => { this.teamAccessComponent = obj }} integrator={company.company_id} source="company"/>
                             </div>
                             <div>
                                 {editMode ? <Button label="Save Company" disable={isDisable} onClick={ this.onSaveClick.bind(this) } /> : <Button disable={!srObj.canEditCompany(company.company_id)} onClick={ this.onEditIconClick.bind(this) }  beforeIcon="border_color" label= {"Edit"}/> }

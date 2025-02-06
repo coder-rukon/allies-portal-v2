@@ -15,6 +15,9 @@ class ShareAccessBtn extends Component {
         }
     }
     toggleSidebar(){
+        if(this.props.disable){
+            return;
+        }
         this.sidebarObj.laodAccess();
         if(this.sidebarObj){
             this.sidebarObj.showSidebar();
