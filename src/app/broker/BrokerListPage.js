@@ -9,7 +9,8 @@ import Api from "@/inc/Api";
 import Link from "next/link";
 import { Component } from "react";
 import { connect } from "react-redux";
-import StarIcons from '@/components/company/StarIcons'
+import StarIcons from '@/components/company/StarIcons';
+import BrokerImporter from '@/components/broker/BrokerImporter';
 import Helper from "@/inc/Helper";
 class BrokerListPage  extends Component {
     constructor(props){
@@ -18,6 +19,7 @@ class BrokerListPage  extends Component {
             filter:{
                 color:null,
             },
+            showBrokerImporter:false,
             brokerList:[],
             hideHeaderItems:[],
             isLoading:false
@@ -104,6 +106,12 @@ class BrokerListPage  extends Component {
         ];
         return headers;
     }
+    onImporterClose(){
+        this.setState({
+            showBrokerImporter:false
+        })
+        this.loadBroker(null)
+    }
     render(){
         let gridheaders = this.getHeaders();
         let gridheader = [
@@ -113,6 +121,7 @@ class BrokerListPage  extends Component {
         let hideHeaderItems = this.state.hideHeaderItems;
         return(
             <div className="company_list_page">
+                {this.state.showBrokerImporter ? <BrokerImporter onClose = { this.onImporterClose.bind(this) }/> : ''}
                 <Panel>
                     <div className="filter_and_search">
                         <div className="left_side">
@@ -136,7 +145,8 @@ class BrokerListPage  extends Component {
     
                         </div>
                         <div className="right_side">
-                            <Button label="+ Add broker" href="/broker/new"/>
+                            <Button label="+ Import" className="mr-2" onClick={ e => { this.setState({showBrokerImporter:true})}}/>
+                            <Button label="+ Add broker" href="/broker/new" />
                         </div>
                     </div>
                     <RsGrid header={gridheader} data={gridData}/>
