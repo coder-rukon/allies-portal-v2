@@ -145,8 +145,8 @@ class BrokerListPage  extends Component {
     
                         </div>
                         <div className="right_side">
-                            <Button label="+ Import" className="mr-2" onClick={ e => { this.setState({showBrokerImporter:true})}}/>
-                            <Button label="+ Add broker" href="/broker/new" />
+                            <Button label="+ Add broker" className="mr-2" href="/broker/new" />
+                            <Button label="+ Import"  onClick={ e => { this.setState({showBrokerImporter:true})}}/>
                         </div>
                     </div>
                     <RsGrid header={gridheader} data={gridData}/>
