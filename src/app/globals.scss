@@ -619,6 +619,7 @@ a.rs_btn{
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
+    align-items: center;
 }
 .contact_list_form{
     .contact_list_form_item{
@@ -1854,7 +1855,6 @@ a.rs_btn{
 }
 .deal_edit_top_bar{
     display: block;
-    margin-bottom: 25px;
     ul{
         display: flex;
         list-style: none;

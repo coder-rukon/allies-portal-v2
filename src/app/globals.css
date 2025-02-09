@@ -528,7 +528,8 @@ a.rs_btn {
 .pannel_header {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px; }
+  margin-bottom: 20px;
+  align-items: center; }
 
 .contact_list_form .contact_list_form_item {
   display: flex;
@@ -1492,8 +1493,7 @@ a.rs_btn {
     animation: pulsate infinite 1.5s; }
 
 .deal_edit_top_bar {
-  display: block;
-  margin-bottom: 25px; }
+  display: block; }
   .deal_edit_top_bar ul {
     display: flex;
     list-style: none;

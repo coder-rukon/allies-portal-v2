@@ -28,6 +28,9 @@ class DealStageTopBar extends Component {
                 deal_stage:step.id
             }
         })
+        if(this.props.onChange){
+            this.props.onChange(step.id)
+        }
     }
     render() {
         let deal = this.state.deal;

@@ -16,15 +16,20 @@ import ActivityList from "@/components/activity/ActivityList";
 import Api from '@/inc/Api';
 import ErrorMessage from '@/components/widget/errormessage';
 import Loading from '@/components/widget/Loading';
+import Button from '@/components/forms/button';
+import FooterSticky from "@/components/widget/FooterSticky";
+import ShareAccessBtn from "@/components/ShareAccess/ShareAccessBtn";
 class EditDealPage extends Component {
     constructor(props){
         super(props);
         this.additionalFieldsObj = null;
         this.state = {
+            isSaving:false,
             deal:null,
             loadingDeal:false,
             dealNotFoundMessage:null
         }
+        this.sahredAccess = null;
     }
     componentDidMount(){
         
@@ -71,6 +76,32 @@ class EditDealPage extends Component {
         }
         return false;
     }
+    onDealStageChangeHandler(stage_id){
+        let deal = this.state.deal;
+        this.setState({
+            deal:{
+                ...deal,
+                deal_stage:stage_id
+            }
+        })
+    }
+    onEditIconClick(){
+
+    } 
+    onSaveClick(){
+        let deal = this.state.deal;
+        let that = this, api = Api;
+        api.setUserToken();
+        that.setState({
+            isSaving:true
+        })
+        api.axios().post('/deal/update',deal).then(res => {
+            console.log(res);
+            that.setState({
+                isSaving:false
+            })
+        })
+    }
     render() {
         if(this.state.loadingDeal){
             return(
@@ -90,10 +121,21 @@ class EditDealPage extends Component {
         let property = deal.property ? deal.property : {};
         let company = deal.company ? deal.company : {};
         let isDisable = false;
+        let editMode = false;
+        console.log(deal);
         return (
             <div className={ 'edit_deal_page edit_deal_page' + ( this.isTrBr() ? ' theme_2 ' : '')  }>
                 <Panel>
-                    <DealStageTopBar deal={deal}/>
+                    <div className="pannel_header">
+                        <div>
+                            <DealStageTopBar deal={deal} onChange={ this.onDealStageChangeHandler.bind(this)}/>
+                        </div>
+                        <div className="d-flex gap-2">
+                            {this.state.isSaving ? <Loading/> : ''}
+                            <Button onClick={ this.onSaveClick.bind(this) }  className="md" beforeIcon="save" label= {"Save"}/>
+                        </div>
+                    </div>
+                    
                     <div className='row'>
                         <div className='col-xs-12 col-sm-6'>
                             <DealCompanyDetails deal={deal} company={company}/>
@@ -119,7 +161,18 @@ class EditDealPage extends Component {
                             
                         </div>
                     </div>
-                    
+                    <FooterSticky>
+                        <div className="">{this.state.loadingDeal ? <Loading/> : ''}</div>
+                        <div className="d-flex justify-content-between gap-3">
+                            <div>
+                                <ShareAccessBtn disable={isDisable} onReady={ obj => { this.sahredAccess = obj }} integrator={deal.deal_id} source="deal"/>
+                            </div>
+                            <div>
+                                {editMode ? <Button label="Save Deal" disable={isDisable} onClick={ this.onSaveClick.bind(this) } /> : <Button  onClick={ this.onEditIconClick.bind(this) }  beforeIcon="border_color" label= {"Edit"}/> }
+                            </div>
+
+                        </div>
+                    </FooterSticky>
                 </Panel>
                 
             </div>
