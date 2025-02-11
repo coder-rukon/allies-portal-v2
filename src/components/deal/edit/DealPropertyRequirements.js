@@ -9,30 +9,57 @@ class DealPropertyRequirements extends Component {
     constructor(props){
         super(props);
         this.state = {
-            errors:[]
+            errors:[],
+            property_requirements:{}
         }
         this.typeSubtypeComponentObj = null;
     }
-    onChangeHandler(event){
+    componentDidMount(){
+        if(this.props.onReady){
+            this.props.onReady(this)
+        }
+        this.setState({
+            property_requirements:this.props.data 
+        })
+    }
+    getData(){
+        return {
 
+            ...this.state.property_requirements,
+            property_type_subtype: this.typeSubtypeComponentObj.getData().map( item => {
+                return {
+                    property_type_id:item.property_type_id,
+                    subtype_id:item.subtype_id,
+                }
+            })
+        }
+    }
+    onChangeHandler(event){
+        let property_requirements = this.state.property_requirements;
+        this.setState({
+            property_requirements:{
+                ...property_requirements,
+                [event.target.name] : event.target.value
+            }
+        })
     }
     render() {
         let isDisable = false;
-        let property = {}
+        let property_requirements = this.state.property_requirements;
         return (
             <div className='deal_property_requirements'>
                 <div className="row">
                     <div className="col-xs-12 col-sm-12">
-                        <TypeSubtypeDropdown disable={isDisable} label={'Property Type/Subtype *'} data={property.type_subtypes ? property.type_subtypes : [] } onReady={ tsDropdown => this.typeSubtypeComponentObj = tsDropdown }/>
+                        <TypeSubtypeDropdown disable={isDisable} label={'Property Type/Subtype *'} data={property_requirements.property_type_subtype ? property_requirements.property_type_subtype : [] } onReady={ tsDropdown => this.typeSubtypeComponentObj = tsDropdown }/>
                     </div>
                     <div className="col-xs-12 col-sm-6">
-                        <Dropdown  disable={isDisable} name="property_tenancy" options={Helper.tenancyOptions()} errors={this.state.errors}  value={property.property_tenancy} onChange={this.onChangeHandler.bind(this)} label="Tenancy" />
+                        <Dropdown  disable={isDisable} name="tenancy" options={Helper.tenancyOptions()} errors={this.state.errors}  value={property_requirements.tenancy} onChange={this.onChangeHandler.bind(this)} label="Tenancy" />
                     </div>
                     <div className="col-xs-12 col-sm-6">
-                        <Input  disable={isDisable} name="property_submarket" errors={this.state.errors}  value={property.property_submarket} onChange={this.onChangeHandler.bind(this)} label="Submarket(s)" />
+                        <Input  disable={isDisable} name="submarket" errors={this.state.errors}  value={property_requirements.submarket} onChange={this.onChangeHandler.bind(this)} label="Submarket(s)" />
                     </div>
                     <div className="col-xs-12 col-sm-6">
-                        <Input  disable={isDisable} name="property_zoning" errors={this.state.errors}  value={property.property_zoning} onChange={this.onChangeHandler.bind(this)} label="Zoning" />
+                        <Input  disable={isDisable} name="zoning" errors={this.state.errors}  value={property_requirements.zoning} onChange={this.onChangeHandler.bind(this)} label="Zoning" />
                     </div>
                 </div>
             </div>

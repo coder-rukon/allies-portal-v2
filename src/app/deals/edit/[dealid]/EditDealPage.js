@@ -6,7 +6,8 @@ import DealCompanyDetails from '@/components/deal/edit/DealCompanyDetails';
 import DealDetails from '@/components/deal/edit/DealDetails';
 import LeaseDetails from '@/components/deal/edit/LeaseDetails';
 import DealPropertyRequirements from '@/components/deal/edit/DealPropertyRequirements';
-import DealTenantCritera from '@/components/deal/edit/DealTenantCritera';
+import DealTenantCriteria from '@/components/deal/edit/DealTenantCriteria';
+import DealBuyerCriteria from '@/components/deal/edit/DealBuyerCriteria';
 import PropertyDetails from '@/components/deal/edit/PropertyDetails';
 import Helper from '@/inc/Helper';
 import Notes from '@/components/notes/Notes';
@@ -24,12 +25,17 @@ class EditDealPage extends Component {
         super(props);
         this.additionalFieldsObj = null;
         this.state = {
+            editMode:true,
             isSaving:false,
             deal:null,
             loadingDeal:false,
             dealNotFoundMessage:null
         }
         this.sahredAccess = null;
+        this.dealCompanyObj = null;
+        this.propertyRequirementsComponent = null;
+        this.dealTenantCriteriaComponent = null;
+        this.dealBuyerCriteriaComponent = null;
     }
     componentDidMount(){
         
@@ -86,7 +92,9 @@ class EditDealPage extends Component {
         })
     }
     onEditIconClick(){
-
+        this.setState({
+            editMode:true
+        })
     } 
     onSaveClick(){
         let deal = this.state.deal;
@@ -95,11 +103,51 @@ class EditDealPage extends Component {
         that.setState({
             isSaving:true
         })
+        if(this.dealCompanyObj){
+            deal.company = this.dealCompanyObj.getData();
+            let dealInsideCompanyDetails = this.dealCompanyObj.getDeal();
+            deal.is_landlord_rep = dealInsideCompanyDetails?.is_landlord_rep;
+            deal.is_seller_rep = dealInsideCompanyDetails?.is_seller_rep;
+            deal.is_tenant_rep = dealInsideCompanyDetails?.is_tenant_rep;
+            deal.is_buyer_rep = dealInsideCompanyDetails?.is_buyer_rep;
+        }
+        if(this.additionalFieldsObj){
+            deal.property = {
+                ...deal.property,
+                ...this.additionalFieldsObj.getData()
+            }
+        }
+        if(this.propertyRequirementsComponent){
+            deal.property_requirements = this.propertyRequirementsComponent.getData()
+        }
+        if(this.dealTenantCriteriaComponent){
+            deal.tenant_criteria = this.dealTenantCriteriaComponent.getData()
+        }
+        if(this.dealBuyerCriteriaComponent){
+            deal.buyer_criteria = this.dealBuyerCriteriaComponent.getData()
+        }
+        delete deal.tr_br_data;
         api.axios().post('/deal/update',deal).then(res => {
-            console.log(res);
+            if(res.data.type){
+                Helper.alert(res.data.message)
+            }else{
+                res.data.errors.forEach( resData => {
+                    Helper.alert(resData,{className:'error'});
+                })
+            }
+
             that.setState({
                 isSaving:false
             })
+        })
+    }
+    onRepBtnChangeHandler(button_id){
+        let deal = this.state.deal;
+        this.setState({
+            deal:{
+                ...deal,
+                [button_id]: deal[button_id] == 'yes' ? 'no' : 'yes'
+            }
         })
     }
     render() {
@@ -119,9 +167,10 @@ class EditDealPage extends Component {
         }
         let deal = this.state.deal;
         let property = deal.property ? deal.property : {};
+        let tr_br_data = deal.tr_br_data ? deal.tr_br_data : {};
         let company = deal.company ? deal.company : {};
         let isDisable = false;
-        let editMode = false;
+        let editMode = this.state.editMode;
         console.log(deal);
         return (
             <div className={ 'edit_deal_page edit_deal_page' + ( this.isTrBr() ? ' theme_2 ' : '')  }>
@@ -138,10 +187,11 @@ class EditDealPage extends Component {
                     
                     <div className='row'>
                         <div className='col-xs-12 col-sm-6'>
-                            <DealCompanyDetails deal={deal} company={company}/>
+                            <DealCompanyDetails onRepBtnChange = { this.onRepBtnChangeHandler.bind(this)} deal={deal} onReady={ dealCompanyDetails => { this.dealCompanyObj = dealCompanyDetails }} company={company}/>
                             {(deal.is_landlord_rep == 'yes' || deal.is_seller_rep == 'yes'  ) ? <BorderBox title="Property Details"> <PropertyDetails property={property} /></BorderBox> : ''}
-                            {(deal.is_tenant_rep == 'yes' || deal.is_buyer_rep == 'yes'  ) ? <BorderBox title="Property Requirements"> <DealPropertyRequirements property={property} /></BorderBox> : ''}
-                            {(deal.is_tenant_rep == 'yes'  ) ? <BorderBox title="Tenant Critera"> <DealTenantCritera property={property} /></BorderBox> : ''}
+                            {(deal.is_tenant_rep == 'yes' || deal.is_buyer_rep == 'yes'  ) ? <BorderBox title="Property Requirements"> <DealPropertyRequirements onReady={obj => this.propertyRequirementsComponent = obj } data={tr_br_data} /></BorderBox> : ''}
+                            {(deal.is_tenant_rep == 'yes'  ) ? <BorderBox title="Tenant Criteria"> <DealTenantCriteria data={tr_br_data} onReady={obj => this.dealTenantCriteriaComponent = obj } /></BorderBox> : ''}
+                            {(deal.is_buyer_rep == 'yes'  ) ? <BorderBox title="Buyer Criteria"> <DealBuyerCriteria data={tr_br_data} onReady={obj => this.dealBuyerCriteriaComponent = obj } /></BorderBox> : ''}
                             <BorderBox title="Additional Property Details">
                                 <AdditionalFields disable={isDisable} property={property} onReady={obj => { this.additionalFieldsObj = obj }}/>
                             </BorderBox>
@@ -149,11 +199,9 @@ class EditDealPage extends Component {
                             {(deal.is_landlord_rep == 'yes' || deal.is_seller_rep == 'yes'  ) ? <BorderBox title="Deal Details"> <DealDetails /> </BorderBox> : ''}
                         </div>
                         <div className='col-xs-12 col-sm-6'>
-                            <BorderBox title="Activity">
-                                {deal.deal_id ? <ActivityList disable={isDisable} integrator={deal.deal_id} source="deal"/> : '' }
-                            </BorderBox>
+                            {deal.deal_id ? <ActivityList disable={isDisable} integrator={deal.deal_id} source="deal"/> : '' }
                             <BorderBox title="Notes">
-                                <Notes  disable={isDisable} source="deal" integrator={deal.deal_id}/> 
+                                <Notes disable={isDisable} source="deal" integrator={deal.deal_id}/> 
                             </BorderBox>
                             <BorderBox title="Files">
                                 <FileUploader source="deal" integrator={deal.deal_id} disable={isDisable} id="upload_files"/>

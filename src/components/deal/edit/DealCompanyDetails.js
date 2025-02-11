@@ -55,7 +55,9 @@ class DealCompanyDetails extends Component {
                 [button_id]: deal[button_id] == 'yes' ? 'no' : 'yes'
             }
         })
-        
+        if(this.props.onRepBtnChange){
+            this.props.onRepBtnChange(button_id)
+        }
     }
     btnLrSr(){
         if(this.dbDeal.is_landlord_rep =='no' && this.dbDeal.is_seller_rep == 'no'){
@@ -83,6 +85,9 @@ class DealCompanyDetails extends Component {
                 [button_id]: deal[button_id] == 'yes' ? 'no' : 'yes'
             }
         })
+        if(this.props.onRepBtnChange){
+            this.props.onRepBtnChange(button_id)
+        }
         
     }
     btnTrBr(){

@@ -1,28 +1,53 @@
 import React, { Component } from 'react';
 import Helper from "@/inc/Helper";
-import Address from '@/components/address/Address';
 import Dropdown from '@/components/forms/Dropdown';
 import Input from '@/components/forms/Input';
-import Settings from '@/inc/Settings';
-class DealTenantCritera extends Component {
+class DealTenantCriteria extends Component {
     constructor(props){
         super(props);
         this.state = {
-            errors:[]
+            errors:[],
+            tenantCriteria:{
+                rate_type:null,
+                rate_range_from:null,
+                rate_range_to:null,
+                size:null,
+                size_range_from:null,
+                size_range_to:null,
+                lease_term:null
+            }
+        }
+    }
+    componentDidMount(){
+        this.setState({
+            tenantCriteria:this.props.data
+        })
+        if(this.props.onReady){
+            this.props.onReady(this)
         }
     }
     onChangeHandler(event){
-
+        let tenantCriteria = this.state.tenantCriteria;
+        this.setState({
+            tenantCriteria:{
+                ...tenantCriteria,
+                [event.target.name]:event.target.value
+            }
+        })
+    }
+    getData(){
+        return this.state.tenantCriteria;
     }
     render() {
         let isDisable = false;
-        let tenant = {}
+        let tenant = this.state.tenantCriteria;
         let tenantSizeOptions = [{label:'SF', value:'sf'},{label:'Acreage', value:'acreage'}]
+        let leaseTermOptions = [{label:'NNN', value:'NNN'}]
         return (
-            <div className='deal_tenant_critera'>
+            <div className='deal_tenant_criteria'>
                 <div className="row">
                     <div className="col-xs-12 col-sm-6">
-                        <Dropdown  disable={isDisable} name="rate_type" options={Helper.tenancyOptions()} errors={this.state.errors}  value={tenant.property_tenancy} onChange={this.onChangeHandler.bind(this)} label="Rate Type" />
+                        <Dropdown  disable={isDisable} name="rate_type" options={Helper.tenancyOptions()} errors={this.state.errors}  value={tenant.rate_type} onChange={this.onChangeHandler.bind(this)} label="Rate Type" />
                     </div>
                     <div className="col-xs-12 col-sm-6">
                         <div className='d-flex gap-2 align-items-end'>
@@ -32,7 +57,7 @@ class DealTenantCritera extends Component {
                         </div>
                     </div>
                     <div className="col-xs-12 col-sm-6">
-                        <Dropdown  disable={isDisable} name="tenant_size" options={tenantSizeOptions} errors={this.state.errors}  value={tenant.tenant_size} onChange={this.onChangeHandler.bind(this)} label="Size" />
+                        <Dropdown  disable={isDisable} name="size" options={tenantSizeOptions} errors={this.state.errors}  value={tenant.size} onChange={this.onChangeHandler.bind(this)} label="Size" />
                     </div>
                     <div className="col-xs-12 col-sm-6">
                         <div className='d-flex gap-2 align-items-end'>
@@ -42,7 +67,7 @@ class DealTenantCritera extends Component {
                         </div>
                     </div>
                     <div className="col-xs-12 col-sm-6">
-                        <Dropdown  disable={isDisable} name="lease_term" options={Helper.tenancyOptions()} errors={this.state.errors}  value={tenant.lease_term} onChange={this.onChangeHandler.bind(this)} label="Lease Term" />
+                        <Dropdown  disable={isDisable} name="lease_term" options={leaseTermOptions} errors={this.state.errors}  value={tenant.lease_term} onChange={this.onChangeHandler.bind(this)} label="Lease Term" />
                     </div>
                 </div>
             </div>
@@ -50,4 +75,4 @@ class DealTenantCritera extends Component {
     }
 }
 
-export default DealTenantCritera;
+export default DealTenantCriteria;

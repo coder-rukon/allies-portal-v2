@@ -27,7 +27,6 @@ class AdditionalFields extends Component {
     }
     getData(){
         let fields = this.getPropertyAdditionalFields();
-        console.log('fields',fields)
         const outputData = fields.reduce((acc, obj) => {
             acc[obj.name] =  typeof obj.value === 'undefined' ? null : obj.value;
             if(obj.options && obj.type == 'text'){
