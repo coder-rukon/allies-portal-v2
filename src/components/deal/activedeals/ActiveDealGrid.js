@@ -28,6 +28,7 @@ class ActiveDealGrid extends Component {
         let propType = this.props.propertyType;
 
         let data = {
+            is_active:'yes',
             landlord_rep: propType == 'sr_lr' ? 'yes' : 'no',
             seller_rep: propType == 'sr_lr' ? 'yes' : 'no',
             tenant_rep: propType == 'br_tr' ? 'yes' : 'no',

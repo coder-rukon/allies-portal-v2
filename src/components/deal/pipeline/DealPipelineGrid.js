@@ -1,19 +1,14 @@
 import React, { Component } from 'react';
 import DealPLWidget from './DealPLWidget';
+import Helper from '@/inc/Helper';
 class DealPipelineGrid extends Component {
     getHeader(){
-        let headers = [
-                {id:'initial_meeting',name:'Initial Meeting',items:10},
-                {id:'initial_meeting',name:'Client Engagement',items:10},
-                {id:'initial_meeting',name:'Marketing in Progress',items:10},
-                {id:'initial_meeting',name:'Proposal/LOI',items:10},
-                {id:'initial_meeting',name:'Purchase & Lease Agreement',items:10},
-                {id:'initial_meeting',name:'Completed',items:10},
-            ];
+        let headers = Helper.getDealStage();
         return headers;
     }
     render() {
-
+        console.log('allData',this.props.data)
+        let header = this.getHeader();
         return (
             <div className={this.props.className  ? 'deal_pipeline_grid '+ this.props.className : 'deal_pipeline_grid'}>
                 <div className='table-responsive'>
@@ -21,12 +16,13 @@ class DealPipelineGrid extends Component {
                         <thead>
                             <tr>
                                 {
-                                    this.getHeader().map( (item,key) => {
+                                    header.map( (item,key) => {
+                                        let thisStageItems = this.props.data.filter((stageItem) => stageItem.deal_stage  == item.id);
                                         return(
                                             <th scope="col" key={key}>
                                                 <div className='dpg_header'>
                                                     <div className='name'><span>{item.name}</span></div>
-                                                    <div className='count'>{item.items} Entries</div>
+                                                    <div className='count'>{thisStageItems.length} Deals</div>
                                                 </div>
                                             </th>
                                         )
@@ -38,14 +34,15 @@ class DealPipelineGrid extends Component {
                         <tbody>
                             <tr >
                                 {
-                                        this.getHeader().map( (item,key) => {
+                                        header.map( (bodyItem,bodyItemKey) => {
+                                            let thisStageItems = this.props.data.filter((stageItem) => stageItem.deal_stage  == bodyItem.id);
                                         return(
-                                            <td key={key}>
-                                                <DealPLWidget/>
-                                                <DealPLWidget/>
-                                                <DealPLWidget/>
-                                                <DealPLWidget/>
-                                                <DealPLWidget/>
+                                            <td key={bodyItemKey}>
+                                                {
+                                                    thisStageItems.map( (stageItemData,siKey) => {
+                                                        return <DealPLWidget key={siKey} deal={stageItemData}/>
+                                                    })
+                                                }
                                             </td>
                                         )
                                     })

@@ -41,7 +41,7 @@ class DealTenantCriteria extends Component {
     render() {
         let isDisable = false;
         let tenant = this.state.tenantCriteria;
-        let tenantSizeOptions = [{label:'SF', value:'sf'},{label:'Acreage', value:'acreage'}]
+        let tenantSizeOptions = [{label:'SF', value:'SF'},{label:'Acreage', value:'Acreage'}]
         let leaseTermOptions = [{label:'NNN', value:'NNN'}]
         return (
             <div className='deal_tenant_criteria'>

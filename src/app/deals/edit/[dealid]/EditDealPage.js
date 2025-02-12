@@ -126,6 +126,9 @@ class EditDealPage extends Component {
         if(this.dealBuyerCriteriaComponent){
             deal.buyer_criteria = this.dealBuyerCriteriaComponent.getData()
         }
+        if(this.additionalFieldsObj){
+            deal.additional_property_details = this.additionalFieldsObj.getData()
+        }
         delete deal.tr_br_data;
         api.axios().post('/deal/update',deal).then(res => {
             if(res.data.type){
@@ -168,6 +171,7 @@ class EditDealPage extends Component {
         let deal = this.state.deal;
         let property = deal.property ? deal.property : {};
         let tr_br_data = deal.tr_br_data ? deal.tr_br_data : {};
+        let additional_property_details = deal.additional_property_details ? deal.additional_property_details : {};
         let company = deal.company ? deal.company : {};
         let isDisable = false;
         let editMode = this.state.editMode;
@@ -193,7 +197,7 @@ class EditDealPage extends Component {
                             {(deal.is_tenant_rep == 'yes'  ) ? <BorderBox title="Tenant Criteria"> <DealTenantCriteria data={tr_br_data} onReady={obj => this.dealTenantCriteriaComponent = obj } /></BorderBox> : ''}
                             {(deal.is_buyer_rep == 'yes'  ) ? <BorderBox title="Buyer Criteria"> <DealBuyerCriteria data={tr_br_data} onReady={obj => this.dealBuyerCriteriaComponent = obj } /></BorderBox> : ''}
                             <BorderBox title="Additional Property Details">
-                                <AdditionalFields disable={isDisable} property={property} onReady={obj => { this.additionalFieldsObj = obj }}/>
+                                <AdditionalFields disable={isDisable} property={additional_property_details} onReady={obj => { this.additionalFieldsObj = obj }}/>
                             </BorderBox>
                             {deal.is_landlord_rep == 'yes' ? <BorderBox title="Lease Details"> <LeaseDetails /> </BorderBox> : ''}
                             {(deal.is_landlord_rep == 'yes' || deal.is_seller_rep == 'yes'  ) ? <BorderBox title="Deal Details"> <DealDetails /> </BorderBox> : ''}
