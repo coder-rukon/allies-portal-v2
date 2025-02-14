@@ -52,6 +52,9 @@ class DealPipelines extends Component {
             }
         })
     }
+    onDealChangeHander(){
+        this.loadDeals()
+    }
     render() {
         let activePipeline = this.state.activePipeline;
         let gridData = this.state.deals.data ? this.state.deals.data : []
@@ -69,7 +72,7 @@ class DealPipelines extends Component {
                             <Button href="/deals/create" label="+ New Deal"/>
                         </div>
                     </div>
-                    {activePipeline == 'tr_br' ? <DealPipelineGrid data={gridData} className="style_2"/> : <DealPipelineGrid data={gridData}/> }
+                    {activePipeline == 'tr_br' ? <DealPipelineGrid data={gridData} onDealChange={this.onDealChangeHander.bind(this)} className="style_2"/> : <DealPipelineGrid onDealChange={this.onDealChangeHander.bind(this)} data={gridData}/> }
                 </Panel>
             </div>
         );

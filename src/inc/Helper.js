@@ -74,6 +74,7 @@ let Helper = {
             {value:'1',label:'Single'},
             {value:'2',label:'Multi'},
             //{id:'3',label:'Triple'}
+            {value:'4',label:'Vacant'},
         ]
     },
     formateDateFromDb(dateDateString,formate = null){

@@ -1420,7 +1420,8 @@ a.rs_btn {
         padding: 5px 8px;
         border-radius: 4px;
         font-size: 14px;
-        font-weight: 500; }
+        font-weight: 500;
+        white-space: nowrap; }
     .dp_widget .dpw_footer .btn {
       display: block;
       background: #062C3E;

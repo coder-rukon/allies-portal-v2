@@ -40,7 +40,7 @@ class DealPipelineGrid extends Component {
                                             <td key={bodyItemKey}>
                                                 {
                                                     thisStageItems.map( (stageItemData,siKey) => {
-                                                        return <DealPLWidget key={siKey} deal={stageItemData}/>
+                                                        return <DealPLWidget onDealChange={this.props.onDealChange} key={siKey} deal={stageItemData}/>
                                                     })
                                                 }
                                             </td>
