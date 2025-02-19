@@ -42,9 +42,13 @@ const DealPLWidget = ({deal,onDealChange}) => {
                 </>
             );
         }
+        let lr_sr_data = deal.lr_sr_data ? deal.lr_sr_data : {};
         return(
             <>
-            ID: {deal.deal_id} <br/>
+            Asking Rate - {lr_sr_data.asking_price} {lr_sr_data.psf} NNN <br/>
+            Building SF - 10,000 SF <br/>
+            Size - 1.49 acres<br/>
+            Zoning - I-4
             </>
         )
     }

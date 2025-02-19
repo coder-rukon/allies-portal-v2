@@ -9,6 +9,7 @@ import DealPropertyRequirements from '@/components/deal/edit/DealPropertyRequire
 import DealTenantCriteria from '@/components/deal/edit/DealTenantCriteria';
 import DealBuyerCriteria from '@/components/deal/edit/DealBuyerCriteria';
 import PropertyDetails from '@/components/deal/edit/PropertyDetails';
+import SrDetails from '@/components/deal/edit/SrDetails';
 import Helper from '@/inc/Helper';
 import Notes from '@/components/notes/Notes';
 import FileUploader from '@/components/widget/FileUploader';
@@ -36,6 +37,7 @@ class EditDealPage extends Component {
         this.propertyRequirementsComponent = null;
         this.dealTenantCriteriaComponent = null;
         this.dealBuyerCriteriaComponent = null;
+        this.srDetailsComponent = null;
     }
     componentDidMount(){
         
@@ -111,6 +113,9 @@ class EditDealPage extends Component {
             deal.is_tenant_rep = dealInsideCompanyDetails?.is_tenant_rep;
             deal.is_buyer_rep = dealInsideCompanyDetails?.is_buyer_rep;
         }
+        if(!deal.lr_sr_data){
+            deal.lr_sr_data = {};
+        }
         if(this.additionalFieldsObj){
             deal.property = {
                 ...deal.property,
@@ -128,6 +133,12 @@ class EditDealPage extends Component {
         }
         if(this.additionalFieldsObj){
             deal.additional_property_details = this.additionalFieldsObj.getData()
+        }
+        if(this.srDetailsComponent){
+            deal.lr_sr_data = {
+                ...deal.lr_sr_data,
+                ...this.srDetailsComponent.getData()
+            }
         }
         delete deal.tr_br_data;
         api.axios().post('/deal/update',deal).then(res => {
@@ -169,6 +180,7 @@ class EditDealPage extends Component {
             )
         }
         let deal = this.state.deal;
+        let sr_details = deal.lr_sr_data ? deal.lr_sr_data : {};
         let property = deal.property ? deal.property : {};
         let tr_br_data = deal.tr_br_data ? deal.tr_br_data : {};
         let additional_property_details = deal.additional_property_details ? deal.additional_property_details : {};
@@ -199,6 +211,7 @@ class EditDealPage extends Component {
                             <BorderBox title="Additional Property Details">
                                 <AdditionalFields disable={isDisable} property={additional_property_details} onReady={obj => { this.additionalFieldsObj = obj }}/>
                             </BorderBox>
+                            {(deal.is_seller_rep == 'yes'  ) ? <SrDetails onReady={ srObj => { this.srDetailsComponent =  srObj }} data={sr_details}/> : ''}
                             {deal.is_landlord_rep == 'yes' ? <BorderBox title="Lease Details"> <LeaseDetails /> </BorderBox> : ''}
                             {(deal.is_landlord_rep == 'yes' || deal.is_seller_rep == 'yes'  ) ? <BorderBox title="Deal Details"> <DealDetails /> </BorderBox> : ''}
                         </div>
