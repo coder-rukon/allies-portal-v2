@@ -32,7 +32,7 @@ const DealPLWidget = ({deal,onDealChange}) => {
     }
     let getShortDetails = () => {
         if(deal.is_buyer_rep == 'yes' ||  deal.is_tenant_rep == 'yes'){
-            let tr_br_data = deal.tr_br_data;
+            let tr_br_data = deal.tr_br_data ? deal.tr_br_data : {} ;
             return(
                 <>
                 Budget : {tr_br_data.rate_range_from} {tr_br_data.rate_range_to ? ' - ' + tr_br_data.rate_range_to : ''} {tr_br_data.lease_term} <br/>

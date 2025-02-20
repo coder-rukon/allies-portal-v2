@@ -77,6 +77,25 @@ let Helper = {
             {value:'4',label:'Vacant'},
         ]
     },
+    getRateTypeOptions(data){
+        return [
+            {value:'psf_per_year',label:'PSF Per Year'},
+            {value:'total_monthly',label:'Total Monthly'}
+        ]
+    },
+    getLeaseTermOptions(data){
+        return [
+            {value:'Monthly',label:'Monthly'},
+            {value:'Yearly',label:'Yearly'}
+        ]
+    },
+    getLeaseTypeOptions(data){
+        return [
+            {value:'NNN',label:'NNN'},
+            {value:'MG',label:'MG'},
+            {value:'FS',label:'FS'},
+        ]
+    },
     formateDateFromDb(dateDateString,formate = null){
         const d = new Date(dateDateString);
         d.toLocaleDateString('en-US')

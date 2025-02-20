@@ -2,6 +2,7 @@ import Checkbox from '@/components/forms/checkbox';
 import Dropdown from '@/components/forms/Dropdown';
 import Input from '@/components/forms/Input';
 import BorderBox from '@/components/widget/borderbox';
+import Helper from '@/inc/Helper';
 import React, { Component } from 'react';
 
 class SrDetails extends Component {
@@ -30,6 +31,15 @@ class SrDetails extends Component {
             srDetails:{
                 ...srDetails,
                 [event.target.name]:event.target.value
+            }
+        })
+    }
+    onCheckboxChange(event,value,details){
+        let srDetails = this.state.srDetails;
+        this.setState({
+            srDetails:{
+                ...srDetails,
+                [details.name]:value
             }
         })
     }
@@ -70,13 +80,13 @@ class SrDetails extends Component {
                             }
                         />
                     </div>
-                        <Checkbox name="sf_range" cb_style = 'simple' value={srDetails.sf_range} label="SF Range" onChange={this.onChangeHandler.bind(this)}/>
+                        <Checkbox name="investment_sf_range" cb_style = 'simple' value={srDetails.investment_sf_range} title="SF Range" onChange={this.onCheckboxChange.bind(this)}/>
                 </BorderBox> 
                 <BorderBox title="Investment - Lease and Tenant Information">
                     <div className='row'>
-                        <Dropdown name="lease_type" value={srDetails.lease_type} options={investment_type_options} label="Lease Type" onChange={this.onChangeHandler.bind(this)} className="col-xs-12 col-sm-6"/>
+                        <Dropdown name="lease_type" value={srDetails.lease_type} options={Helper.getLeaseTypeOptions()} label="Lease Type" onChange={this.onChangeHandler.bind(this)} className="col-xs-12 col-sm-6"/>
                         <Dropdown name="tenant_credit" value={srDetails.tenant_credit} options={investment_type_options} label="Tenant Credit" onChange={this.onChangeHandler.bind(this)} className="col-xs-12 col-sm-6"/>
-                        <Dropdown name="tenancy" value={srDetails.tenancy} options={investment_type_options} label="Tenancy" onChange={this.onChangeHandler.bind(this)} className="col-xs-12 col-sm-6"/>
+                        <Dropdown name="tenancy" value={srDetails.tenancy} options={Helper.tenancyOptions()} label="Tenancy" onChange={this.onChangeHandler.bind(this)} className="col-xs-12 col-sm-6"/>
                         <Input name="number_of_tenants" value={srDetails.number_of_tenants} label="Number of Tenants" onChange={this.onChangeHandler.bind(this)} className="col-xs-12 col-sm-6"/>
                         <Input name="lease_commencement_date" value={srDetails.lease_commencement_date} label="Lease Commencement" onChange={this.onChangeHandler.bind(this)} className="col-xs-12 col-sm-6"/>
                         <Input name="lease_expiration_date" value={srDetails.lease_expiration_date} label="Lease Expiration" onChange={this.onChangeHandler.bind(this)} className="col-xs-12 col-sm-6"/>
