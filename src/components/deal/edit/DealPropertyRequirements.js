@@ -56,7 +56,7 @@ class DealPropertyRequirements extends Component {
                         <Dropdown  disable={isDisable} name="tenancy" options={Helper.tenancyOptions()} errors={this.state.errors}  value={property_requirements.tenancy} onChange={this.onChangeHandler.bind(this)} label="Tenancy" />
                     </div>
                     <div className="col-xs-12 col-sm-6">
-                        <Input  disable={isDisable} name="submarket" errors={this.state.errors}  value={property_requirements.submarket} onChange={this.onChangeHandler.bind(this)} label="Submarket(s)" />
+                        <Input  disable={isDisable} name="submarket" errors={this.state.errors}  value={property_requirements.submarket} onChange={this.onChangeHandler.bind(this)} label="Use" />
                     </div>
                     <div className="col-xs-12 col-sm-6">
                         <Input  disable={isDisable} name="zoning" errors={this.state.errors}  value={property_requirements.zoning} onChange={this.onChangeHandler.bind(this)} label="Zoning" />

@@ -39,7 +39,7 @@ class DealBuyerCriteria extends Component {
                 
                 <div className="col-xs-12 col-sm-6">
                     <div className='d-flex gap-2 align-items-end'>
-                        <Input  disable={isDisable} name="buyer_price_from" errors={this.state.errors}  value={buyer_criteria.buyer_price_from} onChange={this.onChangeHandler.bind(this)} label="Price" />
+                        <Input  disable={isDisable} name="buyer_price_from" errors={this.state.errors}  value={buyer_criteria.buyer_price_from} onChange={this.onChangeHandler.bind(this)} label="Price Range" />
                         <div className='range_devider'><span></span></div>
                         <Input  disable={isDisable} name="buyer_price_to" errors={this.state.errors}  value={buyer_criteria.buyer_price_to} onChange={this.onChangeHandler.bind(this)} />
                     </div>
@@ -47,7 +47,7 @@ class DealBuyerCriteria extends Component {
 
                 <div className="col-xs-12 col-sm-6">
                     <div className='d-flex gap-2 align-items-end'>
-                        <Input  disable={isDisable} name="buyer_psf_from" errors={this.state.errors}  value={buyer_criteria.buyer_psf_from} onChange={this.onChangeHandler.bind(this)} label="PSF" />
+                        <Input  disable={isDisable} name="buyer_psf_from" errors={this.state.errors}  value={buyer_criteria.buyer_psf_from} onChange={this.onChangeHandler.bind(this)} label="PSF Range" />
                         <div className='range_devider'><span></span></div>
                         <Input  disable={isDisable} name="buyer_psf_to" errors={this.state.errors}  value={buyer_criteria.buyer_psf_to} onChange={this.onChangeHandler.bind(this)} />
                     </div>
@@ -55,7 +55,7 @@ class DealBuyerCriteria extends Component {
 
                 <div className="col-xs-12 col-sm-6">
                     <div className='d-flex gap-2 align-items-end'>
-                        <Input  disable={isDisable} name="buyer_sf_from" errors={this.state.errors}  value={buyer_criteria.buyer_sf_from} onChange={this.onChangeHandler.bind(this)} label="SF" />
+                        <Input  disable={isDisable} name="buyer_sf_from" errors={this.state.errors}  value={buyer_criteria.buyer_sf_from} onChange={this.onChangeHandler.bind(this)} label="Building SF Range" />
                         <div className='range_devider'><span></span></div>
                         <Input  disable={isDisable} name="buyer_sf_to" errors={this.state.errors}  value={buyer_criteria.buyer_sf_to} onChange={this.onChangeHandler.bind(this)} />
                     </div>
@@ -63,11 +63,14 @@ class DealBuyerCriteria extends Component {
 
                 <div className="col-xs-12 col-sm-6">
                     <div className='d-flex gap-2 align-items-end'>
-                        <Input  disable={isDisable} name="buyer_acreage_from" errors={this.state.errors}  value={buyer_criteria.buyer_acreage_from} onChange={this.onChangeHandler.bind(this)} label="Acreage" />
+                        <Input  disable={isDisable} name="buyer_acreage_from" errors={this.state.errors}  value={buyer_criteria.buyer_acreage_from} onChange={this.onChangeHandler.bind(this)} label="Land AC Range" />
                         <div className='range_devider'><span></span></div>
                         <Input  disable={isDisable} name="buyer_acreage_to" errors={this.state.errors}  value={buyer_criteria.buyer_acreage_to} onChange={this.onChangeHandler.bind(this)} />
                     </div>
                 </div>
+                <Input className="col-xs-12 col-sm-6" disable={isDisable} name="buyer_acreage_from" errors={this.state.errors}  value={buyer_criteria.buyer_acreage_from} onChange={this.onChangeHandler.bind(this)} label="Geography" />
+                <Input className="col-xs-12 col-sm-6" disable={isDisable} name="buyer_acreage_to" errors={this.state.errors}  value={buyer_criteria.buyer_acreage_to} onChange={this.onChangeHandler.bind(this)} label="Timing" />
+                
 
                 <div className="col-xs-12 col-sm-6">
                     <div className='d-flex gap-2 align-items-end'>
